@@ -1,26 +1,102 @@
-<nav class="text-white flex justify-between items-center px-8 py-10">
+<nav class="text-white flex justify-between items-center px-8 pt-10">
+    <svg
+      class="sm:hidden block"
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M40 14H8" stroke="white" stroke-width="3" stroke-linecap="round"
+      ></path>
+      <path
+        opacity="0.5"
+        d="M40 24H8"
+        stroke="#F2F1EB"
+        stroke-width="3"
+        stroke-linecap="round"></path>
+      <path d="M40 34H8" stroke="white" stroke-width="3" stroke-linecap="round"
+      ></path>
+    </svg>
   <div class="text-primary text-3xl font-medula">CCC</div>
   <!-- spacer -->
   <div></div>
-  <div class="text-light-1 flex gap-14 font-neuton">
-    <span>PROJECTS</span>
-    <span>COLLECTIVE</span>
-    <span>GITHUB</span>
-    <span>CONTACT</span>
+  <div class="text-light-1 gap-14 font-neuton hidden sm:flex">
+    <a href="#" class="my-blur">PROJECTS</a>
+    <a href="#" class="my-blur">COLLECTIVE</a>
+    <a href="https://github.com/cozy-coders-collective" class="my-blur"
+      >GITHUB</a
+    >
+    <a href="#" class="my-blur">CONTACT</a>
   </div>
 </nav>
-<div>
-  <svg
-    width="1615"
-    height="93"
-    viewBox="0 0 1615 93"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M2 83.3599C49.4708 80.5075 96.7515 69.0691 143.808 62.8998C243.982 49.7667 345.119 46.3748 445.124 31.7316C493.704 24.6185 540.469 13.7098 588.126 2.85805C617.553 -3.84264 560.888 30.7648 555.11 35.1735C552.012 37.5373 489.404 83.4812 494.648 88.5228C502.189 95.7733 528.6 84.9579 535.818 83.3599C587.154 71.9952 639.311 64.051 690.553 52.383C710.38 47.8683 730.197 42.1355 749.822 36.8945C758.684 34.5279 754.213 35.1052 749.424 39.3803C739.75 48.0176 730.151 55.6651 721.978 65.7681C711.201 79.0895 744.508 73.0343 750.817 73.0343C924.161 73.0343 1099 79.4154 1272.1 70.5485C1364.48 65.8166 1454.7 47.4605 1545.78 33.2614C1567.99 29.7977 1591.18 30.0931 1613 24.8479"
-      stroke="#F2F1EB"
-      stroke-width="3"
-      stroke-linecap="round"></path>
-  </svg>
-</div>
+<svg
+  width="100%"
+  height="87"
+  viewBox="0 0 1590 87"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class="mt-[-20px] squiggle-animated"
+>
+  <path
+    d="M1 85.7946C214.86 57.7539 493 -11.1441 516.5 2.85586C540 16.8559 468 61.5 487 78C506 94.5 612 18.4389 632.5 25.5C653 32.5611 610 59 632.5 68C655 77 1591 40 1590.5 28"
+    stroke="white"
+    stroke-width="2"
+    stroke-miterlimit="3.8637"></path>
+</svg>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    //// nav squiggle animation
+    let path: SVGGeometryElement | null = document.querySelector(
+      ".squiggle-animated path"
+    );
+    if (path) {
+      var length: number = path.getTotalLength();
+      // Clear any previous transition
+      path.style.transition = path.style.webkitTransition = "none";
+      path.style.transition = "none";
+
+      // Set up the starting positions
+      path.style.strokeDasharray = length + " " + length;
+      path.style.strokeDashoffset = length.toString();
+      // Trigger a layout so styles are calculated & the browser
+      // picks up the starting position before animating
+      path.getBoundingClientRect();
+      // Define our transition
+      path.style.transition = path.style.webkitTransition =
+        "stroke-dashoffset 2s ease-in-out";
+      path.style.transition = path.style.transition =
+        "stroke-dashoffset 2s ease-in-out";
+      // Go!
+      path.style.strokeDashoffset = "0";
+    }
+
+    //// blur nav links
+    const items: NodeListOf<HTMLElement> =
+      document.querySelectorAll(".my-blur");
+
+    items.forEach((item, index) => {
+      item.addEventListener("mouseover", function () {
+        applyBlur(index, "2px");
+      });
+
+      item.addEventListener("mouseout", function () {
+        applyBlur(index, "0px");
+      });
+    });
+
+    function applyBlur(index: number, blurValue: string) {
+      const duration = 290;
+      // ease-in-out for a more balanced acceleration
+      // and deceleration during both transitions
+      const easing = "ease-in-out";
+
+      items.forEach((item, i) => {
+        const isHoveredItem = i === index;
+        item.style.filter = `blur(${isHoveredItem ? "0" : blurValue})`;
+        item.style.transition = `filter ${duration}ms ${easing}`;
+      });
+    }
+  });
+</script>

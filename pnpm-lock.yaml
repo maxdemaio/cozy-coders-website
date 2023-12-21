@@ -20,6 +20,9 @@ dependencies:
   astro:
     specifier: ^4.0.6
     version: 4.0.6(typescript@5.3.3)
+  gsap:
+    specifier: ^3.12.4
+    version: 3.12.4
   tailwindcss:
     specifier: ^3.4.0
     version: 3.4.0
@@ -1753,6 +1756,10 @@ packages:
       kind-of: 6.0.3
       section-matter: 1.0.0
       strip-bom-string: 1.0.0
+    dev: false
+
+  /gsap@3.12.4:
+    resolution: {integrity: sha512-1ByAq8dD0W4aBZ/JArgaQvc0gyUfkGkP8mgAQa0qZGdpOKlSOhOf+WNXjoLimKaKG3Z4Iu6DKZtnyszqQeyqWQ==}
     dev: false
 
   /has-flag@3.0.0:

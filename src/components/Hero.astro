@@ -1,9 +1,29 @@
-<header class="flex flex-col items-center">
-  <h1 class="text-primary text-8xl font-medula">COZY CODERS' COLLECTIVE</h1>
-  <div class="flex flex-col items-center gap-6">
-    <h2 class="text-white text-6xl font-medula">GET COZY. WE'LL TAKE IT FROM HERE</h2>
-    <div class="flex">
+<style>
+  .cozy-coder-svg {
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(12px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+</style>
+<header class="flex flex-col items-center justfy-center">
+  <h1 class="text-primary md:text-9xl text-8xl font-medula text-center">COZY CODERS' COLLECTIVE</h1>
+  <div class="flex flex-col items-center gap-0 md:gap-6">
+    <h2 class="text-white text-4xl md:text-6xl font-medula text-center">
+      GET COZY. WE'LL TAKE IT FROM HERE
+    </h2>
+    <div class="flex flex-wrap justify-center">
       <svg
+        class="cozy-coder-svg"
         width="400"
         height="300"
         viewBox="0 0 400 300"
@@ -261,12 +281,12 @@
           </clipPath>
         </defs>
       </svg>
-    <p class="text-light-1 max-w-[600px]">
-      Cozy Coders’ Collective is a collective of experienced software
-      professionals. We work with many companies to build and proactively
-      deliver engaging brand experiences. We are unique in our ability to take a
-      strategic approach while being visually driven.
-    </p>
-  </div>
+      <p class="text-light-1 max-w-[400px] md:pt-12 pt-2 px-2">
+        Cozy Coders’ Collective is a collective of experienced software
+        professionals. We work with many companies to build and proactively
+        deliver engaging brand experiences. We are unique in our ability to take
+        a strategic approach while being visually driven.
+      </p>
+    </div>
   </div>
 </header>
