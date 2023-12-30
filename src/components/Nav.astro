@@ -1,6 +1,10 @@
+---
+import MobileNav from "./MobileNav.astro";
+---
+
 <nav class="text-white flex justify-between items-center px-8 pt-10">
+  <button aria-label="Menu button" id="menu-button" class="sm:hidden block">
     <svg
-      class="sm:hidden block"
       width="48"
       height="48"
       viewBox="0 0 48 48"
@@ -18,6 +22,8 @@
       <path d="M40 34H8" stroke="white" stroke-width="3" stroke-linecap="round"
       ></path>
     </svg>
+  </button>
+
   <div class="text-primary text-3xl font-medula">CCC</div>
   <!-- spacer -->
   <div></div>
@@ -45,8 +51,42 @@
     stroke-miterlimit="3.8637"></path>
 </svg>
 
+<MobileNav />
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    /// mobile nav menu
+    const menuButton: HTMLElement | null =
+      document.getElementById("menu-button");
+    const mobileNavView: HTMLElement | null =
+      document.getElementById("mobile-nav-view");
+    const closeButton: HTMLElement | null =
+      document.getElementById("close-button");
+    const mobileNavViewButtons: HTMLCollectionOf<Element> | null =
+      document.getElementsByClassName("mobile-nav-view-button");
+
+    if (menuButton && mobileNavView) {
+      menuButton.addEventListener("click", function () {
+        mobileNavView.style.animationName = "slide-lr";
+        mobileNavView.style.animationPlayState = "running";
+        document.body.style.overflow = "hidden";
+      });
+    }
+
+    if (closeButton && mobileNavView && mobileNavViewButtons) {
+      closeButton.addEventListener("click", function () {
+        mobileNavView.style.animationName = "slide-rl";
+        document.body.style.overflow = "auto";
+      });
+
+      for (const button of mobileNavViewButtons) {
+        button.addEventListener("click", function () {
+          mobileNavView.style.animationName = "slide-rl";
+          document.body.style.overflow = "auto";
+        });
+      }
+    }
+
     //// nav squiggle animation
     let path: SVGGeometryElement | null = document.querySelector(
       ".squiggle-animated path"
