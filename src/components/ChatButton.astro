@@ -1,0 +1,65 @@
+<style>
+  @property --r {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+  :root {
+    --r: 0deg; /* Initial angle, firefox will be static */
+  }
+
+  #chat-button {
+    background: conic-gradient(
+      from var(--r),
+      #414141 0%,
+      white 12.5%,
+      #414141 25%,
+      #414141 50%,
+      white 62.5%,
+      #414141 75%
+    );
+
+    animation: rotating 3s linear infinite;
+    cursor: pointer;
+    position: relative; /* allows us to put the ::after div centered inset */
+    width: 260px;
+    height: 65px;
+    border-radius: 30px;
+  }
+
+  #chat-button::after {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 3px;
+    border-radius: 27px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  #chat-button:hover::after {
+    background: black;
+    box-shadow:
+      0 0px 30px rgba(255, 255, 255, 0.1),
+      0px 0px 10px #96bd9d;
+  }
+
+  @keyframes rotating {
+    0% {
+      --r: 0deg;
+    }
+    100% {
+      --r: 360deg;
+    }
+  }
+</style>
+
+<button
+  id="chat-button"
+  class="after:bg-neutral-950 flex items-center justify-center"
+>
+  <div
+    class="text-neutral-100 z-10 relative font-neuton flex items-center gap-2"
+  >
+    <span class="">Let's chat</span>
+  </div>
+</button>
