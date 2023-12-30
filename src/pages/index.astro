@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import HeroButton from "../components/HeroButton.astro";
+import HeroCarousel from "../components/HeroCarousel.astro";
 ---
 
 <Layout title="Cozy Coders' Collective - Home">
@@ -12,36 +13,18 @@ import HeroButton from "../components/HeroButton.astro";
     <div class="px-6 pt-4 pb-6 flex justify-center items-center">
       <HeroButton />
     </div>
-
-    <div class="flex gap-2 flex-wrap justify-center items-center">
-      <div class="relative flex items-center justify-center">
-        <svg
-          class="rounded-lg"
-          width="450"
-          height="450"
-          viewBox="0 0 450 450"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="450" height="450" fill="#88AB8E" fill-opacity="0.2"
-          ></rect>
-        </svg>
-        <p class="z-1 absolute">test</p>
-      </div>
-      <div class="relative flex items-center justify-center">
-        <svg
-          class="rounded-lg"
-          width="450"
-          height="450"
-          viewBox="0 0 450 450"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="450" height="450" fill="#88AB8E" fill-opacity="0.2"
-          ></rect>
-        </svg>
-        <p class="z-1 absolute">test</p>
-      </div>
-    </div>
+    <HeroCarousel
+      index={0}
+      blogPostPhotos={[
+        {
+          photoPath: "/resto.png",
+        },
+        {
+          photoPath: "/resto.png",
+        },
+      ]}
+    >
+      <p>ayo</p>
+    </HeroCarousel>
   </main>
 </Layout>
