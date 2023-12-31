@@ -5,6 +5,9 @@ import Hero from "../components/Hero.astro";
 import HeroButton from "../components/HeroButton.astro";
 import HeroCarousel from "../components/HeroCarousel.astro";
 import Footsies from "../components/Footsies.astro";
+import Services from "../components/services/Services.astro";
+import Contact from "../components/Contact.astro";
+import Strengths from "../components/Strengths.astro";
 ---
 
 <Layout title="Cozy Coders' Collective - Home">
@@ -25,8 +28,10 @@ import Footsies from "../components/Footsies.astro";
         },
       ]}
     >
-      <p>ayo</p>
     </HeroCarousel>
+    <Strengths />
+    <Services />
+    <Contact />
     <Footsies />
   </main>
 </Layout>

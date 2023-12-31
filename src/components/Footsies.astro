@@ -3,17 +3,7 @@ import ChatButton from "./ChatButton.astro";
 let currentYear = new Date().getFullYear();
 ---
 
-<footer class="">
-  <div class="px-10 py-20 flex flex-col justify-center items-center gap-4">
-    <h2 class="text-white text-6xl md:text-7xl font-medula text-center">
-      GET IN TOUCH
-    </h2>
-    <p class="text-light-1">
-      Yo, pal, you should get in touch. Like seriously what are you doing with
-      your life, dawg.
-    </p>
-    <ChatButton < footer />
-  </div>
+<footer>
   <svg
   width="100%"
   height="87"
@@ -28,16 +18,17 @@ let currentYear = new Date().getFullYear();
     stroke-width="2"
     stroke-miterlimit="3.8637"></path>
 </svg>
-<div class="flex items-center justify-between">
+<div class="flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between p-8">
   <div class="flex flex-col px-4">
     <div class="font-medula text-3xl">COZY CODERS' COLLECTIVE</div>  
-    <div class="text-base">copyright {currentYear} Cozy Coders' Collective LLC</div>
+    <div class="text-base">© {currentYear} Cozy Coders' Collective LLC</div>
   </div>
   <div></div>
-  <div class="flex">
-    <span>PROJECTS</span>
-    <span>COLLECTIVE</span>
-    <span>GITHUB</span>
+  <div class="px-4 flex gap-14 text-base font-neuton">
+    <span class="my-blur">PROJECTS</span>
+    <span class="my-blur">COLLECTIVE</span>
+    <span class="my-blur">CONTACT</span>
+    <span class="my-blur">GITHUB</span>
   </div>
 </div>
 </footer>
