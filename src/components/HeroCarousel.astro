@@ -5,13 +5,13 @@
     overflow-x: scroll;
   }
 
-  .test {
-    flex: 0 0 auto;
+  .img-wrapper {
+    flex: 0 0 auto; /* don't grow, don't shrink flex item */
     width: 80vmin;
     height: 40vmin;
   }
 
-  .test img {
+  .img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* fix aspect ratio */
@@ -20,18 +20,18 @@
 </style>
 <section class="my-track p-4">
   <div
-    class="rounded-sm test flex items-center justify-center p-4 hover:bg-neutral-900"
+    class="rounded-md img-wrapper flex items-center justify-center p-4 hover:bg-neutral-900"
   >
-    <img class="rounded-sm" src="./resto.png" alt="resto's website" />
+    <img class="rounded-md" src="./resto.png" alt="resto's website" />
   </div>
   <div
-    class="rounded-sm test flex items-center justify-center p-4 hover:bg-neutral-900"
+    class="rounded-md img-wrapper flex items-center justify-center p-4 hover:bg-neutral-900"
   >
-    <img class="rounded-sm" src="./resto.png" alt="resto's website" />
+    <img class="rounded-md" src="./resto.png" alt="resto's website" />
   </div>
   <div
-    class="rounded-sm test flex items-center justify-center p-4 hover:bg-neutral-900"
+    class="rounded-md img-wrapper flex items-center justify-center p-4 hover:bg-neutral-900"
   >
-    <img class="rounded-sm" src="./resto.png" alt="resto's website" />
+    <img class="rounded-md" src="./resto.png" alt="resto's website" />
   </div>
 </section>
