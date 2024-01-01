@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
-import HeroButton from "../components/HeroButton.astro";
+import FancyButton from "../components/FancyButton.astro";
 import HeroCarousel from "../components/HeroCarousel.astro";
 import Footsies from "../components/Footsies.astro";
 import Services from "../components/services/Services.astro";
@@ -14,9 +14,6 @@ import Strengths from "../components/Strengths.astro";
   <main>
     <Nav />
     <Hero />
-    <div class="px-6 pt-4 pb-6 flex justify-center items-center">
-      <HeroButton />
-    </div>
     <HeroCarousel
       index={0}
       blogPostPhotos={[

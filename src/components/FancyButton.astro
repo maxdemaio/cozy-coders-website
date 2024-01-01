@@ -37,7 +37,7 @@
     transition: all 0.3s ease-in-out;
   }
   #hero-button:hover::after {
-    background: black;
+    background: rgb(9, 9, 11); /* match bg color */
     box-shadow:
       0 0px 30px rgba(255, 255, 255, 0.1),
       0px 0px 10px #96bd9d;
@@ -55,27 +55,12 @@
 
 <button
   id="hero-button"
-  class="after:bg-neutral-950 flex items-center justify-center"
+  class="after:bg-neutral-900 flex items-center justify-center"
 >
   <div
     class="text-neutral-100 z-10 relative font-neuton flex items-center gap-2"
   >
-    <span class=""> Let's build it</span><svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="32"
-      viewBox="0 0 24 24"
-      ><g fill="none"
-        ><path
-          fill="currentColor"
-          d="M4 11.25a.75.75 0 0 0 0 1.5zm0 1.5h16v-1.5H4z"
-          opacity=".5"></path><path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          d="m14 6l6 6l-6 6"></path></g
-      ></svg
-    >
+    <slot />
+    <!--children will go here -->
   </div>
 </button>
