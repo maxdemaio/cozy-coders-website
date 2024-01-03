@@ -9,7 +9,7 @@ export default {
 		},
 		extend: {
 			colors: {
-				'primary': '#96BD9D',
+				'primary': 'rgb(150, 189, 157)',
 				'background': 'rgb(9, 9, 11)',
 			},
 		},
