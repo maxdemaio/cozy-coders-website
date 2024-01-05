@@ -3,44 +3,43 @@ import FancyButton from "./FancyButton.astro";
 import SpaceGirl from "./SpaceGirl.astro";
 ---
 
-<header class="flex flex-col items-center justfy-center">
+<header class="py-8 px-2 md:px-10 flex flex-col items-center justify-center">
   <h1 class="md:text-9xl text-8xl font-medula text-center text-primary">
     COZY CODERS' COLLECTIVE
   </h1>
-  <div class="flex flex-col items-center gap-0 md:gap-4">
+  <div class="flex flex-col items-center justify-center gap-0 md:gap-4">
     <h2 class="text-white text-4xl md:text-6xl font-medula text-center">
       GET COZY. WE'LL TAKE IT FROM HERE.
     </h2>
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap items-center justify-center">
       <SpaceGirl />
-      <p class="max-w-[400px] md:max-w-[600px] p-4 text-neutral-300">
+      <p class="max-w-[800px] lg:max-w-[600px] p-4 text-neutral-300">
         Cozy Coders’ Collective is a collective of experienced software
         professionals. We work with many companies to build and proactively
         deliver engaging brand experiences. We are unique in our ability to take
         a strategic approach while being visually driven.
       </p>
     </div>
-  </div>
-  
-  <div class="py-6">
-    <FancyButton>
-      <span>Let's build it</span><svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        ><g fill="none"
-          ><path
-            fill="currentColor"
-            d="M4 11.25a.75.75 0 0 0 0 1.5zm0 1.5h16v-1.5H4z"
-            opacity=".5"></path><path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="m14 6l6 6l-6 6"></path></g
-        ></svg
-      >
-    </FancyButton>
+    <div>
+      <FancyButton>
+        <span>Let's build it</span><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          ><g fill="none"
+            ><path
+              fill="currentColor"
+              d="M4 11.25a.75.75 0 0 0 0 1.5zm0 1.5h16v-1.5H4z"
+              opacity=".5"></path><path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="m14 6l6 6l-6 6"></path></g
+          ></svg
+        >
+      </FancyButton>
+    </div>
   </div>
 </header>

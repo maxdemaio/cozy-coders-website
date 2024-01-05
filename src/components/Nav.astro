@@ -1,8 +1,10 @@
----
-import MobileNav from "./MobileNav.astro";
----
+<style>
+  .squiggle-animated {
+    stroke-width: 20;
+  }
+</style>
 
-<nav class="text-white flex justify-between items-center p-10">
+<nav class="text-white flex justify-between items-center p-6 md:p-10">
   <button aria-label="Menu button" id="menu-button" class="sm:hidden block">
     <svg
       width="48"
@@ -41,7 +43,7 @@ import MobileNav from "./MobileNav.astro";
   viewBox="0 0 1590 87"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
-  class="mt-[-20px] squiggle-animated"
+  class="mt-[-48px] squiggle-animated"
 >
   <path
     d="M1 85.7946C214.86 57.7539 493 -11.1441 516.5 2.85586C540 16.8559 468 61.5 487 78C506 94.5 612 18.4389 632.5 25.5C653 32.5611 610 59 632.5 68C655 77 1591 40 1590.5 28"
@@ -49,93 +51,3 @@ import MobileNav from "./MobileNav.astro";
     stroke-width="2"
     stroke-miterlimit="3.8637"></path>
 </svg>
-
-<MobileNav />
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    /// mobile nav menu
-    const menuButton: HTMLElement | null =
-      document.getElementById("menu-button");
-    const mobileNavView: HTMLElement | null =
-      document.getElementById("mobile-nav-view");
-    const closeButton: HTMLElement | null =
-      document.getElementById("close-button");
-    const mobileNavViewButtons: HTMLCollectionOf<Element> | null =
-      document.getElementsByClassName("mobile-nav-view-button");
-
-    if (menuButton && mobileNavView) {
-      menuButton.addEventListener("click", function () {
-        mobileNavView.style.animationName = "slide-lr";
-        mobileNavView.style.animationPlayState = "running";
-        document.body.style.overflow = "hidden";
-      });
-    }
-
-    if (closeButton && mobileNavView && mobileNavViewButtons) {
-      closeButton.addEventListener("click", function () {
-        mobileNavView.style.animationName = "slide-rl";
-        document.body.style.overflow = "auto";
-      });
-
-      for (const button of mobileNavViewButtons) {
-        button.addEventListener("click", function () {
-          mobileNavView.style.animationName = "slide-rl";
-          document.body.style.overflow = "auto";
-        });
-      }
-    }
-
-    //// nav squiggle animation
-    let path: SVGGeometryElement | null = document.querySelector(
-      ".squiggle-animated path"
-    );
-    if (path) {
-      var length: number = path.getTotalLength();
-      // Clear any previous transition
-      path.style.transition = path.style.webkitTransition = "none";
-      path.style.transition = "none";
-
-      // Set up the starting positions
-      path.style.strokeDasharray = length + " " + length;
-      path.style.strokeDashoffset = length.toString();
-      // Trigger a layout so styles are calculated & the browser
-      // picks up the starting position before animating
-      path.getBoundingClientRect();
-      // Define our transition
-      path.style.transition = path.style.webkitTransition =
-        "stroke-dashoffset 2s ease-in-out";
-      path.style.transition = path.style.transition =
-        "stroke-dashoffset 2s ease-in-out";
-      // Go!
-      path.style.strokeDashoffset = "0";
-    }
-
-    //// blur nav links
-    const items: NodeListOf<HTMLElement> =
-      document.querySelectorAll(".my-blur");
-
-    items.forEach((item, index) => {
-      item.addEventListener("mouseover", function () {
-        applyBlur(index, "2px");
-      });
-
-      item.addEventListener("mouseout", function () {
-        applyBlur(index, "0px");
-      });
-    });
-
-    function applyBlur(index: number, blurValue: string) {
-      const duration = 290;
-      // ease-in-out for a more balanced acceleration
-      // and deceleration during both transitions
-      const easing = "ease-in-out";
-
-      items.forEach((item, i) => {
-        const isHoveredItem = i === index;
-        item.style.filter = `blur(${isHoveredItem ? "0" : blurValue})`;
-        item.style.transition = `filter ${duration}ms ${easing}`;
-      });
-    }
-  });
-</script>

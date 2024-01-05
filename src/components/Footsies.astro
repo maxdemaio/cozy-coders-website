@@ -1,33 +1,34 @@
 ---
-import ChatButton from "./ChatButton.astro";
 let currentYear = new Date().getFullYear();
 ---
 
-<footer class="text-white px-2 md:px-10">
+<footer class="text-white">
   <svg
-  width="100%"
-  height="87"
-  viewBox="0 0 1590 87"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  class="mt-[-20px] squiggle-animated"
->
-  <path
-    d="M1 85.7946C214.86 57.7539 493 -11.1441 516.5 2.85586C540 16.8559 468 61.5 487 78C506 94.5 612 18.4389 632.5 25.5C653 32.5611 610 59 632.5 68C655 77 1591 40 1590.5 28"
-    stroke="white"
-    stroke-width="2"
-    stroke-miterlimit="3.8637"></path>
-</svg>
-<div class="flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between p-8">
-  <div class="flex flex-col px-4">
-    <div class="font-medula text-3xl">COZY CODERS' COLLECTIVE</div>  
-    <div class="text-base">© {currentYear} Cozy Coders' Collective LLC</div>
+    width="100%"
+    height="87"
+    viewBox="0 0 1590 87"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="mb-[-48px] squiggle-animated"
+  >
+    <path
+      d="M1 85.7946C214.86 57.7539 493 -11.1441 516.5 2.85586C540 16.8559 468 61.5 487 78C506 94.5 612 18.4389 632.5 25.5C653 32.5611 610 59 632.5 68C655 77 1591 40 1590.5 28"
+      stroke="white"
+      stroke-width="2"
+      stroke-miterlimit="3.8637"></path>
+  </svg>
+  <div
+    class="flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between p-6 md:p-10"
+  >
+    <div class="flex flex-col px-4">
+      <div class="font-medula text-3xl">COZY CODERS' COLLECTIVE</div>
+      <div class="text-base">© {currentYear} Cozy Coders' Collective LLC</div>
+    </div>
+    <div></div>
+    <div class="px-4 flex gap-14 text-base font-neuton">
+      <span class="my-blur">PROJECTS</span>
+      <span class="my-blur">CONTACT</span>
+      <span class="my-blur">GITHUB</span>
+    </div>
   </div>
-  <div></div>
-  <div class="px-4 flex gap-14 text-base font-neuton">
-    <span class="my-blur">PROJECTS</span>
-    <span class="my-blur">CONTACT</span>
-    <span class="my-blur">GITHUB</span>
-  </div>
-</div>
 </footer>
