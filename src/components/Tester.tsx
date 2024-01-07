@@ -548,7 +548,67 @@ const Tester: React.FC = () => {
           width: "1500px",
           height: "500px",
         }}
-      ></div>
+      >
+                  {imageInfoList.map((imageInfo, index) => {
+            const {
+              zIndex,
+              href,
+              src,
+              alt,
+              scaledWidth,
+              width,
+              height,
+              rotate,
+              opacity,
+              scale,
+              isCurrentImage,
+              isVisible,
+            } = imageInfo;
+            const leftPosition = leftEdgeList[index];
+            return (
+              <div
+                key={index}
+                className={`coverflow__image-container ${
+                  isVisible ? "coverflow__image-container--visible" : ""
+                } ${
+                  isCurrentImage ? "coverflow__image-container--active" : ""
+                }`}
+                style={{
+                  zIndex: zIndex,
+                  left: `${leftPosition}px`,
+                  width: `${scaledWidth}px`,
+                  height: `${height}px`,
+                }}
+              >
+                <button
+                  className="coverflow__button"
+                  tabIndex={isCurrentImage && href ? 0 : -1}
+                  onClick={() => {
+                    if (isVisible) {
+                      handleButtonClick(index, href);
+                    }
+                  }}
+                  style={{
+                    transform: `scale(${scale}) rotateY(${rotate}deg)`,
+                    pointerEvents: isVisible ? "all" : "none",
+                    cursor: `${isCurrentImage && href ? "pointer" : ""}`,
+                  }}
+                >
+                  <img
+                    className="coverflow__image"
+                    src={src}
+                    style={{
+                      height: `${height}px`,
+                      width: `${width}px`,
+                      opacity: `${opacity}`,
+                    }}
+                    alt={alt}
+                  />
+                </button>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
