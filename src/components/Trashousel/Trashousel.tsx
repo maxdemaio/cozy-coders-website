@@ -186,7 +186,7 @@ function useTouchEvent(): [(node: HTMLElement) => void, State] {
 
   useEffect(() => {
     console.log("useEffect useTouch");
-
+  
     if (el !== null) {
       const handleTouchStart = (e: TouchEvent) => {
         dispatch({ type: TOUCH_START, payload: e.targetTouches[0].clientX });
@@ -197,21 +197,21 @@ function useTouchEvent(): [(node: HTMLElement) => void, State] {
       const handleTouchEnd = () => {
         dispatch({ type: TOUCH_END });
       };
-
+  
       // Add event listener
       el.addEventListener("touchstart", handleTouchStart, { passive: false });
       el.addEventListener("touchmove", handleTouchMove, { passive: false });
       el.addEventListener("touchend", handleTouchEnd, { passive: false });
-
+  
       // Remove event listener on cleanup
       return () => {
-        el.addEventListener("touchstart", handleTouchStart);
-        el.addEventListener("touchmove", handleTouchMove);
-        el.addEventListener("touchend", handleTouchEnd);
+        el.removeEventListener("touchstart", handleTouchStart);
+        el.removeEventListener("touchmove", handleTouchMove);
+        el.removeEventListener("touchend", handleTouchEnd);
       };
     }
-    return null;
   }, [el]);
+  
 
   return [ref, state];
 }
