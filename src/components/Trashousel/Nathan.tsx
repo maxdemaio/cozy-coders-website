@@ -3,7 +3,7 @@ import './nathan.css'
 
 const ROTATE = 45
 const OPACITY_ORDER = [1, 0.8, 0.5, 0.2]
-const SCALE_ORDER = [1, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
+const SCALE_ORDER = [1, 0.7, 0.6, 0.5]
 
 // Taken from useHooks site
 function useKeyPress(targetKey: string) {
@@ -275,7 +275,7 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
               >
                 <img
                   src={imageUrl}
-                  className='hover:border-2 hover:border-orange-500'
+                  className={isCurrentImage ? `` : `hover:border-2 hover:border-orange-500`}
                   style={{
                     display: `block`,
                     transform: `translateZ(0)`,
