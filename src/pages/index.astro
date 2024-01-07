@@ -2,12 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
-import HeroCarousel from "../components/HeroCarousel.astro";
 import Footsies from "../components/Footsies.astro";
 import Contact from "../components/Contact.astro";
 import Strengths from "../components/Strengths.astro";
 import MobileNav from "../components/MobileNav.astro";
-import Trashousel from "../components/Trashousel";
+import Trashousel from "../components/Trashousel/Trashousel";
+import type { Images } from "../components/Trashousel/types";
+import Tester from "../components/Tester";
+import SmallTest from "../components/SmallTest";
 ---
 
 <Layout title="Cozy Coders' Collective - Home">
@@ -15,26 +17,15 @@ import Trashousel from "../components/Trashousel";
     <Nav />
     <MobileNav />
     <Hero />
-    <HeroCarousel
-      index={0}
-      blogPostPhotos={[
-        {
-          photoPath: "/resto.png",
-        },
-        {
-          photoPath: "/resto.png",
-        },
-      ]}
-    >
-    </HeroCarousel>
-    <Trashousel count={1}>
-      <div></div>
-    </Trashousel>
+
+    <!-- <Trashousel images={IMAGES} className="test" client:load /> -->
+    <Tester client:load />
+    <!-- <SmallTest client:load /> -->
+    
     <div class="p-12">
-      <h3 class="text-xl">absolutely fuck you, pal (unless)</h3>
+      <h3 class="text-xl">carousel here</h3>
     </div>
     <Strengths />
-    <!-- <Services /> -->
     <Contact />
     <Footsies />
   </main>
