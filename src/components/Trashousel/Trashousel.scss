@@ -1,12 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #333;
-} 
 
 .coverflow {
+  box-sizing: border-box;
   border: 1px solid orange;
   position: relative;
   display: flex;
@@ -19,10 +13,10 @@ body {
   align-items: center;
   justify-content: center;
 }
-.coverflow__image--active img {
+.coverflow__image-container--active img {
   box-shadow: 0 1px 25px 10px #966464;
 }
-.coverflow__image:not(.coverflow__image--active):hover > div {
+.coverflow__image-container:not(.coverflow__image-container--active):hover > div {
   box-shadow: 0 1px 25px 10px rgba(255, 255, 255, 0.5);
 }
 

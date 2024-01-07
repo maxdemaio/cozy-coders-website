@@ -12,20 +12,30 @@ import {
   type PromiseResolution,
 } from "./allSettled";
 
-import "./Trashousel.css";
+import "./Trashousel.scss";
 
-const images: Images[] = [
-  {
-    src: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
-    href: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
-    alt: "alt",
-  },
-  {
-    src: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
-    href: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
-    alt: "alt",
-  },
+const IMAGE_URLS = [
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame5.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame6.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame7.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame8.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame9.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg"
 ];
+
+const images: Images[] = IMAGE_URLS.map((url, index) => ({
+  src: url,
+  href: url, // you can adjust this as needed
+  alt: `alt-${index + 1}`
+}));
+
 
 const ROTATION = 45;
 const OPACITY_ORDER = [1, 0.8, 0.5, 0.2];
@@ -503,6 +513,8 @@ const Trashousel: React.FC = () => {
         console.log("imageinfo", imageInfo);
         imageInfoList.push(imageInfo);
     });
+    console.log("imageInfoList in useEffect 4", imageInfoList);
+
     setImageInfoList(imageInfoList);
     setLeftEdgeList(leftEdgeList);
   }, [
