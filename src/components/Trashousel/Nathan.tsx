@@ -252,6 +252,7 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
           const scaledWidth = imageWidth * scale
           return (
             <div
+              key={`image-${index}`}
               className={isCurrentImage ? `absolute my-active` : `absolute`}
               style={{
                 zIndex: `${zIndex}`,
