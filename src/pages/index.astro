@@ -7,8 +7,6 @@ import Contact from "../components/Contact.astro";
 import Strengths from "../components/Strengths.astro";
 import MobileNav from "../components/MobileNav.astro";
 import Trashousel from "../components/Trashousel/Trashousel";
-import type { Images } from "../components/Trashousel/types";
-import Tester from "../components/Tester";
 import SmallTest from "../components/SmallTest";
 ---
 
@@ -19,7 +17,7 @@ import SmallTest from "../components/SmallTest";
     <Hero />
 
     <!-- <Trashousel images={IMAGES} className="test" client:load /> -->
-    <Tester client:load />
+    <Trashousel client:load />
     <!-- <SmallTest client:load /> -->
     
     <div class="p-12">
@@ -120,4 +118,4 @@ import SmallTest from "../components/SmallTest";
       });
     }
   });
-</script>
+</script>../components/Trashousel/Tester

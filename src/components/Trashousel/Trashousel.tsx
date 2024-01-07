@@ -1,27 +1,106 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-
-import useTouchEvent from "./hooks/useTouchEvent";
-import useKeyPress from "./hooks/useKeyPress";
-import useWindowSize from "./hooks/useWindowSize";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+  useReducer,
+} from "react";
+import allSettled from "./allSettled";
 import {
   type PromiseRejection,
   type PromiseResolution,
-} from "./utils/allSettled";
-import clamp from "./utils/clamp";
-import fetchImages from "./utils/fetchImages";
-import resizeImage from "./utils/resizeImage";
-import {
-  type CoverflowProps,
-  type FetchedItem,
-  type ImageInfo,
-  type Images,
-} from "./types";
+} from "./allSettled";
 
-// import "./Trashousel.css";
+import "./Trashousel.css";
+
+const images: Images[] = [
+  {
+    src: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
+    href: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
+    alt: "alt",
+  },
+  {
+    src: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
+    href: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
+    alt: "alt",
+  },
+];
 
 const ROTATION = 45;
 const OPACITY_ORDER = [1, 0.8, 0.5, 0.2];
 const SCALE_ORDER = [1, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1];
+
+interface Images {
+  src: string;
+  href?: string;
+  alt?: string;
+}
+
+interface FetchedItem {
+  image: HTMLImageElement;
+  alt?: string;
+  href?: string;
+}
+
+interface ImageInfo {
+  isCurrentImage: boolean;
+  isVisible: boolean;
+  height: number;
+  width: number;
+  scaledWidth: number;
+  zIndex: number;
+  scale: number;
+  rotate: number;
+  opacity: number;
+  src: string;
+  href: string;
+  alt: string;
+}
+
+const TOUCH_START = "touchStart";
+const TOUCH_MOVE = "touchMove";
+const TOUCH_END = "touchEnd";
+
+interface State {
+  start: number;
+  end: number;
+  isLeft: boolean;
+  isRight: boolean;
+  isMoving: boolean;
+}
+
+type Action =
+  | { type: typeof TOUCH_END }
+  | { type: typeof TOUCH_START; payload: number }
+  | { type: typeof TOUCH_MOVE; payload: number };
+
+const initialState = {
+  start: 0,
+  end: 0,
+  isLeft: false,
+  isRight: false,
+  isMoving: false,
+};
+
+const clamp = (value: number, lowBound: number, highBound: number) =>
+  Math.max(lowBound, Math.min(highBound, value));
+
+// https://stackoverflow.com/questions/1106339/resize-image-to-fit-in-bounding-box
+const resizeImage = (
+  height: number,
+  width: number,
+  image: HTMLImageElement
+) => {
+  const widthScale = width / image.width;
+  const heightScale = height / image.height;
+  const scale = Math.min(widthScale, heightScale);
+  console.log(scale);
+  return {
+    height: image.height * scale,
+    width: image.width * scale,
+  };
+};
 
 const isPromiseResolution = <T extends unknown>(
   promise: PromiseResolution<T> | PromiseRejection
@@ -29,16 +108,200 @@ const isPromiseResolution = <T extends unknown>(
   return (promise as PromiseResolution<T>).value !== undefined;
 };
 
-function Trashousel(props: CoverflowProps) {
-  console.log(props);
+const fetchImage = ({
+  src,
+  href,
+  alt,
+}: {
+  src: string;
+  href: string;
+  alt: string;
+}) => {
+  return new Promise<FetchedItem>((resolve, reject) => {
+    const image = new Image();
+    image.src = src;
+    image.onload = () => resolve({ image, href, alt });
+    image.onerror = () => reject("Oops!");
+  });
+};
+
+const fetchImages = (images: Images[]) => {
+  const promises = images.map(fetchImage);
+  return allSettled<FetchedItem>(promises);
+};
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case TOUCH_START:
+      return {
+        ...state,
+        start: action.payload,
+        isMoving: false,
+      };
+    case TOUCH_MOVE:
+      if (state.start - action.payload > 70) {
+        return {
+          ...state,
+          isRight: true,
+          isLeft: false,
+          isMoving: true,
+          end: action.payload,
+        };
+      }
+      if (state.start - action.payload < -70) {
+        return {
+          ...state,
+          isRight: false,
+          isLeft: true,
+          isMoving: true,
+          end: action.payload,
+        };
+      }
+      return {
+        ...state,
+        isMoving: true,
+        end: action.payload,
+      };
+    case TOUCH_END:
+      return {
+        ...state,
+        isRight: false,
+        isLeft: false,
+        isMoving: false,
+      };
+    default:
+      throw new Error();
+  }
+}
+
+function useTouchEvent(): [(node: HTMLElement) => void, State] {
+  const [el, setEl] = useState<HTMLElement | null>(null);
+  // https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
+  const ref = useCallback((node: HTMLElement) => {
+    if (node !== null) {
+      setEl(node);
+    }
+  }, []);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    console.log("useEffect useTouch");
+
+    if (el !== null) {
+      const handleTouchStart = (e: TouchEvent) => {
+        dispatch({ type: TOUCH_START, payload: e.targetTouches[0].clientX });
+      };
+      const handleTouchMove = (e: TouchEvent) => {
+        dispatch({ type: TOUCH_MOVE, payload: e.targetTouches[0].clientX });
+      };
+      const handleTouchEnd = () => {
+        dispatch({ type: TOUCH_END });
+      };
+
+      // Add event listener
+      el.addEventListener("touchstart", handleTouchStart, { passive: false });
+      el.addEventListener("touchmove", handleTouchMove, { passive: false });
+      el.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+      // Remove event listener on cleanup
+      return () => {
+        el.addEventListener("touchstart", handleTouchStart);
+        el.addEventListener("touchmove", handleTouchMove);
+        el.addEventListener("touchend", handleTouchEnd);
+      };
+    }
+    return null;
+  }, [el]);
+
+  return [ref, state];
+}
+
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    console.log("useEffect windowSize");
+
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+
+  return windowSize;
+}
+
+// Taken from useHooks site
+function useKeyPress(targetKey: string) {
+  // State for keeping track of whether key is pressed
+  const [keyPressed, setKeyPressed] = useState(false);
+
+  // If pressed key is our target key then set to true
+  function downHandler({ key }: KeyboardEvent) {
+    if (key === targetKey) {
+      setKeyPressed(true);
+    }
+  }
+
+  // If released key is our target key then set to false
+  const upHandler = ({ key }: KeyboardEvent) => {
+    if (key === targetKey) {
+      setKeyPressed(false);
+    }
+  };
+
+  // Add event listeners
+  useEffect(() => {
+    console.log("useEffect useKeyPress");
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return keyPressed;
+}
+
+////// Component starts here
+const Trashousel: React.FC = () => {
+  const [count, setCount] = useState(0);
+  const [items, setItems] = useState([]);
+
+  const increment = () => {
+    setCount(count + 1);
+    setItems([...items, count]);
+  };
+
+  const decrement = () => {
+    setCount(count - 1);
+  };
+
   let className = "";
-  let images = [];
   let slidesPerSide = 3;
   let rotation = ROTATION;
   let opacityInterval = OPACITY_ORDER;
   let scaleInterval = SCALE_ORDER;
-  
-  let [myItems, setmyItems] = useState([]);
 
   /**
    * Sliders per side
@@ -54,6 +317,7 @@ function Trashousel(props: CoverflowProps) {
       ],
     [diff, opacityInterval]
   );
+
   const slidesLessThanOpacityLength = useMemo(
     () => () => [...opacityInterval.slice(0, slidesPerSide + 1), 0],
     [opacityInterval, slidesPerSide]
@@ -84,6 +348,7 @@ function Trashousel(props: CoverflowProps) {
   const [ref, { isMoving, isLeft, isRight }] = useTouchEvent();
 
   useEffect(() => {
+    console.log("useEffect 1 in component, isMoving");
     if (isMoving && isLeft) {
       setCurrentIndex((currentIndex) =>
         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -100,6 +365,7 @@ function Trashousel(props: CoverflowProps) {
    * Arrow Keys
    */
   useEffect(() => {
+    console.log("useEffect 2 in component, arrow keys");
     if (leftArrowKeyPress) {
       setCurrentIndex((currentIndex) =>
         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -116,7 +382,8 @@ function Trashousel(props: CoverflowProps) {
    * Image fetch
    */
   useEffect(() => {
-    const fetch = async (originalImageList: Images[]) => {
+    console.log("useEffect 3 in component, image fetch");
+    const fetch2 = async (originalImageList: Images[]) => {
       const fetchedImages = await fetchImages(originalImageList);
       const succeedImages = fetchedImages
         .filter(({ status }) => {
@@ -129,16 +396,21 @@ function Trashousel(props: CoverflowProps) {
 
           return undefined;
         });
+      console.log("succeedImages", succeedImages);
       setImageList(succeedImages);
       setCurrentIndex(Math.floor(succeedImages.length / 2));
     };
-    fetch(images);
+    fetch2(images);
   }, [images]);
 
   /**
    * Sizing / Edges
    */
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log("useEffect 4 in component, sizing/edges");
+    console.log("imageList in useEffect 4", imageList);
+    console.log("coverflowRef", coverflowRef.current);
+
     let leftEdgeList: number[] = []; // raw image no scale applied
     let imageInfoList: ImageInfo[] = [];
     let edge = 0;
@@ -199,39 +471,38 @@ function Trashousel(props: CoverflowProps) {
       imageInfo.href = href;
       imageInfo.alt = alt;
 
-      // LEFT HAND SIDE
-      if (distanceFromMiddle < 0) {
-        // we only want to move 20% so they overlap
-        edge += scaledWidth * 0.2;
-      } else {
-        // RIGHT HAND SIDE
-        const { image: nextImage } = imageList[index + 1] || {};
-        if (nextImage) {
-          const nextImageDistanceFromCenter = index + 1 - currentIndex;
-          const nextScale =
-            scaleInterval[
-              clamp(
-                Math.abs(nextImageDistanceFromCenter),
-                0,
-                scaleInterval.length - 1
-              )
-            ];
-          const nextImageDimension = resizeImage(
-            coverflowHeight,
-            coverflowWidth,
-            nextImage
-          );
-          const nextImageScaledWidth = nextImageDimension.width * nextScale;
-          edge +=
-            scaledWidth - nextImageScaledWidth + nextImageScaledWidth * 0.2;
-        } else {
-          edge += scaledWidth;
-        }
-      }
-
-      imageInfoList.push(imageInfo);
+          // LEFT HAND SIDE
+          if (distanceFromMiddle < 0) {
+            // we only want to move 20% so they overlap
+            edge += scaledWidth * 0.2;
+          } else {
+            // RIGHT HAND SIDE
+            const { image: nextImage } = imageList[index + 1] || {};
+            if (nextImage) {
+              const nextImageDistanceFromCenter = index + 1 - currentIndex;
+              const nextScale =
+                scaleInterval[
+                  clamp(
+                    Math.abs(nextImageDistanceFromCenter),
+                    0,
+                    scaleInterval.length - 1
+                  )
+                ];
+              const nextImageDimension = resizeImage(
+                coverflowHeight,
+                coverflowWidth,
+                nextImage
+              );
+              const nextImageScaledWidth = nextImageDimension.width * nextScale;
+              edge +=
+                scaledWidth - nextImageScaledWidth + nextImageScaledWidth * 0.2;
+            } else {
+              edge += scaledWidth;
+            }
+          }
+        console.log("imageinfo", imageInfo);
+        imageInfoList.push(imageInfo);
     });
-
     setImageInfoList(imageInfoList);
     setLeftEdgeList(leftEdgeList);
   }, [
@@ -250,24 +521,36 @@ function Trashousel(props: CoverflowProps) {
     setCurrentIndex(index);
   };
 
-  if (!imageInfoList.length) {
+  console.log("image list before render", imageList);
+  /**Return nonsense */
+  if (!!imageInfoList.length && !(imageList.length > 0)) {
     return null;
   }
 
   return (
-    <div className="main">
-      <div className={`${className ?? ""} coverflow-wrapper`} ref={ref}>
-        <div
-          ref={coverflowRef}
-          className="coverflow"
-          style={{
-            transform: `translateX(-${
-              leftEdgeList[currentIndex] +
-              imageInfoList[currentIndex]?.width / 2
-            }px)`,
-          }}
-        >
-          {imageInfoList.map((imageInfo, index) => {
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+      <div className="flex gap-2">
+        {items.map((item, index) => (
+          <p key={index}>{item}</p>
+        ))}
+      </div>
+
+      {/* carou start */}
+      <div
+        ref={coverflowRef}
+        className="coverflow"
+        style={{
+          transform: `translateX(-${
+            leftEdgeList[currentIndex] + imageInfoList[currentIndex]?.width / 2
+          }px)`,
+          width: "1500px",
+          height: "500px",
+        }}
+      >
+                  {imageInfoList.map((imageInfo, index) => {
             const {
               zIndex,
               href,
@@ -326,10 +609,9 @@ function Trashousel(props: CoverflowProps) {
               </div>
             );
           })}
-        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Trashousel;
