@@ -1,0 +1,31 @@
+<style>
+  .moving-grid-bg {
+    will-change: transform;
+    background-size: 3rem 3rem;
+    background-image: linear-gradient(to right, #8882 1px, transparent 1px),
+      linear-gradient(to bottom, #8882 1px, transparent 1px);
+    animation: movingbackground 20s linear infinite !important;
+  }
+
+  @keyframes movingbackground {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(0, -50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .moving-grid-background {
+      animation: none !important;
+    }
+  }
+</style>
+<div class="relative w-full h-[50vh]">
+  test
+  <div class="moving-grid-bg absolute h-[200%] w-full"></div>
+  <div
+    class="shadow-background absolute h-full w-full rounded-full shadow-[inset_0_0_5rem_3rem]"
+  >
+  </div>
+</div>

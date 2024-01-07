@@ -12,7 +12,7 @@ import {
   type PromiseResolution,
 } from "./allSettled";
 
-import "./Trashousel.scss";
+import "./Trashousel.css";
 
 const IMAGE_URLS = [
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
@@ -549,7 +549,6 @@ const Trashousel: React.FC = () => {
           transform: `translateX(-${
             leftEdgeList[currentIndex] + imageInfoList[currentIndex]?.width / 2
           }px)`,
-          width: "1500px",
           height: "500px",
         }}
       >
