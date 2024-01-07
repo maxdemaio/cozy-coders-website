@@ -470,41 +470,48 @@ const Tester: React.FC = () => {
       imageInfo.href = href;
       imageInfo.alt = alt;
 
-      //   //   // LEFT HAND SIDE
-      //   //   if (distanceFromMiddle < 0) {
-      //   //     // we only want to move 20% so they overlap
-      //   //     edge += scaledWidth * 0.2;
-      //   //   } else {
-      //   //     // RIGHT HAND SIDE
-      //   //     const { image: nextImage } = imageList[index + 1] || {};
-      //   //     if (nextImage) {
-      //   //       const nextImageDistanceFromCenter = index + 1 - currentIndex;
-      //   //       const nextScale =
-      //   //         scaleInterval[
-      //   //           clamp(
-      //   //             Math.abs(nextImageDistanceFromCenter),
-      //   //             0,
-      //   //             scaleInterval.length - 1
-      //   //           )
-      //   //         ];
-      //   //       const nextImageDimension = resizeImage(
-      //   //         coverflowHeight,
-      //   //         coverflowWidth,
-      //   //         nextImage
-      //   //       );
-      //   //       const nextImageScaledWidth = nextImageDimension.width * nextScale;
-      //   //       edge +=
-      //   //         scaledWidth - nextImageScaledWidth + nextImageScaledWidth * 0.2;
-      //   //     } else {
-      //   //       edge += scaledWidth;
-      //   //     }
-      //   //   }
-      //   console.log("imageinfo", imageInfo);
-      //   imageInfoList.push(imageInfo);
+          // LEFT HAND SIDE
+          if (distanceFromMiddle < 0) {
+            // we only want to move 20% so they overlap
+            edge += scaledWidth * 0.2;
+          } else {
+            // RIGHT HAND SIDE
+            const { image: nextImage } = imageList[index + 1] || {};
+            if (nextImage) {
+              const nextImageDistanceFromCenter = index + 1 - currentIndex;
+              const nextScale =
+                scaleInterval[
+                  clamp(
+                    Math.abs(nextImageDistanceFromCenter),
+                    0,
+                    scaleInterval.length - 1
+                  )
+                ];
+              const nextImageDimension = resizeImage(
+                coverflowHeight,
+                coverflowWidth,
+                nextImage
+              );
+              const nextImageScaledWidth = nextImageDimension.width * nextScale;
+              edge +=
+                scaledWidth - nextImageScaledWidth + nextImageScaledWidth * 0.2;
+            } else {
+              edge += scaledWidth;
+            }
+          }
+        console.log("imageinfo", imageInfo);
+        imageInfoList.push(imageInfo);
     });
     setImageInfoList(imageInfoList);
-    // setLeftEdgeList(leftEdgeList);
-  }, [imageList]);
+    setLeftEdgeList(leftEdgeList);
+  }, [
+    currentIndex,
+    imageList,
+    height,
+    width,
+    scaleInterval,
+    opacityIntervalOverride,
+  ]);
 
   const handleButtonClick = (index = 0, href: string) => {
     if (index === currentIndex && href) {
