@@ -156,7 +156,7 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
     return <div>No Images Loaded!</div>;
   }
   return (
-    <div className="mt-4 mb-12 h-[50vh] max-h-[600px] overflow-hidden relative">
+    <div className="my-12 h-[50vh] max-h-[600px] overflow-hidden relative">
       <button
         aria-label="Previous"
         className="z-10 absolute top-[50%] left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"

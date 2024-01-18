@@ -1,12 +1,10 @@
 <style>
   .grid-outer-container {
-    width: 500px;
+    width: 100%;
     display: flex;
     height: 500px;
     position: relative;
     overflow: hidden;
-    border-radius: 100%;
-    box-shadow: inset 0 0 800px pink;
   }
 
   .thing {
@@ -48,26 +46,5 @@
 </style>
 
 <div class="grid-outer-container">
-    <div class="thing">
-      <p>my yeet</p>
-      
-      <div
-      class="mt-6 bg-neutral-800 shadow rounded-lg p-4 max-w-sm w-full mx-auto"
-    >
-      <div class="animate-pulse flex space-x-4">
-        <div class="rounded-full bg-neutral-500 h-10 w-10"></div>
-        <div class="flex-1 space-y-6 py-1">
-          <div class="h-2 bg-neutral-500 rounded"></div>
-          <div class="space-y-3">
-            <div class="grid grid-cols-3 gap-4">
-              <div class="h-2 bg-neutral-500 rounded col-span-2"></div>
-              <div class="h-2 bg-neutral-500 rounded col-span-1"></div>
-            </div>
-            <div class="h-2 bg-neutral-500 rounded"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
     <div class="moving-grid-bg"></div>
 </div>

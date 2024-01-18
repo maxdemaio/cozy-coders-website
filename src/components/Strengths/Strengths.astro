@@ -1,11 +1,36 @@
 ---
 import BackgroundGrid from "./BackgroundGrid.astro";
 import SolutionOrbs from "./SolutionOrbs.astro";
-
 ---
 
 <style>
   /* strength 1 */
+  .moving-grid-bg {
+    top: 0;
+    position: absolute;
+    height: 500%;
+    width: 100%;
+    will-change: transform;
+    background-size: 3rem 3rem;
+    background-image: linear-gradient(to right, #8882 1px, transparent 1px),
+      linear-gradient(to bottom, #8882 1px, transparent 1px);
+    animation: movingbackground 60s linear infinite !important;
+  }
+
+  @keyframes movingbackground {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(0, -50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .moving-grid-bg {
+      animation: none !important;
+    }
+  }
   .highlight-bar-1 {
     background: linear-gradient(
       90deg,
@@ -105,7 +130,7 @@ import SolutionOrbs from "./SolutionOrbs.astro";
 
 <section class="py-6 px-2 md:px-10 flex flex-col gap-20">
   <!--Strength 1 - design -->
-  <div>
+  <div class="relative overflow-hidden">
     <div class="str-section">
       <div class="highlight-bar-1"></div>
       <div class="bg bg-1"></div>
@@ -134,6 +159,8 @@ import SolutionOrbs from "./SolutionOrbs.astro";
             >
           </div>
         </div>
+        <div class="moving-grid-bg"></div>
+
 
         <h3 class="text-center text-3xl font-bold text-white font-neuton">
           Intuitive & Custom Designs
@@ -166,7 +193,7 @@ import SolutionOrbs from "./SolutionOrbs.astro";
     </div>
   </div>
 
-  <BackgroundGrid />
+  <!-- <BackgroundGrid /> -->
   <!--End of strength 1 -->
 
   <div class="str-section">

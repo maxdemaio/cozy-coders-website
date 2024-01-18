@@ -1,26 +1,43 @@
 ---
+import AltButton from "./AltButton.astro";
 import FancyButton from "./FancyButton.astro";
 import SpaceGirl from "./SpaceGirl.astro";
 ---
 
-<header class="py-8 px-2 md:px-10 flex flex-col items-center justify-center">
+<header class="px-2 md:px-10 flex flex-col items-center justify-center">
   <h1 class="md:text-9xl text-8xl font-medula text-center text-primary">
     COZY CODERS' COLLECTIVE
   </h1>
-  <div class="flex flex-col items-center justify-center gap-0 md:gap-4">
+  <div class="flex flex-col items-center justify-center">
     <h2 class="text-white text-5xl md:text-6xl font-medula text-center">
       GET COZY. WE'LL TAKE IT FROM HERE.
     </h2>
     <div class="flex flex-wrap items-center justify-center">
       <SpaceGirl />
-      <p class="max-w-[800px] lg:max-w-[600px] p-4 text-neutral-300">
-        Cozy Coders’ Collective is a collective of experienced software
-        professionals. We work with many companies to build and proactively
-        deliver engaging brand experiences. We are unique in our ability to take
-        a strategic approach while being visually driven.
-      </p>
+      <div
+        class="flex flex-col gap-2 max-w-[800px] lg:max-w-[600px] p-4 text-neutral-300"
+      >
+        <p>
+          Cozy Coders’ Collective is a collective of experienced software
+          professionals. We work with many companies to build and proactively
+          deliver engaging brand experiences. We are unique in our ability to
+          take a strategic approach while being visually driven.
+        </p>
+        <div
+          class="py-2 flex flex-col items-center md:items-start justify-center"
+        >
+          <p class="text-neutral-400 font-neuton">Building with teams at</p>
+          <div class="text-neutral-400 font-neuton flex flex-row gap-2">
+            <div>AWS</div>
+            <span>-</span>
+            <div>TypeHero</div>
+            <span>-</span>
+            <div>Your mom</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
+    <div class="py-2">
       <FancyButton>
         <span>Let's build it</span><svg
           class="mt-[4px] inline-block h-6 w-6"
