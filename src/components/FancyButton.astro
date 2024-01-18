@@ -8,7 +8,7 @@
     --r: 0deg; /* Initial angle, firefox will be static */
   }
 
-  #hero-button {
+  .hero-button {
     background: conic-gradient(
       from var(--r),
       #414141 0%,
@@ -27,7 +27,7 @@
     border-radius: 30px;
   }
 
-  #hero-button::after {
+  .hero-button::after {
     content: "";
     display: block;
     position: absolute;
@@ -36,10 +36,10 @@
     z-index: 1;
     transition: all 0.3s ease-in-out;
   }
-  #hero-button:hover::after {
+  .hero-button:hover::after {
     background: rgb(9, 9, 11); /* match bg color */
     box-shadow:
-      0 0px 30px rgba(255, 255, 255, 0.1),
+      0 0px 40px rgba(255, 255, 255, 0.1),
       0px 0px 10px #96bd9d;
   }
 
@@ -54,8 +54,7 @@
 </style>
 
 <button
-  id="hero-button"
-  class="after:bg-neutral-900 flex items-center justify-center"
+  class="hero-button after:bg-neutral-900 flex items-center justify-center"
 >
   <div
     class="text-neutral-100 z-10 relative font-neuton flex items-center gap-2"
