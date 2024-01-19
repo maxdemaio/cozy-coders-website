@@ -1,11 +1,4 @@
 <style>
-  .orb-container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    height: 100px;
-    justify-content: space-around;
-  }
 
   .shadow-circle {
     width: 30px;
@@ -101,12 +94,11 @@
   </div>
 </div>
 
-<div class="orb-container">
+<div class="pt-6 pb-20 w-full relative gap-y-14 md:gap-0 grid grid-cols-2 md:grid-cols-4 items-center justify-items-center">
   <a
     href="https://tailwindcss.com/"
     target="_blank"
-    style="--delay: 0.2s; filter: grayscale(1); translate: 0px;"
-    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-40 md:w-40 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:shadow-[inset_1rem_1rem_5rem_0_#06B6D4dd,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:grayscale"
+    class="hover:animate-pulse cursor-pointer duration-300 hover:scale-110 backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-32 md:w-32 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4]"
   >
     <svg
       class="w-12 h-12 md:w-20 md:h-20 fill-[#06B6D4]"
@@ -119,10 +111,10 @@
     >
   </a>
   <a
-    href="https://tailwindcss.com/"
+    href="https://astro.build"
     target="_blank"
     style="--delay: 0.2s; filter: grayscale(1); translate: 0px;"
-    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-40 md:w-40 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:shadow-[inset_1rem_1rem_5rem_0_#06B6D4dd,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:grayscale"
+    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-32 md:w-32 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4]"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +133,7 @@
     href="https://tailwindcss.com/"
     target="_blank"
     style="--delay: 0.2s; filter: grayscale(1); translate: 0px;"
-    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-40 md:w-40 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:shadow-[inset_1rem_1rem_5rem_0_#06B6D4dd,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:grayscale"
+    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-32 md:w-32 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4]"
   >
     <svg
       class="w-12 h-12 md:w-20 md:h-20 fill-[#06B6D4]"
@@ -181,17 +173,17 @@
       </defs>
     </svg>
   </a>
+
   <a
     href="https://tailwindcss.com/"
     target="_blank"
     style="--delay: 0.2s; filter: grayscale(1); translate: 0px;"
-    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-40 md:w-40 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:shadow-[inset_1rem_1rem_5rem_0_#06B6D4dd,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4] md:grayscale"
+    class="bubble cursor-pointer duration-300 hover:scale-110 animate-popin backdrop-blur-md rounded-full grid place-items-center h-24 w-24 md:h-32 md:w-32 shadow-[inset_1rem_1rem_3rem_0_#06B6D488,inset_-1rem_-1rem_1rem_0_black,0_0_5rem_-1rem_#06B6D4]"
   >
     <svg
       aria-label="Vercel logomark"
-      height="64"
       role="img"
-      style="width:auto;overflow:visible"
+      class="w-12 h-12 md:w-20 md:h-20 fill-[#06B6D4]"
       viewBox="0 0 74 64"
       ><path d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z" fill="white"
       ></path></svg
