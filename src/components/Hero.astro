@@ -1,5 +1,4 @@
 ---
-import AltButton from "./AltButton.astro";
 import FancyButton from "./FancyButton.astro";
 import SpaceGirl from "./SpaceGirl.astro";
 ---
@@ -24,13 +23,81 @@ import SpaceGirl from "./SpaceGirl.astro";
           take a strategic approach while being visually driven.
         </p>
         <div
-          class="py-2 flex flex-col items-center md:items-start justify-center"
+          class="py-2 flex flex-col gap-2 items-center md:items-start justify-center"
         >
-          <p class="text-neutral-400 font-neuton">Building with teams at</p>
-          <div class="text-neutral-400 font-neuton flex flex-row items-center gap-2">
-            <div class="relative after:border-neutral-400 last-of-type:after:hidden first-of-type:pl-0 after:border-r after:absolute after:-right-4 after:top-0 after:border-slate-dark/50 after:h-full after:rotate-[12deg] after:w-px after:inline">AWS</div>
-            <div class="relative after:border-neutral-400 last-of-type:after:hidden first-of-type:pl-0 after:border-r after:absolute after:-right-4 after:top-0 after:border-slate-dark/50 after:h-full after:rotate-[12deg] after:w-px after:inline">TypeHero</div>
-            <div>Your mom</div>
+          <p class="opacity-60 font-neuton">Building with teams at</p>
+          <div
+            class="font-neuton flex flex-row gap-8 py-2 justify-start items-center"
+          >
+            <div
+              class="flex gap-2 items-center relative after:border-white after:opacity-60 last-of-type:after:hidden after:border-r after:absolute after:-right-4 after:top-0 after:border-slate-dark/50 after:h-full after:rotate-[12deg] after:w-px after:inline"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 opacity-60"
+                viewBox="0 0 38 38"
+                fill="none"
+                ><rect width="38" height="38" rx="4.5" fill="white"
+                ></rect><path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.6947 20.9344H20V18H8V20.9344H12.2842V34H15.6947V20.9344Z"
+                  fill="black"></path><path
+                  d="M22 34V18H25.4511V24.6309H30.5405V18H34V34H30.5405V27.3458H25.4511V34H22Z"
+                  fill="black"></path></svg
+              >
+              <p class="opacity-60">TypeHero</p>
+            </div>
+            <div
+              class="flex items-center gap-2 relative after:opacity-60 after:border-white last-of-type:after:hidden after:border-r after:absolute after:-right-4 after:top-0 after:border-slate-dark/50 after:h-full after:rotate-[12deg] after:w-px after:inline"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 opacity-60"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill="white"
+                  d="M8 16c3.314 0 6-2 6-5.5c0-1.5-.5-4-2.5-6c.25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6c-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75c0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5c-.179 1-.25 2 1 3c.625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z"
+                ></path>
+              </svg>
+              <p class="opacity-60">Chess Heat</p>
+            </div>
+            <div class="flex gap-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 opacity-60"
+                fill="none"
+                viewBox="0 0 64 64"
+                class="w-20 h-20 mb-8"
+                data-astro-cid-j7pv25f6=""
+              >
+                <g clip-path="url(#book__a)">
+                  <path
+                    fill="white"
+                    d="M61.713 15.475a2.293 2.293 0 0 1 2.291 2.29v36.398c0 .697-.314 1.35-.86 1.788a2.293 2.293 0 0 1-1.943.442c-5.485-1.251-15.114-2.704-24.247-.467 5.284-4.999 12.736-5.882 17.258-5.895 3.222-.006 5.84-2.627 5.84-5.843V15.475h1.66Zm-57.76 0v28.713c0 3.216 2.62 5.837 5.84 5.843 4.521.013 11.977.896 17.257 5.895-9.13-2.237-18.758-.784-24.243.467a2.279 2.279 0 0 1-1.942-.445 2.274 2.274 0 0 1-.861-1.789V17.766a2.292 2.292 0 0 1 2.288-2.291h1.66Zm5.84-7.92c5.344.012 15.062 1.25 20.118 9.395.205.333.314.733.314 1.158v35.94c-6.16-6.449-15.091-7.56-20.423-7.572a2.296 2.296 0 0 1-2.29-2.288V9.846c0-.615.236-1.19.671-1.626a2.256 2.256 0 0 1 1.607-.665h.003Zm44.425 0c.605 0 1.175.236 1.607.665.432.435.672 1.011.672 1.626v34.342a2.297 2.297 0 0 1-2.291 2.288c-5.332.013-14.263 1.123-20.426 7.571V18.108c0-.425.112-.825.317-1.158 5.056-8.144 14.774-9.383 20.118-9.395h.003Z"
+                  ></path>
+                </g>
+                <defs>
+                  <linearGradient
+                    id="book__b"
+                    x1="32.004"
+                    x2="32.004"
+                    y1="7.555"
+                    y2="56.451"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#76A5FF"></stop>
+                    <stop offset="0" stop-color="#55BAFF"></stop>
+                    <stop offset="1" stop-color="#028CEB"></stop>
+                  </linearGradient>
+                  <clipPath id="book__a">
+                    <path fill="#fff" d="M0 0h64v64H0z"></path>
+                  </clipPath>
+                </defs>
+              </svg>
+              <p class="opacity-60">ODict</p>
+            </div>
           </div>
         </div>
       </div>
