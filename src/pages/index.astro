@@ -111,7 +111,7 @@ const IMAGE_URLS = [
 
     items.forEach((item, index) => {
       item.addEventListener("mouseover", function () {
-        applyBlur(index, "2px");
+        applyBlur(index, "4px");
       });
 
       item.addEventListener("mouseout", function () {
@@ -120,7 +120,7 @@ const IMAGE_URLS = [
     });
 
     function applyBlur(index: number, blurValue: string) {
-      const duration = 290;
+      const duration = 300;
       // ease-in-out for a more balanced acceleration
       // and deceleration during both transitions
       const easing = "ease-in-out";
