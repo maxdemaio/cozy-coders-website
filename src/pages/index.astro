@@ -8,8 +8,6 @@ import Strengths from "../components/Strengths/Strengths.astro";
 import MobileNav from "../components/MobileNav.astro";
 import Nathan from "../components/Trashousel/Nathan";
 
-import SmallTest from "../components/SmallTest";
-
 const IMAGE_URLS = [
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
@@ -24,19 +22,37 @@ const IMAGE_URLS = [
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg"
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg",
 ];
 ---
 
+<style>
+  .space-bg::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    background-image: url("/texture.png");
+    background-repeat: repeat;
+    opacity: 40%;
+    height: 100%;
+    width: 100%;
+    z-index: -10;
+    mask-image: linear-gradient(to left,transparent,white 0%,transparent);
+  }
+</style>
+
 <Layout title="Cozy Coders' Collective - Home">
   <main>
-    <Nav />
-    <MobileNav />
-    <Hero />
+    <div class="space-bg relative overflow-hidden pb-16">
+      <Nav />
+      <MobileNav />
+      <Hero />
 
-    <!-- <Trashousel client:load /> -->
-    <!-- <SmallTest client:load /> -->
-    <Nathan imageUrls={IMAGE_URLS} client:load />
+      <!-- <Trashousel client:load /> -->
+      <!-- <SmallTest client:load /> -->
+      <Nathan imageUrls={IMAGE_URLS} client:load />
+    </div>
+
     <Strengths />
     <Contact />
     <Footsies />
@@ -78,9 +94,8 @@ const IMAGE_URLS = [
     }
 
     //// nav squiggle animation
-    let paths: NodeListOf<SVGGeometryElement> | null = document.querySelectorAll(
-      ".squiggle-animated path"
-    );
+    let paths: NodeListOf<SVGGeometryElement> | null =
+      document.querySelectorAll(".squiggle-animated path");
     if (paths) {
       for (let i = 0; i < paths.length; i++) {
         let path: SVGGeometryElement = paths[i];
