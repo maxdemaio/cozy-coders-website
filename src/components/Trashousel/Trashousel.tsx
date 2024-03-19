@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const ROTATE = 25;
-// const OPACITY_ORDER = [1, 0.6, 0.4, 0.2, 0.0]
 const OPACITY_ORDER = [1, 0.6, 0.4, 0.0];
 const SCALE_ORDER = [1, 0.8, 0.6, 0.4];
 
@@ -30,7 +29,6 @@ const fetchImages = (urls: string[]): Promise<HTMLImageElement[]> => {
   const promises = urls.map(fetchImage);
   return Promise.all(promises);
 };
-
 
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -66,7 +64,7 @@ function useWindowSize() {
   return windowSize;
 }
 
-function Nathan({ imageUrls }: { imageUrls: string[] }) {
+function Trashousel({ imageUrls }: { imageUrls: string[] }) {
   const coverflowRef = useRef<HTMLDivElement>(null);
   const [leftEdgeList, setLeftEdgeList] = useState<number[]>([]);
   const [imageList, setImageList] = useState<HTMLImageElement[]>([]);
@@ -115,7 +113,7 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
         SCALE_ORDER[
           clamp(Math.abs(distanceFromMiddle), 0, SCALE_ORDER.length - 1)
         ];
-
+      
       leftEdgeList.push(edge);
       const imageWidth = getImageWidth(image, coverflowHeight);
       imageWidthList.push(imageWidth);
@@ -152,14 +150,17 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
     setMaxWidth(edge);
   }, [currentIndex, imageList, height]);
 
+
+  // TODO: make some sort of loading state
   if (!imageList.length) {
     return <div>No Images Loaded!</div>;
   }
+
   return (
     <div className="mb-12 h-[50vh] max-h-[600px] overflow-hidden relative">
       <button
         aria-label="Previous"
-        className="z-10 absolute top-[50%] left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+        className="z-10 absolute top-[50%] left-[5%] md:left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
         onClick={leftArrowClick}
       >
         <svg
@@ -177,7 +178,7 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
 
       <button
         aria-label="Next"
-        className="z-10 absolute top-[50%] right-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+        className="z-10 absolute top-[50%] right-[5%] md:right-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
         onClick={rightArrowClick}
       >
         <svg
@@ -272,4 +273,4 @@ function Nathan({ imageUrls }: { imageUrls: string[] }) {
   );
 }
 
-export default Nathan;
+export default Trashousel;

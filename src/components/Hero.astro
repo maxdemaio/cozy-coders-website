@@ -4,111 +4,18 @@ import SpaceGirl from "./SpaceGirl.astro";
 ---
 
 <header
-  class="relative px-2 md:px-10 flex flex-col items-center justify-center"
+  class="px-2 md:px-10 flex flex-col items-center justify-center"
 >
-  <!-- <svg
-    class="hidden md:block absolute -right-[9px] -top-8 -z-20"
-    width="239"
-    height="883"
-    viewBox="0 0 239 883"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_10_12)">
-      <path
-        opacity="0.5"
-        d="M6.3511 433.92C6.35111 615.479 230.685 660.52 230.685 882.589C104.69 832.756 -12.1023 560.279 6.3511 433.92Z"
-        fill="url(#paint0_linear_10_12)"></path>
-      <path
-        d="M6.35122 433.92C6.35121 252.362 230.685 239.991 230.685 0.411459C236.546 139.151 251.265 209.691 186.757 281.286C140.632 332.479 10.8468 394.984 6.35122 433.92Z"
-        fill="url(#paint1_linear_10_12)"></path>
-      <path
-        d="M6.35122 433.92C6.35121 252.362 230.685 239.991 230.685 0.411459C236.05 127.41 255.953 153.528 196.079 222.48C143.773 282.716 11.3788 390.375 6.35122 433.92Z"
-        fill="url(#paint2_linear_10_12)"></path>
-      <g filter="url(#filter0_f_10_12)">
-        <circle
-          cx="126.585"
-          cy="126.585"
-          r="126.585"
-          transform="matrix(4.37114e-08 1 1 -4.37114e-08 104.08 314.915)"
-          fill="white"
-          fill-opacity="0.1"></circle>
-      </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_f_10_12"
-        x="16.9597"
-        y="227.795"
-        width="427.411"
-        height="427.411"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"></feBlend>
-        <feGaussianBlur
-          stdDeviation="43.56"
-          result="effect1_foregroundBlur_10_12"></feGaussianBlur>
-      </filter>
-      <linearGradient
-        id="paint0_linear_10_12"
-        x1="201.393"
-        y1="738.84"
-        x2="117.496"
-        y2="783.359"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#888888"></stop>
-        <stop offset="0.993909" stop-opacity="0"></stop>
-      </linearGradient>
-      <linearGradient
-        id="paint1_linear_10_12"
-        x1="30.0278"
-        y1="256.283"
-        x2="121.417"
-        y2="355.251"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#888888"></stop>
-        <stop offset="0.78791" stop-opacity="0.09"></stop>
-      </linearGradient>
-      <linearGradient
-        id="paint2_linear_10_12"
-        x1="0.842554"
-        y1="332.861"
-        x2="53.463"
-        y2="368.581"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#DDDDDD"></stop>
-        <stop offset="1" stop-opacity="0.09"></stop>
-      </linearGradient>
-      <clipPath id="clip0_10_12">
-        <rect
-          width="882.177"
-          height="237.489"
-          fill="white"
-          transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.755371 0.411438)"
-        ></rect>
-      </clipPath>
-    </defs>
-  </svg> -->
-
-  <h1 class="md:text-9xl text-8xl font-medula text-center text-primary">
-    COZY CODERS' COLLECTIVE
-  </h1>
-  <div class="flex flex-col items-center justify-center">
+  <div class="flex flex-col gap-2 md:gap-0 items-center justify-center">
+    <h1 class="md:text-9xl text-8xl font-medula text-center text-primary">
+      COZY CODERS' COLLECTIVE
+    </h1>
     <h2
       class="text-white text-5xl md:text-7xl font-medula text-center md:px-0 px-12"
     >
       GET COZY. WE'LL TAKE IT FROM HERE.
     </h2>
-    <div class="flex flex-wrap gap-0 md:gap-4 items-center justify-center">
+    <div class="flex flex-wrap gap-0 md:gap-6 items-center justify-center">
       <div
         class="flex flex-col gap-2 max-w-[800px] lg:max-w-[600px] md:p-4 text-neutral-200"
       >
@@ -203,7 +110,7 @@ import SpaceGirl from "./SpaceGirl.astro";
       </div>
       <SpaceGirl />
     </div>
-    <div class="py-12">
+    <div class="pb-12 pt-6">
       <FancyButton>
         <span>Let's build it</span><svg
           class="mt-[4px] inline-block h-6 w-6"

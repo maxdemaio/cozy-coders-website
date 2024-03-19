@@ -6,7 +6,7 @@ import Footsies from "../components/Footsies.astro";
 import Contact from "../components/Contact.astro";
 import Strengths from "../components/Strengths/Strengths.astro";
 import MobileNav from "../components/MobileNav.astro";
-import Nathan from "../components/Trashousel/Nathan";
+import Trashousel from "../components/Trashousel/Trashousel";
 
 const IMAGE_URLS = [
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
@@ -33,24 +33,41 @@ const IMAGE_URLS = [
     position: absolute;
     background-image: url("/texture.png");
     background-repeat: repeat;
-    opacity: 40%;
+    opacity: 32%;
     height: 100%;
     width: 100%;
     z-index: -10;
     mask-image: linear-gradient(to left,transparent,white 0%,transparent);
   }
+
+  .space-bg::after {
+    content: " ";
+    display: block;
+    top: 0;
+    position: absolute;
+    background-repeat: repeat;
+    opacity: 50%;
+    height: 100%;
+    width: 100%;
+    z-index: -11;
+    background-image: linear-gradient(
+      to left,
+      rgb(26, 26, 26),
+      rgba(26, 26, 26, 0)
+    );
+  }
 </style>
 
 <Layout title="Cozy Coders' Collective - Home">
   <main>
-    <div class="space-bg relative overflow-hidden pb-16">
+    <!-- bg-gradient-to-l from-neutral-900  -->
+    <div
+      class="space-bg relative overflow-hidden pb-16"
+    >
       <Nav />
       <MobileNav />
       <Hero />
-
-      <!-- <Trashousel client:load /> -->
-      <!-- <SmallTest client:load /> -->
-      <Nathan imageUrls={IMAGE_URLS} client:load />
+      <Trashousel imageUrls={IMAGE_URLS} client:load />
     </div>
 
     <Strengths />
