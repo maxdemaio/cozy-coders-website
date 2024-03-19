@@ -3,38 +3,47 @@
     stroke-width: 20;
   }
 </style>
+<nav
+  class="w-full fixed top-0 backdrop-blur-sm pt-7 pb-32 px-8 z-50 [mask-image:linear-gradient(to_bottom,red_30%,transparent)] bg-gradient-to-b from-white/50 xl:from-white/20 to-transparent dark:from-black/50 lg:dark:from-black/10 select-none"
+>
+  <div class="text-white flex justify-between items-center">
+    <button aria-label="Menu button" id="menu-button" class="sm:hidden block">
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M40 14H8"
+          stroke="white"
+          stroke-width="3"
+          stroke-linecap="round"></path>
+        <path
+          opacity="0.5"
+          d="M40 24H8"
+          stroke="#F2F1EB"
+          stroke-width="3"
+          stroke-linecap="round"></path>
+        <path
+          d="M40 34H8"
+          stroke="white"
+          stroke-width="3"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
 
-<nav class="text-white flex justify-between items-center px-8 py-6">
-  <button aria-label="Menu button" id="menu-button" class="sm:hidden block">
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M40 14H8" stroke="white" stroke-width="3" stroke-linecap="round"
-      ></path>
-      <path
-        opacity="0.5"
-        d="M40 24H8"
-        stroke="#F2F1EB"
-        stroke-width="3"
-        stroke-linecap="round"></path>
-      <path d="M40 34H8" stroke="white" stroke-width="3" stroke-linecap="round"
-      ></path>
-    </svg>
-  </button>
-
-  <div class="text-primary text-3xl font-medula">CCC</div>
-  <!-- spacer -->
-  <div></div>
-  <div class="text-light-1 gap-14 font-neuton hidden sm:flex">
-    <a href="#" class="my-blur uppercase">Projects</a>
-    <a href="#" class="my-blur uppercase">Contact</a>
-    <a href="https://github.com/cozy-coders-collective" class="my-blur uppercase"
-      >GitHub</a
-    >
+    <div class="text-primary text-3xl font-medula">CCC</div>
+    <!-- spacer -->
+    <div></div>
+    <div class="text-light-1 gap-14 font-neuton hidden sm:flex">
+      <a href="#" class="my-blur uppercase">Projects</a>
+      <a href="#" class="my-blur uppercase">Contact</a>
+      <a
+        href="https://github.com/cozy-coders-collective"
+        class="my-blur uppercase">GitHub</a
+      >
+    </div>
   </div>
 </nav>
-
