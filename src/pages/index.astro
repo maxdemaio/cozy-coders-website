@@ -28,43 +28,26 @@ const IMAGE_URLS = [
 
 <style>
   .space-bg::before {
+    top: 0;
+    right: 0;
     content: " ";
     display: block;
     position: absolute;
     background-image: url("/texture.png");
     background-repeat: repeat;
-    opacity: 32%;
+    /* set width media queries w/ tailwind, max is 1000px which is image size */
     height: 100%;
-    width: 100%;
-    z-index: -10;
-    mask-image: linear-gradient(to left,transparent,white 0%,transparent);
+    z-index: -2;
+    opacity: 53%;
+    mask-image: linear-gradient(to left, red, transparent);
   }
 
-  .space-bg::after {
-    content: " ";
-    display: block;
-    top: 0;
-    position: absolute;
-    background-repeat: repeat;
-    opacity: 50%;
-    height: 100%;
-    width: 100%;
-    z-index: -11;
-    background-image: linear-gradient(
-      to left,
-      rgb(26, 26, 26),
-      rgba(26, 26, 26, 0)
-    );
-  }
+
 </style>
 
 <Layout title="Cozy Coders' Collective - Home">
   <main>
-    <!-- bg-gradient-to-l from-neutral-900  -->
-
-    <div
-      class="space-bg relative overflow-hidden pb-16"
-    >
+    <div class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[200px] relative overflow-hidden pb-16">
       <Nav />
       <MobileNav />
       <Hero />
