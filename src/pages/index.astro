@@ -6,24 +6,7 @@ import Footsies from "../components/Footsies.astro";
 import Contact from "../components/Contact.astro";
 import Strengths from "../components/Strengths/Strengths.astro";
 import MobileNav from "../components/MobileNav.astro";
-import Trashousel from "../components/Trashousel/Trashousel";
-
-const IMAGE_URLS = [
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame5.jpg",
-  "/resto.png",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame6.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame7.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame8.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame9.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg",
-];
+import TrashouselWrapper from "../components/Trashousel/TrashouselWrapper";
 ---
 
 <style>
@@ -51,7 +34,7 @@ const IMAGE_URLS = [
       <Nav />
       <MobileNav />
       <Hero />
-      <Trashousel imageUrls={IMAGE_URLS} client:load />
+      <TrashouselWrapper client:only />
     </div>
 
     <Strengths />
