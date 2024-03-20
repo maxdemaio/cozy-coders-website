@@ -165,7 +165,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
       >
         <button
           aria-label="Previous"
-          className="z-10 absolute top-[50%] left-[5%] md:left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+          className="z-10 absolute top-[50%] left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
           onClick={leftArrowClick}
         >
           <svg
@@ -183,7 +183,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
 
         <button
           aria-label="Next"
-          className="z-10 absolute top-[50%] right-[5%] md:right-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+          className="z-10 absolute top-[50%] right-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
           onClick={rightArrowClick}
         >
           <svg
