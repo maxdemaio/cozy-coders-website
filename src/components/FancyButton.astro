@@ -1,16 +1,16 @@
 <style>
-  @property --r {
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
-  }
-  :root {
-    --r: 0deg; /* Initial angle, firefox will be static */
-  }
-
+  /** Start hero button styles **/
   .hero-button {
+    border-radius: 999px;
+  }
+  .hero-button::after {
+    pointer-events: none;
+    content: "";
+    z-index: -1;
+    position: absolute;
+    inset: 0px;
     background: conic-gradient(
-      from var(--r),
+      from var(--a),
       #414141 0%,
       white 12.5%,
       #414141 25%,
@@ -18,48 +18,43 @@
       white 62.5%,
       #414141 75%
     );
-
-    animation: rotating 3s linear infinite;
-    cursor: pointer;
-    position: relative; /* allows us to put the ::after div centered inset */
-    width: 260px;
-    height: 65px;
-    border-radius: 30px;
+    animation: animate 4s linear infinite;
+    mask-image: url("/mask.svg");
+    mask-size: cover;
+    mask-position: center center;
+    height: 58px;
+    width: 216px;
   }
 
-  .hero-button::after {
-    content: "";
-    display: block;
-    position: absolute;
-    inset: 3px;
-    border-radius: 27px;
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
+  @property --a {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
   }
-  .hero-button:hover::after {
-    background: rgb(9, 9, 11); /* match bg color */
+
+  @keyframes animate {
+    0% {
+      --a: 0deg;
+    }
+    100% {
+      --a: 360deg;
+    }
+  }
+
+  .hero-button:hover {
     box-shadow:
       0 0px 40px rgba(255, 255, 255, 0.1),
       0px 0px 10px #96bd9d;
   }
-
-  @keyframes rotating {
-    0% {
-      --r: 0deg;
-    }
-    100% {
-      --r: 360deg;
-    }
-  }
+  /** End hero button styles **/
 </style>
 
-<button
-  class="hero-button after:bg-neutral-900 flex items-center justify-center"
+<a
+  href="https://soundcloud.com/maxdemaio/dj-1"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="SoundCloud"
+  class="text-lg hero-button text-white relative hidden sm:flex hover:scale-105 transition-all duration-300 h-[58px] w-[216px] isolate items-center justify-center cursor-pointer"
 >
-  <div
-    class="text-neutral-100 z-10 relative flex items-center gap-2"
-  >
-    <slot />
-    <!--children will go here -->
-  </div>
-</button>
+  <span>Contact</span>
+</a>

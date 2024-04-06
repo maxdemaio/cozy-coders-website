@@ -7,6 +7,7 @@ import FAQ from "../components/FAQ.astro";
 import Strengths from "../components/Strengths/Strengths.astro";
 import TrashouselWrapper from "../components/Trashousel/TrashouselWrapper";
 import MobileNav from "../components/MobileNav.astro";
+import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
 ---
 
 <style>
@@ -24,23 +25,21 @@ import MobileNav from "../components/MobileNav.astro";
     opacity: 53%;
     mask-image: linear-gradient(to left, red, transparent);
   }
-
-
 </style>
 
 <Layout title="Cozy Coders' Collective - Home">
-  <main>
-    <div class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[200px] relative overflow-hidden pb-16">
-      <Nav />
-      <MobileNav />
-      <Hero />
-      <TrashouselWrapper client:only />
-    </div>
+  <div
+    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[200px] relative overflow-hidden pb-16"
+  >
+    <Nav />
+    <MobileNav />
+    <Hero />
+    <FeaturedWork/>
+  </div>
 
-    <Strengths />
-    <FAQ />
-    <Footsies />
-  </main>
+  <Strengths />
+  <FAQ />
+  <Footsies />
 </Layout>
 
 <script>

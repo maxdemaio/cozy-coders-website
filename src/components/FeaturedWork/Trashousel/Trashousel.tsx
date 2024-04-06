@@ -161,7 +161,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
     <div className="flex justify-center">
       <div
         style={{ width: `${width}px`, height: `${height}px` }}
-        className="mb-12 relative"
+        className="relative"
       >
         <button
           aria-label="Previous"
