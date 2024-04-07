@@ -267,7 +267,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
                       width: `${imageWidth}px`,
                       opacity: `${opacity}`,
                       transition: `transform 500ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 500ms cubic-bezier(0.215, 0.61, 0.355, 1)`,
-                      borderRadius: `0.125rem`,
+                      borderRadius: `.125rem`,
                     }}
                   />
                 </div>

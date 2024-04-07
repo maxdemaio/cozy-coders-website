@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="318" height="261" fill="none" viewBox="0 0 318 261">
+  <g clip-path="url(#a)">
+    <rect width="318" height="261" fill="url(#b)" rx="20"/>
+    <g filter="url(#c)">
+      <path fill="url(#d)" fill-opacity=".7" fill-rule="evenodd" d="M318 0H0v27h318V0ZM18.222 18.444a4.222 4.222 0 1 0 0-8.444 4.222 4.222 0 0 0 0 8.444Zm19-4.222a4.222 4.222 0 1 1-8.444 0 4.222 4.222 0 0 1 8.444 0Zm10.556 4.222a4.222 4.222 0 1 0 0-8.444 4.222 4.222 0 0 0 0 8.444Z" clip-rule="evenodd" shape-rendering="crispEdges"/>
+    </g>
+  </g>
+  <defs>
+    <linearGradient id="b" x1="-104.753" x2="328.158" y1="-133.277" y2="280.542" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0085FF" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#FF00B8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="d" x1="69" x2="69" y1="0" y2="22" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".77"/>
+    </linearGradient>
+    <clipPath id="a">
+      <rect width="318" height="261" fill="#fff" rx="20"/>
+    </clipPath>
+    <filter id="c" width="342" height="51" x="-16" y="-8" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dx="-4" dy="4"/>
+      <feGaussianBlur stdDeviation="6"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_31_356"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_31_356" result="shape"/>
+    </filter>
+  </defs>
+</svg>

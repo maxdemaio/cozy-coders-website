@@ -8,6 +8,7 @@ import Strengths from "../components/Strengths/Strengths.astro";
 import TrashouselWrapper from "../components/Trashousel/TrashouselWrapper";
 import MobileNav from "../components/MobileNav.astro";
 import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
+import Contact from "../components/Contact.astro";
 ---
 
 <style>
@@ -29,7 +30,7 @@ import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
 
 <Layout title="Cozy Coders' Collective - Home">
   <div
-    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[200px] relative overflow-hidden pb-16"
+    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[200px] relative overflow-hidden pb-[4.5rem]"
   >
     <Nav />
     <MobileNav />
@@ -38,6 +39,7 @@ import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
   </div>
 
   <Strengths />
+  <Contact />
   <FAQ />
   <Footsies />
 </Layout>

@@ -1,115 +1,39 @@
----
-import FancyButton from "./FancyButton.astro";
-import SpaceGirl from "./SpaceGirl.astro";
----
+<style>
+  .cozy-coder-svg {
+    animation: weenwao 3s ease-in-out infinite;
+  }
+
+  @keyframes weenwao {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(14px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+</style>
 
 <header
   class="pt-24 relative px-2 md:px-10 flex flex-col items-center justify-center"
 >
-  <svg
+  <img
+    src="/bell.svg"
     class="hidden md:block absolute -right-[2px] top-[50%] -translate-y-[50%] -z-[3]"
+    alt="bell curve"
     width="212"
     height="811"
-    viewBox="0 0 212 811"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+    loading="eager"
+    decoding="async"
+  />
+  <div
+    class="flex flex-col gap-3 md:gap-0 items-center justify-center pb-12"
   >
-    <g clip-path="url(#clip0_14_18)">
-      <path
-        opacity="0.5"
-        d="M5.5383 398.54C5.53831 565.26 211.538 606.62 211.538 810.54C95.8399 764.78 -11.4069 514.572 5.5383 398.54Z"
-        fill="url(#paint0_linear_14_18)"></path>
-      <path
-        d="M211.539 0.460074C211.539 220.46 5.53858 231.82 5.53859 398.54C5.5386 565.26 211.539 606.62 211.539 810.54"
-        stroke="white"
-        stroke-opacity="0.1"
-        stroke-width="1.92"></path>
-      <path
-        d="M211.539 0.460074C211.539 220.46 5.53858 231.82 5.53859 398.54C5.5386 565.26 211.539 606.62 211.539 810.54"
-        stroke="white"
-        stroke-opacity="0.1"
-        stroke-width="1.92"></path>
-      <path
-        d="M5.53859 398.54C5.53858 231.82 211.539 220.46 211.539 0.460074C216.921 127.861 230.437 192.636 171.2 258.38C128.845 305.389 9.66672 362.785 5.53859 398.54Z"
-        fill="url(#paint1_linear_14_18)"></path>
-      <path
-        d="M5.53859 398.54C5.53858 231.82 211.539 220.46 211.539 0.460074C216.465 117.079 234.741 141.063 179.76 204.38C131.73 259.693 10.1553 358.553 5.53859 398.54Z"
-        fill="url(#paint2_linear_14_18)"></path>
-      <g filter="url(#filter0_f_14_18)">
-        <circle
-          cx="116.24"
-          cy="116.24"
-          r="116.24"
-          transform="matrix(4.37114e-08 1 1 -4.37114e-08 95.2798 289.26)"
-          fill="white"
-          fill-opacity="0.1"></circle>
-      </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_f_14_18"
-        x="15.2798"
-        y="209.26"
-        width="392.48"
-        height="392.48"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"></feBlend>
-        <feGaussianBlur stdDeviation="40" result="effect1_foregroundBlur_14_18"
-        ></feGaussianBlur>
-      </filter>
-      <linearGradient
-        id="paint0_linear_14_18"
-        x1="184.64"
-        y1="678.54"
-        x2="107.6"
-        y2="719.42"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#888888"></stop>
-        <stop offset="0.993909" stop-opacity="0"></stop>
-      </linearGradient>
-      <linearGradient
-        id="paint1_linear_14_18"
-        x1="27.2801"
-        y1="235.42"
-        x2="111.2"
-        y2="326.3"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#888888"></stop>
-        <stop offset="1" stop-opacity="0.09"></stop>
-      </linearGradient>
-      <linearGradient
-        id="paint2_linear_14_18"
-        x1="0.480133"
-        y1="305.74"
-        x2="48.8001"
-        y2="338.54"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stop-color="#DDDDDD"></stop>
-        <stop offset="1" stop-opacity="0.09"></stop>
-      </linearGradient>
-      <clipPath id="clip0_14_18">
-        <rect
-          width="810.08"
-          height="211.2"
-          fill="white"
-          transform="matrix(4.37114e-08 1 1 -4.37114e-08 0.399902 0.460083)"
-        ></rect>
-      </clipPath>
-    </defs>
-  </svg>
-
-  <div class="flex flex-col gap-3 md:gap-0 items-center justify-center pb-8">
-    <h1 class="uppercase md:text-8xl text-7xl font-medula text-center text-primary px-2">
+    <h1
+      class="uppercase md:text-8xl text-7xl font-medula text-center text-primary px-2"
+    >
       Get cozy. We'll take it from here.
     </h1>
     <div class="flex flex-wrap gap-0 md:gap-6 items-center justify-center">
@@ -186,7 +110,15 @@ import SpaceGirl from "./SpaceGirl.astro";
           </div>
         </div>
       </div>
-      <SpaceGirl />
+      <img
+        src="/spacegirl.svg"
+        class="cozy-coder-svg"
+        alt="space girl"
+        width="400"
+        height="300"
+        loading="eager"
+        decoding="async"
+      />
     </div>
   </div>
 </header>

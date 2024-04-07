@@ -1,24 +1,4 @@
-<style>
-  .cozy-coder-svg {
-    animation: weenwao 3s ease-in-out infinite;
-  }
-
-  @keyframes weenwao {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(14px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-</style>
-
-
 <svg
-  class="cozy-coder-svg"
   width="400"
   height="300"
   viewBox="0 0 400 300"

@@ -5,20 +5,21 @@
     top: 0;
     position: absolute;
     height: 500%;
-    width: 100%;
+    width: 100vw;
+    left: 50%;
     will-change: transform;
     background-size: 3rem 3rem;
     background-image: linear-gradient(to right, #8882 1px, transparent 1px),
       linear-gradient(to bottom, #8882 1px, transparent 1px);
-    animation: movingbackground 60s linear infinite !important;
+    animation: movingbackground 200s linear infinite !important;
   }
 
   @keyframes movingbackground {
     0% {
-      transform: translate(0, 0);
+      transform: translate(-50%, 0);
     }
     100% {
-      transform: translate(0, -50%);
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -72,7 +73,7 @@
   }
 </style>
 
-<div class="relative overflow-hidden pb-20">
+<div class="px-[32px] relative overflow-hidden pb-20">
   <div class="str-section">
     <div class="highlight-bar-1"></div>
     <div class="h-[169px] md:h-[220px] bg bg-1"></div>
@@ -110,10 +111,9 @@
       </h3>
     </div>
 
-    <ul class="grid grid-cols-1 xl:grid-cols-3 gap-12">
+    <ul class="z-10 grid grid-cols-1 xl:grid-cols-3 gap-12">
       <div
-        class="relative w-full overflow-hidden rounded-3xl border bg-gradient-to-b from-neutral-950/90 to-neutral-800/90"
-        style="--noise: url('/_astro/noise-light.DSZwPmuU_XVRIF.webp');"
+        class="relative w-full overflow-hidden rounded-3xl border bg-gradient-to-t from-neutral-950/90 to-neutral-800/90"
       >
         <div
           class="flex !flex-row justify-start items-center overflow-visible relative"
@@ -121,31 +121,23 @@
           <div
             class="flex flex-shrink-0 flex-grow lg:flex-grow-0 py-12 px-8 flex-col justify-start items-start"
           >
-            <h2 class="font-semibold font-display">
+            <h2 class="text-3xl font-medula uppercase">
               Product design
             </h2>
             <div class="flex flex-row items-center justify-start h-8 gap-2">
-              <p class="text-lg font-sans font-normal">
+              <p class="text-lg">
                 Designed with
               </p>
-              <img
-                src="/_astro/figma.BXEBFSCp_1uFrWN.svg"
-                class="inline"
-                alt="Figma"
-                width="49"
-                height="32"
-                loading="lazy"
-                decoding="async"
-              />
+              Figma
             </div>
           </div>
           <div
-            class="w-[150px] lg:w-auto lg:flex-grow h-full flex centered relative overflow-hidden rounded-2xl"
-            style="mask: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0) 100%)"
+            class="w-[200px] lg:w-auto lg:flex-grow h-full flex centered relative overflow-hidden rounded-2xl"
+            style="mask: linear-gradient(to bottom, #000 0%, #00000000 100%)"
           >
             <img
-              src="/_astro/window.I2JLTN_K_1MMO4p.svg"
-              class="left-4 max-w-none top-4 z-20 absolute"
+              src="/figma.svg"
+              class="max-w-none z-20 mt-4"
               alt=""
               width="300"
               height="246"
