@@ -3,12 +3,12 @@ import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import Footsies from "../components/Footsies.astro";
-import FAQ from "../components/FAQ.astro";
-import Strengths from "../components/Strengths/Strengths.astro";
-import TrashouselWrapper from "../components/Trashousel/TrashouselWrapper";
+
 import MobileNav from "../components/MobileNav.astro";
 import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
 import Contact from "../components/Contact.astro";
+import Tools from "@/components/Strengths/Tools.astro";
+import Process from "@/components/Strengths/Process.astro";
 ---
 
 <style>
@@ -28,19 +28,26 @@ import Contact from "../components/Contact.astro";
   }
 </style>
 
-<Layout title="Cozy Coders' Collective - Home">
+<Layout title="Cozy Coders - Home">
   <div
     class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[400px] relative overflow-hidden pb-[4.5rem]"
   >
     <Nav />
     <MobileNav />
     <Hero />
-    <FeaturedWork/>
+    <FeaturedWork />
   </div>
 
-  <Strengths />
+  <section class="pb-6 flex flex-col">
+    <!-- What tools we use -->
+    <Tools />
+
+    <!-- The process of working with CCC -->
+    <Process />
+
+    <!-- TBD, could include cost cards in the future -->
+  </section>
   <Contact />
-  <FAQ />
   <Footsies />
 </Layout>
 

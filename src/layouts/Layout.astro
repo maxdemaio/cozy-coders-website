@@ -1,24 +1,37 @@
 ---
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
-import '@fontsource/medula-one';
-import '@fontsource/neuton';
+import "@fontsource/medula-one";
+import "@fontsource/neuton";
 ---
 
-<!doctype html>
+<style is:global>
+  .link {
+    color: rgb(150, 189, 157);
+    border-bottom: rgb(150, 189, 157) 1px solid;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: all;
+    transition-duration: 150ms;
+  }
+
+  .link:hover {
+    color: rgb(110, 139, 115);
+  }
+</style>
+
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body class="bg-background text-xl text-white">
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background text-xl text-white">
+    <slot />
+  </body>
 </html>

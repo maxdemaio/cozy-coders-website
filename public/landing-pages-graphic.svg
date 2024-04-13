@@ -17,7 +17,7 @@
 <circle cx="43.5838" cy="18.2402" r="3.52" fill="#22C55E"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_229_55" x1="4.47035e-06" y1="174" x2="300" y2="9.29216e-06" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_229_55" x1="300" y1="174" x2="-6.85215e-06" y2="1.18141e-05" gradientUnits="userSpaceOnUse">
 <stop/>
 <stop offset="1" stop-color="white"/>
 </linearGradient>
