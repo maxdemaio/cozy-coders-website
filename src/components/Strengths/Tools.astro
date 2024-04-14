@@ -1,15 +1,14 @@
 <style>
   /** Glow styles start **/
   :root {
-    --backdrop: hsl(0 0% 60% / 0.12);
-    --radius: 20;
-    --border: 1;
-    --size: 200;
+    --radius: 34;
+    --border: 2;
+    --size: 300;
     --border-spot-opacity: 0.9;
     --border-light-opacity: 0.9;
     --cardblur: 4;
     --r: 0deg; /* Initial angle for button, firefox will be static */
-    --base: 135;
+    --base: 140;
     --spread: 10;
     --outer: 1;
   }
@@ -99,7 +98,7 @@
   }
   /** Glow styles end **/
   .moving-grid-bg {
-    z-index: -1;
+    z-index: -2;
     top: 0;
     position: absolute;
     height: 500%;
@@ -211,11 +210,11 @@
     </div>
 
     <ul class="pt-2 z-10 grid grid-cols-1 xl:grid-cols-3 gap-12">
-      <div data-glow class="relative w-full overflow-hidden rounded-2xl">
+      <div data-glow class="relative w-full rounded-3xl">
         <div data-glow></div>
 
         <div
-          class="absolute h-full w-full bg-gradient-to-b to-neutral-950/90 from-neutral-800/90 -z-10"
+          class="rounded-3xl absolute h-full w-full bg-gradient-to-b to-neutral-950 from-neutral-800 -z-[1]"
         >
         </div>
         <div
@@ -284,7 +283,6 @@
         </ul>
       </div>
       <div
-        
         class="relative w-full overflow-hidden rounded-3xl border bg-gradient-to-t from-neutral-950/90 to-neutral-800/90"
       >
         <div
