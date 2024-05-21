@@ -4,6 +4,14 @@
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    screens: {
+      xl: "1280px",
+      lg: "1024px",
+      md: '770px',
+      sm: '640px',
+      xs: '480px',
+
+    },
     fontFamily: {
       medula: ['"Medula One"'],
       neuton: ['"Neuton"'],

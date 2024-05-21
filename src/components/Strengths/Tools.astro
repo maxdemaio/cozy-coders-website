@@ -1,114 +1,15 @@
 <style>
-  /** Glow styles start **/
-  :root {
-    --radius: 34;
-    --border: 2;
-    --size: 300;
-    --border-spot-opacity: 0.9;
-    --border-light-opacity: 0.9;
-    --cardblur: 4;
-    --r: 0deg; /* Initial angle for button, firefox will be static */
-    --base: 140;
-    --spread: 10;
-    --outer: 1;
-  }
-
-  /**  Start card styles **/
-
-  /* Glow specific styles */
-  [data-glow] {
-    --border-size: calc(var(--border, 2) * 1px);
-    --spotlight-size: calc(var(--size, 150) * 1px);
-    --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
-    background-image: radial-gradient(
-      var(--spotlight-size) var(--spotlight-size) at calc(var(--x, 0) * 1px)
-        calc(var(--y, 0) * 1px),
-      hsl(
-        var(--hue, 210) calc(var(--saturation, 100) * 1%)
-          calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)
-      ),
-      transparent
-    );
-    background-position: 50% 50%;
-    background-attachment: fixed;
-    position: relative;
-    touch-action: none;
-  }
-
-  [data-glow]::before,
-  [data-glow]::after {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    inset: calc(var(--border-size) * -1);
-    border: var(--border-size) solid transparent;
-    border-radius: calc(var(--radius) * 1px);
-    background-attachment: fixed;
-    background-size: calc(100% + (2 * var(--border-size)))
-      calc(100% + (2 * var(--border-size)));
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    mask: linear-gradient(transparent, transparent),
-      linear-gradient(white, white);
-    mask-clip: padding-box, border-box;
-    mask-composite: intersect;
-  }
-
-  /* This is the emphasis light */
-  [data-glow]::before {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
-        calc(var(--x, 0) * 1px) calc(var(--y, 0) * 1px),
-      hsl(
-        var(--hue, 210) calc(var(--saturation, 100) * 1%)
-          calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)
-      ),
-      transparent 100%
-    );
-    filter: brightness(2);
-  }
-  /* This is the spotlight */
-  [data-glow]::after {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
-        calc(var(--x, 0) * 1px) calc(var(--y, 0) * 1px),
-      hsl(0 100% 100% / var(--border-light-opacity, 1)),
-      transparent 100%
-    );
-  }
-  [data-glow] [data-glow] {
-    position: absolute;
-    inset: 0;
-    will-change: filter;
-    opacity: var(--outer, 1);
-  }
-  [data-glow] > [data-glow] {
-    border-radius: calc(var(--radius) * 1px);
-    border-width: calc(var(--border-size) * 20);
-    filter: blur(calc(var(--border-size) * 10));
-    background: none;
-    pointer-events: none;
-  }
-  [data-glow] > [data-glow]::before {
-    inset: -10px;
-    border-width: 10px;
-  }
-  [data-glow] [data-glow] {
-    border: none;
-  }
-  /** Glow styles end **/
   .moving-grid-bg {
     z-index: -2;
     top: 0;
     position: absolute;
     height: 500%;
     width: 100vw;
-    left: 50%;
     will-change: transform;
     background-size: 3rem 3rem;
     background-image: linear-gradient(to right, #8882 1px, transparent 1px),
       linear-gradient(to bottom, #8882 1px, transparent 1px);
-    animation: movingbackground 200s linear infinite !important;
+    animation: none 200s linear infinite !important;
   }
 
   @keyframes movingbackground {
@@ -171,7 +72,7 @@
   }
 </style>
 
-<div class="px-[32px] relative overflow-hidden pb-20">
+<div id="tools" class="px-[32px] relative overflow-hidden pb-20">
   <div class="str-section">
     <div class="highlight-bar-1"></div>
     <div class="h-[10rem] md:h-[12rem] bg bg-1"></div>
@@ -255,14 +156,14 @@
           </div>
         </div>
         <ul
-          class="text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
               Collaborate with your designer using Figma's <a
                 class="link"
                 href="https://www.figma.com/collaboration/">real-time editor</a
-              >, on Slack, or in Notion
+              >, on Slack, or in Notion.
             </p>
           </li><li>
             <p>
@@ -270,14 +171,14 @@
                 class="link"
                 href="https://help.figma.com/hc/en-us/articles/360039825314-Guide-to-comments-in-Figma"
                 >real-time comments</a
-              > directly on designs to provide feedback
+              > directly on designs to provide feedback.
             </p>
           </li><li>
             <p>
               Quickly translate designs into code using <a
                 class="link"
                 href="https://www.figma.com/dev-mode/">Dev Mode</a
-              >
+              >.
             </p>
           </li>
         </ul>
@@ -327,7 +228,7 @@
           </div>
         </div>
         <ul
-          class="text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
@@ -335,7 +236,7 @@
                 class="link"
                 href="https://tailwindcss.com/docs/configuration"
                 >Tailwind configuration file</a
-              >
+              >.
             </p>
           </li><li>
             <p>
@@ -343,7 +244,7 @@
                 class="link"
                 href="https://tailwindcss.com/docs/browser-support#vendor-prefixes"
                 >auto-prefixing</a
-              > to ensure support all of the latest browsers
+              > to ensure support all of the latest browsers.
             </p>
           </li><li>
             <p>
@@ -351,7 +252,7 @@
                 class="link"
                 href="https://tailwindcss.com/docs/utility-first"
                 >utility-first approach to styling</a
-              >
+              >.
             </p>
           </li>
         </ul>
@@ -369,7 +270,7 @@
           <div
             class="flex flex-shrink-0 flex-grow lg:flex-grow-0 py-12 px-8 flex-col justify-start items-start"
           >
-            <h2 class="text-5xl font-medula uppercase">Landing pages</h2>
+            <h2 class="text-5xl font-medula uppercase">Pages/Apps</h2>
             <div class="flex flex-row items-center justify-start h-8 gap-2">
               <p class="text-lg">Built with</p>
               <div class="flex gap-1 items-center justify-center">
@@ -401,7 +302,7 @@
           </div>
         </div>
         <ul
-          class="text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
@@ -409,7 +310,7 @@
                 class="link"
                 href="https://astro.build/blog/introducing-astro/"
                 >almost no JavaScript</a
-              >
+              >.
             </p>
           </li><li>
             <p>
@@ -417,7 +318,7 @@
                 class="link"
                 href="https://docs.astro.build/en/guides/content-collections"
                 >content collections</a
-              >
+              >.
             </p>
           </li><li>
             <p>
@@ -426,7 +327,7 @@
                 class="link"
                 href="(https://docs.astro.build/en/core-concepts/framework-components/"
                 >React, Vue, and Svelte</a
-              >
+              >.
             </p>
           </li>
         </ul>
@@ -434,28 +335,3 @@
     </ul>
   </div>
 </div>
-
-<script>
-  const syncPointer = (event: PointerEvent) => {
-    const { clientX: x, clientY: y } = event;
-    // x position
-    document.documentElement.style.setProperty("--x", x.toFixed(2));
-
-    // fraction of x position relative to window width
-    document.documentElement.style.setProperty(
-      "--xp",
-      (x / window.innerWidth).toFixed(2)
-    );
-
-    // y position
-    document.documentElement.style.setProperty("--y", y.toFixed(2));
-
-    // fraction of y position relative to window height
-    document.documentElement.style.setProperty(
-      "--yp",
-      (y / window.innerHeight).toFixed(2)
-    );
-  };
-
-  document.body.addEventListener("pointermove", syncPointer);
-</script>
