@@ -3,21 +3,21 @@ import FancyNavButton from "./FancyNavButton.astro";
 ---
 
 <style>
-  .bg-filt {
+  .bg-filter {
     backdrop-filter: blur(6px);
   }
 </style>
 <nav
-  class="bg-filt w-full fixed top-0 pt-5 pb-[4.2rem] px-8 z-40 [mask-image:linear-gradient(to_bottom,red_40%,transparent)] bg-gradient-to-b from-background/50 to-transparent select-none"
+  class="bg-filter w-full fixed top-0 pt-5 pb-[4.2rem] px-8 z-40 [mask-image:linear-gradient(to_bottom,red_40%,transparent)] bg-gradient-to-b from-background/50 to-transparent select-none"
 >
   <div class="text-white flex justify-between items-center">
-    <div class="text-primary text-3xl font-medula">CCC</div>
+    <div class="text-primary text-3xl font-medula">CC</div>
     <!-- spacer -->
     <div></div>
 
     <FancyNavButton />
 
-    <button aria-label="Menu button" id="menu-button" class="sm:hidden block">
+    <button aria-label="Menu button" id="menu-button" class="hidden">
       <svg
         width="48"
         height="48"

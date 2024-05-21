@@ -7,7 +7,7 @@ import Footsies from "../components/Footsies.astro";
 import MobileNav from "../components/MobileNav.astro";
 import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
 import Contact from "../components/Contact.astro";
-import Tools from "@/components/Strengths/Tools.astro";
+import Expertise from "@/components/Strengths/Expertise.astro";
 import Process from "@/components/Strengths/Process.astro";
 ---
 
@@ -39,12 +39,8 @@ import Process from "@/components/Strengths/Process.astro";
   </div>
 
   <section class="pb-6 flex flex-col">
-    <!-- What tools we use -->
-    <Tools />
-
-    <!-- The process of working with CCC -->
+    <Expertise />
     <Process />
-
     <!-- TBD, could include cost cards in the future -->
   </section>
   <Contact />
@@ -110,33 +106,6 @@ import Process from "@/components/Strengths/Process.astro";
         // Go!
         path.style.strokeDashoffset = "0";
       }
-    }
-
-    //// blur nav links
-    const items: NodeListOf<HTMLElement> =
-      document.querySelectorAll(".my-blur");
-
-    items.forEach((item, index) => {
-      item.addEventListener("mouseover", function () {
-        applyBlur(index, "4px");
-      });
-
-      item.addEventListener("mouseout", function () {
-        applyBlur(index, "0px");
-      });
-    });
-
-    function applyBlur(index: number, blurValue: string) {
-      const duration = 300;
-      // ease-in-out for a more balanced acceleration
-      // and deceleration during both transitions
-      const easing = "ease-in-out";
-
-      items.forEach((item, i) => {
-        const isHoveredItem = i === index;
-        item.style.filter = `blur(${isHoveredItem ? "0" : blurValue})`;
-        item.style.transition = `filter ${duration}ms ${easing}`;
-      });
     }
   });
 </script>
