@@ -33,54 +33,25 @@ import Process from "@/components/Strengths/Process.astro";
     class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[400px] relative overflow-hidden pb-[4.5rem]"
   >
     <Nav />
-    <MobileNav />
     <Hero />
     <FeaturedWork />
   </div>
 
-  <section class="pb-6 flex flex-col">
-    <Expertise />
+  <Expertise />
+
+  <div
+    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[400px] relative"
+  >
     <Process />
     <!-- TBD, could include cost cards in the future -->
-  </section>
-  <Contact />
-  <Footsies />
+
+    <Contact />
+    <Footsies />
+  </div>
 </Layout>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    /// mobile nav menu
-    const menuButton: HTMLElement | null =
-      document.getElementById("menu-button");
-    const mobileNavView: HTMLElement | null =
-      document.getElementById("mobile-nav-view");
-    const closeButton: HTMLElement | null =
-      document.getElementById("close-button");
-    const mobileNavViewButtons: HTMLCollectionOf<Element> | null =
-      document.getElementsByClassName("mobile-nav-view-button");
-
-    if (menuButton && mobileNavView) {
-      menuButton.addEventListener("click", function () {
-        mobileNavView.style.animationName = "slide-lr";
-        mobileNavView.style.animationPlayState = "running";
-        document.body.style.overflow = "hidden";
-      });
-    }
-
-    if (closeButton && mobileNavView && mobileNavViewButtons) {
-      closeButton.addEventListener("click", function () {
-        mobileNavView.style.animationName = "slide-rl";
-        document.body.style.overflow = "auto";
-      });
-
-      for (const button of mobileNavViewButtons) {
-        button.addEventListener("click", function () {
-          mobileNavView.style.animationName = "slide-rl";
-          document.body.style.overflow = "auto";
-        });
-      }
-    }
-
     //// nav squiggle animation
     let paths: NodeListOf<SVGGeometryElement> | null =
       document.querySelectorAll(".squiggle-animated path");
