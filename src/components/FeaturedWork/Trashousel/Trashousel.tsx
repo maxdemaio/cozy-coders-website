@@ -61,7 +61,7 @@ function useWindowSize() {
   return windowSize;
 }
 
-function Trashousel({ imageUrls, height, width }: CoverflowProps) {
+function Trashousel({ images, height, width }: CoverflowProps) {
   const coverflowRef = useRef<HTMLDivElement>(null);
   const [leftEdgeList, setLeftEdgeList] = useState<number[]>([]);
   const [imageList, setImageList] = useState<HTMLImageElement[]>([]);
@@ -83,6 +83,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
 
   // *************** IMAGE FETCH ****************
   useEffect(() => {
+    const imageUrls = images.map((image) => image.url);
     const fetchData = async () => {
       const imgs = await fetchImages(imageUrls);
       setImageList(imgs);
@@ -90,7 +91,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
     };
 
     fetchData();
-  }, [imageUrls]);
+  }, [images]);
 
   // *************** IMAGE SIZING ****************
   useEffect(() => {
@@ -154,8 +155,8 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
   // TODO: make some sort of loading state
   if (!imageList.length) {
     return (
-      <div style={{ width: `${width}px`, height: `${height}px` }}>
-        No Images Loaded!
+      <div className="h-20 w-full">
+        Loading images...
       </div>
     );
   }
@@ -215,7 +216,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
           }}
           onTouchMove={(e) => console.log(e)}
         >
-          {imageUrls.map((imageUrl, index) => {
+          {images.map((image, index) => {
             // const currentImage = imageList[index]
             const imageWidth = imageWidthList[index];
             // const isCurrentImage = currentIndex === index
@@ -263,7 +264,8 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
                   }}
                 >
                   <img
-                    src={imageUrl}
+                    src={image.url}
+                    alt={image.alt}
                     style={{
                       display: `block`,
                       transform: `translateZ(0)`,

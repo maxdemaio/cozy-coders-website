@@ -1,20 +1,15 @@
 export interface CoverflowProps {
-  imageUrls: string[]
+  images: Image[]
   width: number
   height: number
 }
 
-export interface ImageInfo {
-  isCurrentImage: boolean
-  isVisible: boolean
-  height: number
-  width: number
-  scaledWidth: number
-  zIndex: number
-  scale: number
-  rotate: number
-  opacity: number
-  src: string
-  href: string
+export interface Image {
+  url: string
+  width?: number
+  height?: number
   alt: string
+  githubUrl?: string
+  siteUrl?: string
 }
+

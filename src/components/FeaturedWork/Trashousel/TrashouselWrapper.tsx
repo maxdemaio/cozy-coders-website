@@ -2,6 +2,7 @@
 // with height and width props based on the window size
 import { useEffect, useState } from "react";
 import Trashousel from "./Trashousel";
+import { type Image } from "./types";
 
 // Custom hook to track window size
 const useWindowSize = () => {
@@ -54,26 +55,70 @@ const TrashouselWrapper = () => {
   const originalWidth = windowSize.width;
   const { width, height } = calculateDimensions(originalWidth);
 
-  const IMAGE_URLS = [
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame5.jpg",
-    "/resto.png",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame6.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame7.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame8.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame9.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg",
+  
+  const IMAGES: Image[] = [
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
+      alt: "Image description 1"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
+      alt: "Image description 2"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
+      alt: "Image description 3"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
+      alt: "Image description 4"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame5.jpg",
+      alt: "Image description 5"
+    },
+    {
+      url: "/resto.png",
+      alt: "Image description 6"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame6.jpg",
+      alt: "Image description 7"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame7.jpg",
+      alt: "Image description 8"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame8.jpg",
+      alt: "Image description 9"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame9.jpg",
+      alt: "Image description 10"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
+      alt: "Image description 11"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
+      alt: "Image description 12"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
+      alt: "Image description 13"
+    },
+    {
+      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg",
+      alt: "Image description 14"
+    }
   ];
+  
 
   return (
     <Trashousel
-      imageUrls={IMAGE_URLS}
+      images={IMAGES}
       width={width}
       height={height}
     />
