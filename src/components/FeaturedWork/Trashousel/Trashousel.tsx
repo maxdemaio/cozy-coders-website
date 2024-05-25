@@ -68,7 +68,6 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
   const [imageWidthList, setImageWidthList] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [maxWidth, setMaxWidth] = useState(0);
-  
 
   function leftArrowClick() {
     setCurrentIndex((currentIndex) =>
@@ -154,7 +153,11 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
 
   // TODO: make some sort of loading state
   if (!imageList.length) {
-    return <div>No Images Loaded!</div>;
+    return (
+      <div style={{ width: `${width}px`, height: `${height}px` }}>
+        No Images Loaded!
+      </div>
+    );
   }
 
   return (
@@ -165,7 +168,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
       >
         <button
           aria-label="Previous"
-          className="z-10 absolute top-[50%] left-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+          className="z-10 absolute top-[50%] left-[20%] xs:left-[10%] bg-neutral-100 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
           onClick={leftArrowClick}
         >
           <svg
@@ -183,7 +186,7 @@ function Trashousel({ imageUrls, height, width }: CoverflowProps) {
 
         <button
           aria-label="Next"
-          className="z-10 absolute top-[50%] right-[10%] bg-neutral-400 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
+          className="z-10 absolute top-[50%] right-[20%] xs:right-[10%] bg-neutral-100 grid items-center justify-center w-10 h-10 rounded-full opacity-60"
           onClick={rightArrowClick}
         >
           <svg
