@@ -33,17 +33,17 @@ function calculateDimensions(width) {
   let newWidth, newHeight;
 
   if (width < 600) {
-      newWidth = 500;
-      newHeight = 250;
+    newWidth = 500;
+    newHeight = 250;
   } else if (width < 800) {
-      newWidth = 700;
-      newHeight = 350;
+    newWidth = 700;
+    newHeight = 350;
   } else if (width < 1024) {
-      newWidth = 800;
-      newHeight = 400;
+    newWidth = 800;
+    newHeight = 400;
   } else {
-      newWidth = 1200;
-      newHeight = 500;
+    newWidth = 1200;
+    newHeight = 500;
   }
 
   return { width: newWidth, height: newHeight };
@@ -55,74 +55,47 @@ const TrashouselWrapper = () => {
   const originalWidth = windowSize.width;
   const { width, height } = calculateDimensions(originalWidth);
 
-  
   const IMAGES: Image[] = [
     {
       url: "/top-carousel/splist-home.png",
-      alt: "Splist Homepage"
+      alt: "Splist Homepage",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
-      alt: "Image description 2"
+      url: "/top-carousel/langbot.png",
+      alt: "Langbot Homepage",
     },
     {
       url: "/top-carousel/splist-app.png",
-      alt: "Splist App"
+      alt: "Splist App",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
-      alt: "Image description 4"
+      url: "/top-carousel/cozy.png",
+      alt: "Cozy Coders Homepage",
     },
-    {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame5.jpg",
-      alt: "Image description 5"
-    },
+
     {
       url: "/top-carousel/resto.png",
-      alt: "Image description 6"
+      alt: "Resto homepage",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame6.jpg",
-      alt: "Image description 7"
+      url: "/top-carousel/music.png",
+      alt: "Music Homepage",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame7.jpg",
-      alt: "Image description 8"
+      url: "/top-carousel/chessheat.png",
+      alt: "Chess Heat Homepage",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame8.jpg",
-      alt: "Image description 9"
+      url: "/top-carousel/typehero.png",
+      alt: "TypeHero homepage",
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame9.jpg",
-      alt: "Image description 10"
+      url: "/top-carousel/maxdemaio-home.jpeg",
+      alt: "Max DeMaio Homepage",
     },
-    {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame10.jpg",
-      alt: "Image description 11"
-    },
-    {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame11.jpg",
-      alt: "Image description 12"
-    },
-    {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame12.jpg",
-      alt: "Image description 13"
-    },
-    {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame13.jpg",
-      alt: "Image description 14"
-    }
   ];
-  
 
-  return (
-    <Trashousel
-      images={IMAGES}
-      width={width}
-      height={height}
-    />
-  );
+  return <Trashousel images={IMAGES} width={width} height={height} />;
 };
 
 export default TrashouselWrapper;
