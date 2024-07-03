@@ -58,16 +58,16 @@ const TrashouselWrapper = () => {
   
   const IMAGES: Image[] = [
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame1.jpg",
-      alt: "Image description 1"
+      url: "/top-carousel/splist-home.png",
+      alt: "Splist Homepage"
     },
     {
       url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame2.jpg",
       alt: "Image description 2"
     },
     {
-      url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame3.jpg",
-      alt: "Image description 3"
+      url: "/top-carousel/splist-app.png",
+      alt: "Splist App"
     },
     {
       url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/207435/carousel-frame4.jpg",
@@ -78,7 +78,7 @@ const TrashouselWrapper = () => {
       alt: "Image description 5"
     },
     {
-      url: "/resto.png",
+      url: "/top-carousel/resto.png",
       alt: "Image description 6"
     },
     {
