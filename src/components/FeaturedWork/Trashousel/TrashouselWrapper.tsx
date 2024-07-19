@@ -72,14 +72,13 @@ const TrashouselWrapper = () => {
       url: "/top-carousel/cozy.png",
       alt: "Cozy Coders Homepage",
     },
-
-    {
-      url: "/top-carousel/resto.png",
-      alt: "Resto homepage",
-    },
     {
       url: "/top-carousel/music.png",
       alt: "Music Homepage",
+    },
+    {
+      url: "/top-carousel/resto.png",
+      alt: "Resto homepage",
     },
     {
       url: "/top-carousel/chessheat.png",
@@ -93,6 +92,14 @@ const TrashouselWrapper = () => {
       url: "/top-carousel/maxdemaio-home.jpeg",
       alt: "Max DeMaio Homepage",
     },
+    {
+      url: "/top-carousel/WikiHop.jpg",
+      alt: "WikiHop Homepage",
+    },
+    {
+      url: "/top-carousel/overlayed.png",
+      alt: "Overlayed Homepage"
+    }
   ];
 
   return <Trashousel images={IMAGES} width={width} height={height} />;
