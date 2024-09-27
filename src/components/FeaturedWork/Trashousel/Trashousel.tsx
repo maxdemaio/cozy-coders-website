@@ -71,13 +71,13 @@ function Trashousel({ images, height, width }: CoverflowProps) {
 
   function leftArrowClick() {
     setCurrentIndex((currentIndex) =>
-      currentIndex > 0 ? currentIndex - 1 : currentIndex
+      currentIndex > 0 ? currentIndex - 1 : imageList.length - 1
     );
   }
 
   function rightArrowClick() {
     setCurrentIndex((currentIndex) =>
-      currentIndex < imageList.length - 1 ? currentIndex + 1 : currentIndex
+      currentIndex < imageList.length - 1 ? currentIndex + 1 : 0
     );
   }
 
@@ -154,7 +154,14 @@ function Trashousel({ images, height, width }: CoverflowProps) {
 
   // TODO: make some sort of loading state
   if (!imageList.length) {
-    return <div className="h-20 w-full">Loading images...</div>;
+    return (
+      <div
+        style={{ width: `${width}px`, height: `${height}px` }}
+        className="relative"
+      >
+        Loading images...
+      </div>
+    );
   }
 
   return (
@@ -215,7 +222,7 @@ function Trashousel({ images, height, width }: CoverflowProps) {
           {images.map((image, index) => {
             // const currentImage = imageList[index]
             const imageWidth = imageWidthList[index];
-            const isCurrentImage = currentIndex === index
+            const isCurrentImage = currentIndex === index;
             const distanceFromMiddle = Math.abs(currentIndex - index);
             const leftPosition = leftEdgeList[index];
             const rotate =
@@ -269,8 +276,9 @@ function Trashousel({ images, height, width }: CoverflowProps) {
                       opacity: `${opacity}`,
                       transition: `transform 500ms cubic-bezier(0.215, 0.61, 0.355, 1), opacity 500ms cubic-bezier(0.215, 0.61, 0.355, 1)`,
                       borderRadius: `.125rem`,
-                      boxShadow: isCurrentImage ? `0 1px 20px 10px hsla(0,0%,100%,.1)` : ``,
-
+                      boxShadow: isCurrentImage
+                        ? `0 1px 20px 10px hsla(0,0%,100%,.1)`
+                        : ``,
                     }}
                   />
                 </div>

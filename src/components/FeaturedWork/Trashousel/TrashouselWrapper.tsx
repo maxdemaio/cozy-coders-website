@@ -57,14 +57,6 @@ const TrashouselWrapper = () => {
 
   const IMAGES: Image[] = [
     {
-      url: "/top-carousel/splist-home.png",
-      alt: "Splist Homepage",
-    },
-    {
-      url: "/top-carousel/langbot.png",
-      alt: "Langbot Homepage",
-    },
-    {
       url: "/top-carousel/splist-app.png",
       alt: "Splist App",
     },
@@ -77,12 +69,12 @@ const TrashouselWrapper = () => {
       alt: "Music Homepage",
     },
     {
-      url: "/top-carousel/resto.png",
-      alt: "Resto homepage",
-    },
-    {
       url: "/top-carousel/chessheat.png",
       alt: "Chess Heat Homepage",
+    },
+    {
+      url: "/top-carousel/resto.png",
+      alt: "Resto homepage",
     },
     {
       url: "/top-carousel/typehero.png",
@@ -98,8 +90,8 @@ const TrashouselWrapper = () => {
     },
     {
       url: "/top-carousel/overlayed.png",
-      alt: "Overlayed Homepage"
-    }
+      alt: "Overlayed Homepage",
+    },
   ];
 
   return <Trashousel images={IMAGES} width={width} height={height} />;
