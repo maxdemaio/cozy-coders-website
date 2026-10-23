@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 770px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+
+  --font-sans: "Funnel Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: var(--font-sans);
+  --font-medula: "Medula One";
+  --font-neuton: "Neuton";
+  --font-serif: "Instrument Serif", "Neuton", Georgia, serif; /* candidate section-heading face (lowercase.club uses PP Mondwest for the same job) */
+  --font-pixel: "Pixelify Sans", var(--font-mono); /* candidate, evaluation only */
+
+  --color-primary: #7a7f4f; /* olive — decided 2026-10-22, replaces sage */
+  --color-primary-deep: #555a32; /* text-safe olive (~7:1 on paper) */
+  --color-background: #faf9f6;
+  --color-surface: #ffffff;
+  /* neutrals: Tailwind's zinc scale, referenced by role */
+  --color-ink: var(--color-zinc-900);
+  --color-ink-muted: var(--color-zinc-500);
+  --color-ink-soft: var(--color-zinc-400);
+  --color-line: var(--color-zinc-200);
+  --color-stage: #e7e8d9; /* olive tint */
+  --shadow-cta: 0 1px 2px rgb(24 24 27 / 0.08), 0 1px 1px rgb(24 24 27 / 0.04); /* hairline lift under the hero CTAs */
+}
+
+/* Push buttons — 1:1 from quick14studio.com (measured in Playwright, hover sampled every ~30ms).
+   The shadow list is deliberately written in the SAME order on rest and hover: the browser then
+   interpolates each entry, so the bottom lip (inset 0 -3px) slides up into the top highlight
+   (inset 0 3px) while the button travels 3px — the edge melts into the page in sync.
+   Their numbers: padding 8px 16px, 1px border, radius 8px, 16px/1.19 weight 400, transition .2s ease,
+   drop 0 4px 8px -4px, lip inset -3px, highlight inset 3px white/25%, hover = translateY(3px). */
+.cta-push {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px 9px;                           /* 1px up: Funnel's x-height sits low in its line box (measured ink: 2px below centre at 8/8) */
+  border: 1px solid #bdc954;                       /* their #fda05d: text +20 L */
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;                               /* even line box → 38px button, text centres exactly (their 19.04 gives 8/9) */
+  color: #828c2c;                                  /* their #ed7000: H66 S52 L36 — every other stop is an L offset from this */
+  white-space: nowrap;
+  background: linear-gradient(#d5dd92, #c9d373);  /* their #ffd6b1 → #ffc187: text +36 → +28 L */
+  box-shadow:
+    0 4px 8px -4px #7b842a,                        /* drop, their #cc6a13: text −2 L */
+    inset 0 -3px 0 0 #bdc954,                      /* lip,  their #ffab5e: text +20 L */
+    inset 0 3px 0 0 rgb(255 255 255 / 0.25);       /* highlight */
+  transition: 0.2s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta-push:hover {
+    background: linear-gradient(#c9d373, #c9d373); /* hover face = text +28 L, their 1.9:1 */
+    box-shadow:
+      0 4px 8px -4px #7b842a,
+      inset 0 3px 0 0 rgb(255 255 255 / 0.25),     /* the lip interpolates into the highlight */
+      inset 0 3px 0 0 rgb(255 255 255 / 0.25);
+    transform: translateY(3px);
+  }
+}
+.cta-push:active { transform: translateY(3px); }
+
+/* Nav "Press B" variant: grey face, same mechanics (their .button.grey.nav-button). */
+.cta-push--grey {
+  padding: 7px 12px 9px;
+  font-size: 14px;
+  line-height: 18px;
+  border-color: #aaaaaa;
+  color: #828c2c;
+  background: linear-gradient(#ffffff, #f1f1f1);
+  box-shadow:
+    inset 0 -3px 0 0 #bfbfbf,
+    inset 0 3px 0 0 rgb(255 255 255 / 0.25);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta-push--grey:hover {
+    background: linear-gradient(#f8f8f8, #f8f8f8);
+    box-shadow:
+      inset 0 3px 0 0 rgb(255 255 255 / 0.25),
+      inset 0 3px 0 0 rgb(255 255 255 / 0.25);
+  }
+}
+/* hero-sized grey variant */
+.cta-push--lg {
+  padding: 7px 16px 9px;
+  font-size: 16px;
+  line-height: 20px;
+  gap: 8px;
+}
+/* keycap, their .button-highlight-span: 18×18, radius 4, tinted face, 1px inset ring */
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0.5px 0;
+  margin: 0 0.3em;                                 /* a word space each side; inline-flex inside nowrap eats the real ones */
+  border-radius: 4px;
+  vertical-align: middle;
+  background: #d2da8b;                             /* their #ffd3a9: text +34 L */
+  box-shadow: inset 0 0 0 1px #bdc954;             /* their #fda05d */
+  font: inherit;
+  color: inherit;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-push, .cta-push--grey { transition: none; }
+}

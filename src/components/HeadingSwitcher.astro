@@ -1,0 +1,57 @@
+---
+// Dev-only panel for the "What we do" heading face. Hidden unless ?heading is in
+// the URL (e.g. /?heading or /?heading=mono&headbg=0). Picks apply live by setting
+// html[data-heading] / html[data-headbg]; the URL updates so a combo can be shared.
+const faces = [
+  { id: "serif", name: "Instrument Serif" },
+  { id: "neuton", name: "Neuton" },
+  { id: "mono", name: "Geist Mono" },
+  { id: "sans", name: "Funnel Sans" },
+  { id: "pixel", name: "Pixelify Sans" },
+];
+---
+
+<aside id="hs" class="hs" hidden aria-label="Section heading face">
+  <div class="hs__head"><span class="hs__title">Heading</span><button type="button" class="hs__close" id="hs-close" aria-label="Close">×</button></div>
+  <div class="hs__chips">
+    {faces.map((f) => <button type="button" class="hs__chip" data-face={f.id}>{f.name}</button>)}
+  </div>
+  <label class="hs__row"><input type="checkbox" id="hs-bg" checked /> art behind the head</label>
+  <p class="hs__hint" id="hs-url"></p>
+</aside>
+
+<style>
+  .hs { position: fixed; left: 16px; bottom: 16px; z-index: 60; width: 230px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--color-surface); color: var(--color-ink); border: 1px solid var(--color-line); border-radius: 12px; box-shadow: 0 8px 24px rgb(24 24 27 / 0.1); font-family: var(--font-mono); font-size: 12px; }
+  .hs__head { display: flex; align-items: center; justify-content: space-between; }
+  .hs__title { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 11px; }
+  .hs__close { font: inherit; font-size: 16px; background: none; border: 0; cursor: pointer; color: var(--color-ink-muted); padding: 2px 6px; }
+  .hs__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hs__chip { font: inherit; padding: 5px 9px; border-radius: 999px; border: 1px solid var(--color-line); background: var(--color-background); color: inherit; cursor: pointer; }
+  .hs__chip[aria-pressed="true"] { border-color: var(--color-ink); }
+  .hs__row { display: inline-flex; align-items: center; gap: 6px; color: var(--color-ink-muted); }
+  .hs__hint { margin: 0; color: var(--color-ink-soft); font-size: 11px; word-break: break-all; }
+</style>
+
+<script>
+  const panel = document.getElementById("hs") as HTMLElement;
+  const params = new URLSearchParams(location.search);
+  if (params.has("heading")) panel.hidden = false;
+  const root = document.documentElement;
+  const chips = panel.querySelectorAll<HTMLButtonElement>(".hs__chip");
+  const bg = document.getElementById("hs-bg") as HTMLInputElement;
+  const url = document.getElementById("hs-url")!;
+
+  function sync() {
+    const face = root.dataset.heading || "serif";
+    const art = root.dataset.headbg !== "0";
+    chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.face === face)));
+    bg.checked = art;
+    params.set("heading", face); params.set("headbg", art ? "1" : "0");
+    history.replaceState(null, "", location.pathname + "?" + params.toString());
+    url.textContent = `?heading=${face}&headbg=${art ? 1 : 0}`;
+  }
+  chips.forEach((c) => c.addEventListener("click", () => { root.dataset.heading = c.dataset.face!; sync(); }));
+  bg.addEventListener("change", () => { root.dataset.headbg = bg.checked ? "1" : "0"; sync(); });
+  document.getElementById("hs-close")!.addEventListener("click", () => { panel.hidden = true; });
+  if (!panel.hidden) sync();
+</script>

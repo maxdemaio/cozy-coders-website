@@ -1,0 +1,218 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footsies from "@/components/Footsies.astro";
+import Contact from "@/components/Contact.astro";
+import ResourceCard from "@/components/Resources/ResourceCard.astro";
+import ResourceRow from "@/components/Resources/ResourceRow.astro";
+import {
+  RESOURCE_TYPES,
+  pickLatest,
+  publishedSorted,
+  type ResourceType,
+} from "@/components/Resources/resourceMeta";
+
+const all = publishedSorted(await getCollection("resources"));
+const latest = pickLatest(all, 3);
+
+const countsByType = all.reduce<Partial<Record<ResourceType, number>>>(
+  (acc, r) => {
+    acc[r.data.type] = (acc[r.data.type] ?? 0) + 1;
+    return acc;
+  },
+  {},
+);
+
+// Only offer filters for types that actually have content.
+const filterTypes = (Object.keys(RESOURCE_TYPES) as ResourceType[]).filter(
+  (t) => countsByType[t],
+);
+
+const description =
+  "Guides, checklists, and notes from the Cozy Coders collective on building fast, editable marketing sites.";
+---
+
+<Layout title="Resources — Cozy Coders" description={description}>
+  <Nav />
+
+  <main class="relative px-5 pt-36 md:px-10 md:pt-40">
+    <div class="mx-auto flex max-w-[1200px] flex-col gap-16 pb-16">
+      <!-- Header -->
+      <header class="flex flex-col items-center gap-4 text-center">
+        <div
+          class="flex select-none items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink-muted"
+        >
+          <Icon
+            name="solar:book-bookmark-bold-duotone"
+            class="h-4 w-4 text-primary-deep"
+            aria-hidden="true"
+          />
+          <span>Notes from the collective</span>
+        </div>
+        <h1
+          class="font-medula text-7xl uppercase leading-none text-primary-deep md:text-8xl"
+        >
+          Resources
+        </h1>
+        <p class="max-w-[600px] text-lg text-ink sm:text-xl">
+          How we build marketing sites that stay fast and stay editable.
+          Guides, checklists, and the occasional opinion.
+        </p>
+        <a
+          href="#all"
+          class="inline-flex items-center gap-1 text-base text-primary-deep transition-colors duration-150 hover:text-primary"
+        >
+          Browse all {all.length}
+          <Icon
+            name="solar:arrow-right-bold"
+            class="h-[0.9em] w-[0.9em] rotate-90"
+            aria-hidden="true"
+          />
+        </a>
+      </header>
+
+      <!-- Latest -->
+      {
+        latest.length > 0 && (
+          <section aria-labelledby="latest-heading" class="flex flex-col gap-6">
+            <h2
+              id="latest-heading"
+              class="font-medula text-4xl uppercase text-ink md:text-5xl"
+            >
+              Latest
+            </h2>
+            <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {latest.map((resource, i) => (
+                <li class="flex">
+                  <ResourceCard resource={resource} eager={i === 0} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <!-- All -->
+      <section
+        id="all"
+        aria-labelledby="all-heading"
+        class="flex scroll-mt-32 flex-col gap-6"
+      >
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2
+            id="all-heading"
+            class="font-medula text-4xl uppercase text-ink md:text-5xl"
+          >
+            All resources{" "}
+            <span class="text-ink-soft" data-count>({all.length})</span>
+          </h2>
+
+          {
+            filterTypes.length > 1 && (
+              <div
+                class="flex flex-wrap gap-2"
+                role="group"
+                aria-label="Filter by type"
+                data-filters
+              >
+                <button
+                  type="button"
+                  class="filter rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink-muted transition-colors duration-150 hover:border-primary hover:text-ink"
+                  data-filter="all"
+                  aria-pressed="true"
+                >
+                  All
+                </button>
+                {filterTypes.map((t) => (
+                  <button
+                    type="button"
+                    class="filter rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink-muted transition-colors duration-150 hover:border-primary hover:text-ink"
+                    data-filter={t}
+                    aria-pressed="false"
+                  >
+                    {RESOURCE_TYPES[t]}
+                    <span class="ml-1 text-ink-soft">{countsByType[t]}</span>
+                  </button>
+                ))}
+              </div>
+            )
+          }
+        </div>
+
+        <ul class="border-t border-line" data-list>
+          {all.map((resource) => <ResourceRow resource={resource} />)}
+        </ul>
+
+        <p class="hidden py-10 text-center text-ink-muted" data-empty>
+          Nothing here yet.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <div class="relative">
+    <Contact />
+    <Footsies />
+  </div>
+</Layout>
+
+<style>
+  .filter[aria-pressed="true"] {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-background);
+  }
+
+  .filter[aria-pressed="true"] span {
+    color: color-mix(in oklab, var(--color-background) 60%, transparent);
+  }
+</style>
+
+<script>
+  // Progressive enhancement: everything is visible without JS. With JS,
+  // the pills hide rows that don't match and the URL remembers the choice.
+  const filters = document.querySelector<HTMLElement>("[data-filters]");
+  const list = document.querySelector<HTMLElement>("[data-list]");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+  const count = document.querySelector<HTMLElement>("[data-count]");
+
+  if (filters && list) {
+    const buttons = Array.from(
+      filters.querySelectorAll<HTMLButtonElement>("[data-filter]"),
+    );
+    const rows = Array.from(list.querySelectorAll<HTMLElement>("[data-type]"));
+
+    const apply = (type: string, push: boolean) => {
+      let shown = 0;
+      for (const row of rows) {
+        const match = type === "all" || row.dataset.type === type;
+        row.hidden = !match;
+        if (match) shown++;
+      }
+      for (const b of buttons) {
+        b.setAttribute("aria-pressed", String(b.dataset.filter === type));
+      }
+      if (empty) empty.hidden = shown > 0;
+      if (count) count.textContent = `(${shown})`;
+
+      if (push) {
+        const url = new URL(location.href);
+        if (type === "all") url.searchParams.delete("type");
+        else url.searchParams.set("type", type);
+        url.hash = "all";
+        history.replaceState(null, "", url);
+      }
+    };
+
+    for (const b of buttons) {
+      b.addEventListener("click", () => apply(b.dataset.filter ?? "all", true));
+    }
+
+    const initial = new URL(location.href).searchParams.get("type");
+    if (initial && buttons.some((b) => b.dataset.filter === initial)) {
+      apply(initial, false);
+    }
+  }
+</script>

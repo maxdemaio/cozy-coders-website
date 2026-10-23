@@ -1,0 +1,12 @@
+minimumReleaseAgeExclude:
+  - '@astrojs/internal-helpers@0.13.0'
+  - '@astrojs/markdown-satteri@0.4.4'
+  - '@astrojs/prism@4.1.0'
+  - '@astrojs/react@7.1.0'
+  - '@astrojs/telemetry@3.4.0'
+  - astro@7.4.0
+  - react-dom@19.3.1
+  - react@19.3.1
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

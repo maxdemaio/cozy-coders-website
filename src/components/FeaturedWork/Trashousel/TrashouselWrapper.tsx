@@ -29,7 +29,7 @@ const useWindowSize = () => {
   return windowSize;
 };
 
-function calculateDimensions(width) {
+function calculateDimensions(width: number) {
   let newWidth, newHeight;
 
   if (width < 600) {

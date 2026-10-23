@@ -1,0 +1,31 @@
+---
+// Top announcement bar. The whole bar is one link, so the hover state covers all of it.
+interface Props {
+  message?: string;
+  linkText?: string;
+  linkHref?: string;
+}
+
+const {
+  message = "New: we're taking on a limited number of retainer slots for Q4.",
+  linkText = "Press B →",
+  linkHref = "https://tally.so/r/mJ6yor",
+} = Astro.props;
+const external = linkHref.startsWith("http");
+---
+
+<a
+  href={linkHref}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  class="group w-full bg-ink text-background text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-3 px-4 py-2 min-h-11 sm:min-h-0"
+>
+  <span class="truncate">{message}</span>
+  {
+    linkText && (
+      <span class="underline underline-offset-2 decoration-background/40 group-hover:decoration-background whitespace-nowrap transition-colors">
+        {linkText}
+      </span>
+    )
+  }
+</a>

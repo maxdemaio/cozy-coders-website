@@ -1,0 +1,23 @@
+---
+// The hand-drawn "cozy" wordmark, traced from Max's GIMP redraw (public/brand/cozy-sketch-trace.svg).
+// Inlined so it takes the text colour of wherever it sits.
+import raw from "../../public/brand/cozy-sketch-trace.svg?raw";
+
+interface Props {
+  class?: string;
+  label?: string;
+}
+
+const { class: className = "", label } = Astro.props;
+const pathD = raw.match(/\sd="([^"]+)"/)?.[1] ?? "";
+const viewBox = raw.match(/viewBox="([^"]+)"/)?.[1] ?? "0 0 922 845";
+---
+
+<svg
+  viewBox={viewBox}
+  class={className}
+  fill="currentColor"
+  {...label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" }}
+>
+  <path d={pathD}></path>
+</svg>

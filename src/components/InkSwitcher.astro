@@ -1,0 +1,71 @@
+---
+// Dev-only colour panel for the ASCII hero ink. Hidden unless ?ink is in the
+// URL (e.g. /?ink or /?ink=7a7f4f&deep=555a32) — kept around for trying ideas. Picks apply live via the hook AsciiArt registers;
+// the URL updates (?ink=&deep=) so a combo can be shared.
+const presets = [
+  { name: "olive (brand)", ink: "#7a7f4f", deep: "#555a32" },
+  { name: "sage (old)", ink: "#5a7a62", deep: "#3f5e48" },
+  { name: "forest", ink: "#3f5e48", deep: "#24392c" },
+  { name: "moss", ink: "#6f8f5c", deep: "#4a663a" },
+  { name: "eucalyptus", ink: "#5f8a7e", deep: "#3c6257" },
+  { name: "teal", ink: "#3e7c74", deep: "#275650" },
+  { name: "ink", ink: "#2c2c38", deep: "#18181b" },
+  { name: "lowercase blue", ink: "#1b62ed", deep: "#1240a8" },
+];
+---
+
+<aside id="ink" class="ink" hidden aria-label="Hero ink colour">
+  <div class="ink__head"><span class="ink__title">Hero ink</span><button type="button" class="ink__close" id="ink-close" aria-label="Close">×</button></div>
+  <div class="ink__chips">
+    {presets.map((p) => (
+      <button type="button" class="ink__chip" data-ink={p.ink} data-deep={p.deep}>
+        <i style={`background:${p.ink}`}></i>{p.name}
+      </button>
+    ))}
+  </div>
+  <div class="ink__row">
+    <label>ink <input type="color" id="ink-main" value="#7a7f4f" /></label>
+    <label>deep <input type="color" id="ink-deep" value="#555a32" /></label>
+  </div>
+  <p class="ink__hint" id="ink-url"></p>
+</aside>
+
+<style>
+  .ink { position: fixed; right: 16px; bottom: 16px; z-index: 60; width: 250px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--color-surface); color: var(--color-ink); border: 1px solid var(--color-line); border-radius: 12px; box-shadow: 0 8px 24px rgb(24 24 27 / 0.1); font-family: var(--font-mono); font-size: 12px; }
+  .ink__head { display: flex; align-items: center; justify-content: space-between; }
+  .ink__title { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 11px; }
+  .ink__close { font: inherit; font-size: 16px; background: none; border: 0; cursor: pointer; color: var(--color-ink-muted); padding: 2px 6px; }
+  .ink__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ink__chip { font: inherit; display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; border: 1px solid var(--color-line); background: var(--color-background); color: inherit; cursor: pointer; }
+  .ink__chip i { width: 10px; height: 10px; border-radius: 50%; }
+  .ink__chip[aria-pressed="true"] { border-color: var(--color-ink); }
+  .ink__row { display: flex; gap: 12px; }
+  .ink__row label { display: inline-flex; align-items: center; gap: 6px; color: var(--color-ink-muted); }
+  .ink__row input { width: 32px; height: 24px; padding: 0; border: 1px solid var(--color-line); border-radius: 6px; background: none; }
+  .ink__hint { margin: 0; color: var(--color-ink-soft); font-size: 11px; word-break: break-all; }
+</style>
+
+<script>
+  const panel = document.getElementById("ink") as HTMLElement;
+  const params = new URLSearchParams(location.search);
+  if (params.has("ink")) panel.hidden = false;
+
+  const main = document.getElementById("ink-main") as HTMLInputElement;
+  const deep = document.getElementById("ink-deep") as HTMLInputElement;
+  const url = document.getElementById("ink-url")!;
+  const chips = panel.querySelectorAll<HTMLButtonElement>(".ink__chip");
+
+  function apply(ink: string, dp: string) {
+    main.value = ink; deep.value = dp;
+    ((window as any).__asciiArts || []).forEach((fn: Function) => fn(ink, dp));
+    params.set("ink", ink.slice(1)); params.set("deep", dp.slice(1));
+    history.replaceState(null, "", location.pathname + "?" + params.toString());
+    url.textContent = `?ink=${ink.slice(1)}&deep=${dp.slice(1)}`;
+    chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.ink === ink && c.dataset.deep === dp)));
+  }
+  chips.forEach((c) => c.addEventListener("click", () => apply(c.dataset.ink!, c.dataset.deep!)));
+  main.addEventListener("input", () => apply(main.value, deep.value));
+  deep.addEventListener("input", () => apply(main.value, deep.value));
+  document.getElementById("ink-close")!.addEventListener("click", () => { panel.hidden = true; });
+  if (params.get("ink")) { main.value = "#" + params.get("ink"); deep.value = "#" + (params.get("deep") || "555a32"); url.textContent = `?ink=${params.get("ink")}&deep=${params.get("deep") || ""}`; }
+</script>

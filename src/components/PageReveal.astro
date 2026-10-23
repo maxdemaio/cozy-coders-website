@@ -1,0 +1,41 @@
+---
+// Page-load reveal: elements marked `data-reveal` decode into place through a
+// character grid (ascii-reveal, "dither" preset, wave from the centre, fast, speed 0.9 — chosen 2026-10-22).
+// Used selectively — on the home page only the work column (right side of the hero).
+// Framework-free core, so no React island. The inline head script in Layout.astro
+// adds `ar-pending` so those parts don't flash before this runs.
+---
+
+<script>
+  import { createAsciiReveal } from "ascii-reveal/core";
+
+  const root = document.querySelector<HTMLElement>("main");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  async function run() {
+    if (!root) return;
+    try { await document.fonts.ready; } catch {}
+    const reveal = createAsciiReveal(root, {
+      preset: "dither",
+      origin: "center",
+      selector: "[data-reveal]",
+      duration: "fast",
+      speed: 0.9,
+      lazy: true,
+    });
+    document.documentElement.classList.remove("ar-pending");
+    (window as any).__pageReveal = reveal; // RevealSwitcher.astro replays with other options
+    await reveal.reveal();
+  }
+
+  // play the intro once per session (sessionStorage, so a new session sees it again)
+  let seen = false;
+  try { seen = sessionStorage.getItem("cozy:reveal-seen") === "1"; sessionStorage.setItem("cozy:reveal-seen", "1"); } catch {}
+  const forced = new URLSearchParams(location.search).has("reveal");
+
+  if (reduced || (seen && !forced)) {
+    document.documentElement.classList.remove("ar-pending");
+  } else {
+    run();
+  }
+</script>

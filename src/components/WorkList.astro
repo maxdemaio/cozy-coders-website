@@ -1,0 +1,62 @@
+---
+// The featured-work column in the hero: one hairline row per project,
+// name chip + tag chips, then the thumbnail. Each row is a button that opens
+// the project sheet (WorkSheet.astro). The bubble / Framer Motion island
+// slots in above this list later.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { work } from "../data/work";
+
+interface Props {
+  limit?: number;
+}
+const { limit } = Astro.props;
+const items = limit ? work.slice(0, limit) : work;
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/work/*.{png,jpg,jpeg}", { eager: true });
+const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
+---
+
+<ol id="work" class="m-0 p-0 list-none scroll-mt-20" data-reveal>
+  {
+    items.map((item) => {
+      const img = imageFor(item.image);
+      return (
+        <li class="border-b border-line last:border-b-0">
+          <button
+            type="button"
+            class="group block w-full text-left cursor-pointer hover:bg-surface transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-deep"
+            data-work-open={item.slug}
+            aria-haspopup="dialog"
+            aria-label={`Open ${item.name}`}
+          >
+            <div class="flex flex-wrap items-stretch">
+              <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none bg-ink text-background px-2.5 py-2">
+                {item.name}
+              </span>
+              {item.tags.map((t) => (
+                <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none text-ink-muted border-r border-b border-line px-2.5 py-2">
+                  {t}
+                </span>
+              ))}
+              <span class="ml-auto self-center pr-4 font-mono text-[11px] text-ink-soft opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150" aria-hidden="true">open →</span>
+            </div>
+            <div class="flex gap-3 px-4 py-3 md:px-5 overflow-x-auto [scrollbar-width:none]">
+              {img && (
+                <Image
+                  src={img}
+                  alt={item.alt}
+                  widths={[320, 480, 640]}
+                  sizes="320px"
+                  class="h-[120px] md:h-[132px] w-auto max-w-none border border-line bg-surface"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+            </div>
+          </button>
+        </li>
+      );
+    })
+  }
+</ol>

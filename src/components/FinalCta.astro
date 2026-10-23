@@ -1,0 +1,43 @@
+---
+// Final CTA before the footer, after aceternity's #contact: a short headline and
+// two buttons centred over a faded strip of our own work, so the last thing on
+// the page is both the ask and the proof.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { work } from "../data/work";
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/work/*.{png,jpg,jpeg}", { eager: true });
+const shots = work.map((w) => images[`../assets/work/${w.image}`]?.default).filter(Boolean).slice(0, 6);
+---
+
+<section id="contact" class="relative overflow-hidden border-t border-line">
+  <div class="final-cta__wall absolute inset-0 grid grid-cols-3 gap-4 p-4 opacity-100 pointer-events-none" aria-hidden="true">
+    {shots.map((img, i) => (
+      <div class:list={["border border-line bg-surface overflow-hidden", i % 2 ? "translate-y-10" : "-translate-y-6"]}>
+        <Image src={img} alt="" widths={[480, 720]} sizes="480px" class="w-full h-auto" loading="lazy" decoding="async" />
+      </div>
+    ))}
+  </div>
+  <div class="relative px-6 md:px-10 py-20 md:py-28 flex justify-center">
+   <div class="final-cta__panel flex flex-col items-center text-center gap-6 bg-background/95 backdrop-blur-sm border border-line px-8 py-12 md:px-16 md:py-14 max-w-[720px]">
+    <h2 class="m-0 font-display text-[clamp(30px,3.6vw,44px)] font-semibold leading-[1.08] tracking-[-0.04em] text-ink text-balance">
+      Let's get your site<br /><mark class="bg-primary text-background px-2 py-0.5 rounded-sm box-decoration-clone">designed and shipped</mark> properly.
+    </h2>
+    <p class="m-0 max-w-[44ch] text-base md:text-[17px] leading-relaxed text-ink-muted">A free 15-minute call. No pitch, just whether we're the right fit.</p>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push">Book a call</a>
+      <a href="/#pricing" class="cta-push cta-push--grey cta-push--lg">See pricing</a>
+    </div>
+   </div>
+  </div>
+</section>
+
+<style>
+  .final-cta__panel { box-shadow: 0 1px 2px rgb(24 24 27 / 0.04), 0 24px 48px -24px rgb(24 24 27 / 0.25); }
+  .final-cta__wall {
+    /* fade the shots to paper toward the centre so the copy stays legible */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+    opacity: 0.5;
+  }
+</style>

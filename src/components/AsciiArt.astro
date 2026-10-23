@@ -1,0 +1,389 @@
+---
+// Art rendered as ASCII glyphs in one brand colour, on WebGL — a port of the
+// lowercase.club hero effect. The source is either a photo (`src`) or a looping
+// 2D-canvas scene (`scene`). Glyphs in the darker areas flicker near the pointer.
+// A static image or SVG stands in when WebGL is missing.
+interface Props {
+  src?: string;          // photo, cover-fitted
+  scene?: "build";       // or a drawn, looping scene
+  fallback?: string;     // pre-rendered image for the no-WebGL case (photo mode)
+  width: number;         // source pixel size, for the aspect ratio
+  height: number;
+  alt: string;
+  class?: string;
+  cell?: number;         // css px per glyph cell
+  levels?: string;       // "black,white,gamma" tone curve, e.g. "0.3,0.95,0.9"
+}
+
+const { src, scene, fallback, width, height, alt, cell, levels, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["ascii-art", className]}
+  data-src={src}
+  data-scene={scene}
+  data-ratio={width / height}
+  data-cell={cell}
+  data-levels={levels}
+  role="img"
+  aria-label={alt}
+>
+  {fallback && <img class="ascii-art__fallback" src={fallback} alt="" width={width * 2} height={height * 2} decoding="async" />}
+</div>
+
+<style>
+  /* fills whatever box the caller gives it */
+  .ascii-art {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .ascii-art__fallback,
+  .ascii-art :global(canvas) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right bottom;
+  }
+  .ascii-art.is-live .ascii-art__fallback {
+    visibility: hidden;
+  }
+</style>
+
+<script>
+  const CHARS = "  .,:;+*cozyCOZY%#@"; // light -> dark; two blanks so highlights drop out
+  const CELL = 3;               // css px per glyph cell (override per element with data-cell); 3 reads as a halftone photo, 6 as letters
+  const COLOR = [0x7a / 255, 0x7f / 255, 0x4f / 255]; // --color-primary (olive)
+  const COLOR_DEEP = [0x55 / 255, 0x5a / 255, 0x32 / 255]; // --color-primary-deep, for the darkest cells
+
+  const VERT = `
+    attribute vec2 position;
+    varying vec2 vUv;
+    void main() { vUv = position * 0.5 + 0.5; gl_Position = vec4(position, 0.0, 1.0); }`;
+
+  const FRAG = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform sampler2D uTexture;
+    uniform sampler2D uChars;
+    uniform vec2 uResolution;
+    uniform float uCell;
+    uniform float uLimit;
+    uniform float uTime;
+    uniform vec2 uMouse;
+    uniform float uTextureRatio;
+    uniform vec3 uColor;
+    uniform vec3 uColorDeep;
+    uniform vec3 uLevels; // black point, white point, gamma
+    uniform float uIdle;
+
+    float gray(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
+    float rand(vec2 st) { return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123); }
+
+    vec2 aspect(vec2 uv, float tr, float cr) {
+      if (tr > cr) { float d = cr / tr; uv.x = uv.x * d + (1.0 - d) * 0.5; }
+      else         { float d = tr / cr; uv.y = uv.y * d + (1.0 - d) * 0.5; }
+      return uv;
+    }
+
+    void main() {
+      vec2 cells = uResolution / uCell;
+      vec2 cellUV = (floor(vUv * cells) + 0.5) / cells;
+      vec2 srcUV = aspect(cellUV, uTextureRatio, uResolution.x / uResolution.y);
+      vec4 px = texture2D(uTexture, vec2(srcUV.x, 1.0 - srcUV.y));
+      // levels: lift contrast so highlights drop out and shadows go dense, like the reference
+      float dark = (1.0 - gray(px.rgb)) * px.a;
+      dark = pow(smoothstep(uLevels.x, uLevels.y, dark), uLevels.z);
+      float idx = dark * (uLimit - 1.0);
+
+      vec2 ar = vec2(uResolution.x / uResolution.y, 1.0);
+      float dist = length((vUv - uMouse) * ar);
+      float influence = smoothstep(0.35, 0.0, dist);
+      float r = rand(cellUV + floor(uTime * 8.0));
+      float threshold = uLimit * 0.45;
+      if (idx > threshold) {
+        float p = influence * influence + uIdle;
+        if (r < p) {
+          float range = uLimit - threshold;
+          idx = threshold + mod(floor(idx - threshold + uTime * 6.0 + r * 10.0), range);
+        }
+      }
+      idx = floor(idx + 0.5);
+
+      float col = mod(idx, 16.0);
+      float row = floor(idx / 16.0);
+      vec2 inCell = fract(vUv * cells);
+      vec2 atlasUV = vec2((col + inCell.x) / 16.0, (row + (1.0 - inCell.y)) / 16.0);
+      float a = texture2D(uChars, atlasUV).r;
+      vec3 ink = mix(uColor, uColorDeep, smoothstep(0.4, 0.75, dark));
+      gl_FragColor = vec4(ink * a, a);
+    }`;
+
+  function makeAtlas() {
+    const c = document.createElement("canvas");
+    c.width = c.height = 1024;
+    const ctx = c.getContext("2d")!;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, 1024, 1024);
+    ctx.fillStyle = "#fff";
+    ctx.font = "700 84px 'Geist Mono', ui-monospace, Menlo, Consolas, monospace"; // oversized on purpose: more ink per cell at small cell sizes
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    CHARS.split("").forEach((ch, i) => ctx.fillText(ch, (i % 16) * 64 + 32, Math.floor(i / 16) * 64 + 34));
+    return c;
+  }
+
+  // ---- the "building a site" scene: dark ink on white, 500x446 ----
+  // Loop (seconds): 0 frame draws · 1 top bar · 1.6 headline · 2.4 lines · 3.0 image · 3.6 button
+  // · 4.2 cursor arrives · 5.0 click · 5.4 "live" check · 6.6 wipe · 7.2 restart
+  const SCENE_W = 500, SCENE_H = 446, LOOP = 7.2;
+  const ease = (t: number) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+  const seg = (t: number, a: number, d: number) => ease((t - a) / d);
+
+  function drawBuildScene(ctx: CanvasRenderingContext2D, time: number) {
+    const t = time % LOOP;
+    ctx.clearRect(0, 0, SCENE_W, SCENE_H);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#111";
+    ctx.fillStyle = "#111";
+
+    const wipe = seg(t, 6.6, 0.5);           // everything slides down and fades at the end
+    ctx.globalAlpha = 1 - wipe;
+    ctx.save();
+    ctx.translate(0, wipe * 40);
+
+    // browser frame: 60..440 x 70..400
+    const fx = 60, fy = 70, fw = 380, fh = 330;
+    const p = seg(t, 0, 0.9);
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    const per = 2 * (fw + fh);
+    const len = p * per;
+    const pts = [[fx, fy], [fx + fw, fy], [fx + fw, fy + fh], [fx, fy + fh], [fx, fy]];
+    let left = len;
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length && left > 0; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      const l = Math.hypot(x1 - x0, y1 - y0);
+      const k = Math.min(1, left / l);
+      ctx.lineTo(x0 + (x1 - x0) * k, y0 + (y1 - y0) * k);
+      left -= l;
+    }
+    ctx.stroke();
+
+    // top bar with three dots
+    if (t > 1) {
+      const b = seg(t, 1, 0.5);
+      ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(fx, fy + 44); ctx.lineTo(fx + fw * b, fy + 44); ctx.stroke();
+      for (let i = 0; i < 3; i++) {
+        if (b > (i + 1) / 3.5) { ctx.beginPath(); ctx.arc(fx + 24 + i * 22, fy + 22, 7, 0, Math.PI * 2); ctx.fill(); }
+      }
+    }
+
+    // headline block + two text lines (left column)
+    const lx = fx + 30;
+    if (t > 1.6) {
+      const h = seg(t, 1.6, 0.5);
+      ctx.fillRect(lx, fy + 80, 150 * h, 26);
+      ctx.fillRect(lx, fy + 114, 110 * h, 26);
+    }
+    if (t > 2.4) {
+      const l = seg(t, 2.4, 0.5);
+      ctx.lineWidth = 8;
+      [[fy + 170, 170], [fy + 194, 130], [fy + 218, 150]].forEach(([y, w]) => {
+        ctx.beginPath(); ctx.moveTo(lx, y); ctx.lineTo(lx + w * l, y); ctx.stroke();
+      });
+    }
+    // image block (right column)
+    if (t > 3.0) {
+      const m = seg(t, 3.0, 0.6);
+      const ix = fx + 215, iy = fy + 80, iw = 135, ih = 150 * m;
+      ctx.lineWidth = 6;
+      ctx.strokeRect(ix, iy, iw, ih);
+      if (m > 0.6) {
+        ctx.beginPath(); ctx.moveTo(ix + 12, iy + ih - 14); ctx.lineTo(ix + 50, iy + ih - 60); ctx.lineTo(ix + 78, iy + ih - 30); ctx.lineTo(ix + 98, iy + ih - 48); ctx.lineTo(ix + iw - 12, iy + ih - 14); ctx.stroke();
+        ctx.beginPath(); ctx.arc(ix + iw - 36, iy + 30, 11, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    // button
+    const bx = lx, by = fy + 252, bw = 120, bh = 40;
+    if (t > 3.6) {
+      const k = seg(t, 3.6, 0.4);
+      const pressed = t > 5.0 && t < 5.25;
+      ctx.save();
+      ctx.translate(bx + bw / 2, by + bh / 2);
+      ctx.scale(k * (pressed ? 0.94 : 1), k * (pressed ? 0.94 : 1));
+      ctx.beginPath();
+      ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 20);
+      ctx.fill();
+      ctx.restore();
+    }
+    // "live" check after the click
+    if (t > 5.4) {
+      const c = seg(t, 5.4, 0.4);
+      const cx = fx + fw - 40, cy = fy + fh - 40;
+      ctx.lineWidth = 7;
+      ctx.beginPath(); ctx.arc(cx, cy, 22, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * c); ctx.stroke();
+      if (c > 0.7) { ctx.beginPath(); ctx.moveTo(cx - 10, cy); ctx.lineTo(cx - 3, cy + 8); ctx.lineTo(cx + 11, cy - 8); ctx.stroke(); }
+    }
+    ctx.restore();
+
+    // cursor: a little pointing hand, arrives from bottom-right and clicks the button
+    if (t > 4.2 && t < 6.6) {
+      const a = seg(t, 4.2, 0.8);
+      const sx = 470, sy = 430, tx = bx + bw / 2 + 10, ty = by + bh / 2 + 8;
+      const x = sx + (tx - sx) * a, y = sy + (ty - sy) * a - Math.sin(a * Math.PI) * 60;
+      const press = t > 5.0 && t < 5.25 ? 4 : 0;
+      ctx.save();
+      ctx.translate(x, y + press);
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(0, -30); ctx.lineTo(0, 10);         // index finger
+      ctx.moveTo(0, -4); ctx.lineTo(16, -4); ctx.lineTo(16, 18); // knuckles
+      ctx.moveTo(0, 10); ctx.lineTo(-6, 22); ctx.lineTo(16, 22); ctx.lineTo(16, 18);
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, -30, 5, 0, Math.PI * 2); ctx.fill();
+      if (t > 5.0 && t < 5.5) {                       // click ripple
+        const rr = seg(t, 5.0, 0.5);
+        ctx.lineWidth = 4;
+        ctx.globalAlpha = (1 - rr) * (1 - wipe);
+        ctx.beginPath(); ctx.arc(0, -30, 12 + rr * 30, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function compile(gl: WebGLRenderingContext, type: number, src: string) {
+    const s = gl.createShader(type)!;
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) || "shader");
+    return s;
+  }
+
+  function texture(gl: WebGLRenderingContext, image: TexImageSource, repeat: boolean) {
+    const t = gl.createTexture()!;
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    const wrap = repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    return t;
+  }
+
+  async function mount(root: HTMLElement) {
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl", { premultipliedAlpha: true, antialias: false });
+    if (!gl) return;
+
+    // source: a photo, or the drawn scene
+    let source: TexImageSource;
+    let sceneCtx: CanvasRenderingContext2D | null = null;
+    let ratio = Number(root.dataset.ratio);
+    if (root.dataset.scene === "build") {
+      const sc = document.createElement("canvas");
+      sc.width = SCENE_W; sc.height = SCENE_H;
+      sceneCtx = sc.getContext("2d")!;
+      drawBuildScene(sceneCtx, 5.6); // a finished-looking frame for the still
+      source = sc;
+      ratio = SCENE_W / SCENE_H;
+    } else {
+      const photo = new Image();
+      photo.decoding = "async";
+      photo.src = root.dataset.src!;
+      try { await photo.decode(); } catch { return; }
+      source = photo;
+    }
+    try { await (document as any).fonts?.load("700 84px 'Geist Mono'"); } catch {}
+
+    const prog = gl.createProgram()!;
+    gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
+    gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const pos = gl.getAttribLocation(prog, "position");
+    gl.enableVertexAttribArray(pos);
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+    gl.activeTexture(gl.TEXTURE0);
+    const srcTex = texture(gl, source, false);
+    gl.activeTexture(gl.TEXTURE1);
+    texture(gl, makeAtlas(), true);
+
+    const u = (n: string) => gl.getUniformLocation(prog, n);
+    gl.uniform1i(u("uTexture"), 0);
+    gl.uniform1i(u("uChars"), 1);
+    gl.uniform1f(u("uLimit"), CHARS.length);
+    gl.uniform1f(u("uTextureRatio"), ratio);
+    const hex = (h: string) => { const n = parseInt(h.replace("#", ""), 16); return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255]; };
+    const q = new URLSearchParams(location.search);
+    const uColorLoc = u("uColor"), uDeepLoc = u("uColorDeep");
+    function setInk(ink?: string | null, deep?: string | null) {
+      gl!.uniform3fv(uColorLoc, ink ? hex(ink) : COLOR);
+      gl!.uniform3fv(uDeepLoc, deep ? hex(deep) : COLOR_DEEP);
+    }
+    setInk(q.get("ink") || root.dataset.ink, q.get("deep") || root.dataset.deep);
+    // dev hook for the ink switcher (InkSwitcher.astro): each instance pushes a setter
+    ((window as any).__asciiArts ||= []).push((ink: string, deep: string) => { setInk(ink, deep); draw(performance.now()); });
+    const levels = (root.dataset.levels || "0.15,0.92,0.8").split(",").map(Number);
+    gl.uniform3f(u("uLevels"), levels[0], levels[1], levels[2]);
+    const cellPx = Number(root.dataset.cell) || CELL;
+    gl.uniform1f(u("uIdle"), reduced ? 0 : 0.012);
+    const uRes = u("uResolution"), uCell = u("uCell"), uTime = u("uTime"), uMouse = u("uMouse");
+
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    let mouse = [-10, -10];
+    function resize() {
+      canvas.width = Math.round(root.clientWidth * dpr);
+      canvas.height = Math.round(root.clientHeight * dpr);
+      gl!.viewport(0, 0, canvas.width, canvas.height);
+      gl!.uniform2f(uRes, canvas.width, canvas.height);
+      gl!.uniform1f(uCell, cellPx * dpr);
+    }
+    function draw(t: number) {
+      if (sceneCtx && !reduced) {
+        drawBuildScene(sceneCtx, t / 1000);
+        gl!.activeTexture(gl!.TEXTURE0);
+        gl!.bindTexture(gl!.TEXTURE_2D, srcTex);
+        gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, source);
+      }
+      gl!.uniform1f(uTime, t / 1000);
+      gl!.uniform2f(uMouse, mouse[0], mouse[1]);
+      gl!.drawArrays(gl!.TRIANGLES, 0, 3);
+    }
+
+    root.appendChild(canvas);
+    root.classList.add("is-live");
+    resize();
+    draw(0);
+    if (reduced) return;
+
+    new ResizeObserver(() => { resize(); draw(performance.now()); }).observe(root);
+    root.addEventListener("pointermove", (e) => {
+      const r = root.getBoundingClientRect();
+      mouse = [(e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height];
+    }, { passive: true });
+    root.addEventListener("pointerleave", () => { mouse = [-10, -10]; });
+
+    let raf = 0;
+    const loop = (t: number) => { draw(t); raf = requestAnimationFrame(loop); };
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !raf) raf = requestAnimationFrame(loop);
+      else if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = 0; }
+    }).observe(root);
+  }
+
+  document.querySelectorAll<HTMLElement>(".ascii-art").forEach((el) => { mount(el); });
+</script>

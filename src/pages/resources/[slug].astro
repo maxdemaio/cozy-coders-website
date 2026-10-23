@@ -1,0 +1,240 @@
+---
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/Nav.astro";
+import Footsies from "@/components/Footsies.astro";
+import Contact from "@/components/Contact.astro";
+import ResourceCard from "@/components/Resources/ResourceCard.astro";
+import {
+  TYPE_ICONS,
+  formatFullDate,
+  isoDate,
+  publishedSorted,
+  typeLabel,
+} from "@/components/Resources/resourceMeta";
+
+export async function getStaticPaths() {
+  const all = await getCollection("resources");
+  // External resources link out from the card; they get no detail page.
+  return all
+    .filter((r) => !r.data.draft && !r.data.href)
+    .map((r) => ({ params: { slug: r.id }, props: { resource: r } }));
+}
+
+const { resource } = Astro.props;
+const { title, description, date, type, image } = resource.data;
+const { Content } = await render(resource);
+
+const more = publishedSorted(await getCollection("resources"))
+  .filter((r) => r.id !== resource.id)
+  .slice(0, 3);
+---
+
+<Layout title={`${title} — Cozy Coders`} description={description}>
+  <Nav />
+
+  <main class="relative px-5 pt-36 md:px-10 md:pt-40">
+    <article class="mx-auto flex max-w-[720px] flex-col gap-10 pb-16">
+      <header class="flex flex-col gap-5">
+        <a
+          href="/resources"
+          class="inline-flex items-center gap-1 self-start text-base text-primary-deep transition-colors duration-150 hover:text-primary"
+        >
+          <Icon
+            name="solar:arrow-right-bold"
+            class="h-[0.9em] w-[0.9em] rotate-180"
+            aria-hidden="true"
+          />
+          All resources
+        </a>
+
+        <div class="flex items-center gap-2 text-sm text-ink-muted">
+          <Icon
+            name={TYPE_ICONS[type]}
+            class="h-4 w-4 text-primary-deep"
+            aria-hidden="true"
+          />
+          <span class="font-medium uppercase tracking-wide text-primary-deep"
+            >{typeLabel(type)}</span
+          >
+          <span aria-hidden="true">·</span>
+          <time datetime={isoDate(date)}>{formatFullDate(date)}</time>
+        </div>
+
+        <h1
+          class="font-medula text-6xl uppercase leading-[0.95] text-ink md:text-7xl"
+        >
+          {title}
+        </h1>
+        <p class="text-lg leading-relaxed text-ink-muted sm:text-xl">
+          {description}
+        </p>
+
+        {
+          image && (
+            <img
+              src={image}
+              alt=""
+              width="1200"
+              height="630"
+              class="mt-2 w-full rounded-3xl border border-line"
+              loading="eager"
+              decoding="async"
+            />
+          )
+        }
+      </header>
+
+      <div class="prose-cozy">
+        <Content />
+      </div>
+    </article>
+
+    {
+      more.length > 0 && (
+        <section
+          aria-labelledby="more-heading"
+          class="mx-auto flex max-w-[1200px] flex-col gap-6 border-t border-line pb-16 pt-16"
+        >
+          <h2
+            id="more-heading"
+            class="font-medula text-4xl uppercase text-ink md:text-5xl"
+          >
+            More resources
+          </h2>
+          <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {more.map((r) => (
+              <li class="flex">
+                <ResourceCard resource={r} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </main>
+
+  <div class="relative">
+    <Contact />
+    <Footsies />
+  </div>
+</Layout>
+
+<style is:global>
+  /* Article body. Scoped by the wrapper class since markdown output is unstyled. */
+  .prose-cozy {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-ink);
+  }
+
+  .prose-cozy > * + * {
+    margin-top: 1.25em;
+  }
+
+  .prose-cozy h2 {
+    font-family: var(--font-medula);
+    font-size: 2.25rem;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-top: 2em;
+    color: var(--color-ink);
+  }
+
+  .prose-cozy h3 {
+    font-family: var(--font-medula);
+    font-size: 1.75rem;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-top: 1.6em;
+    color: var(--color-ink);
+  }
+
+  .prose-cozy h2 + *,
+  .prose-cozy h3 + * {
+    margin-top: 0.6em;
+  }
+
+  .prose-cozy p,
+  .prose-cozy li {
+    color: var(--color-ink);
+  }
+
+  .prose-cozy a {
+    color: var(--color-primary-deep);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+    text-underline-offset: 2px;
+    transition: color 150ms ease-in-out, text-decoration-color 150ms ease-in-out;
+  }
+
+  .prose-cozy a:hover {
+    color: var(--color-primary);
+    text-decoration-color: var(--color-primary);
+  }
+
+  .prose-cozy ul,
+  .prose-cozy ol {
+    padding-left: 1.4em;
+  }
+
+  .prose-cozy ul {
+    list-style: disc;
+  }
+
+  .prose-cozy ol {
+    list-style: decimal;
+  }
+
+  .prose-cozy li + li {
+    margin-top: 0.4em;
+  }
+
+  .prose-cozy li::marker {
+    color: var(--color-primary-deep);
+  }
+
+  .prose-cozy strong {
+    font-weight: 600;
+  }
+
+  .prose-cozy blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1em;
+    color: var(--color-ink-muted);
+  }
+
+  .prose-cozy code {
+    font-size: 0.9em;
+    background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+    border-radius: 0.25rem;
+    padding: 0.1em 0.35em;
+  }
+
+  .prose-cozy pre {
+    background: var(--color-ink);
+    color: var(--color-background);
+    border-radius: 1rem;
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .prose-cozy pre code {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .prose-cozy img {
+    border-radius: 1rem;
+    border: 1px solid var(--color-line);
+  }
+
+  .prose-cozy hr {
+    border: 0;
+    border-top: 1px dashed var(--color-line);
+  }
+</style>

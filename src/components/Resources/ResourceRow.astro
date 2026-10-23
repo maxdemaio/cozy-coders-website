@@ -1,0 +1,73 @@
+---
+import { Icon } from "astro-icon/components";
+import {
+  ctaLabel,
+  formatMonthYear,
+  isExternal,
+  isoDate,
+  resourceHref,
+  typeLabel,
+  type Resource,
+} from "./resourceMeta";
+
+interface Props {
+  resource: Resource;
+}
+
+const { resource } = Astro.props;
+const { title, description, date, type } = resource.data;
+const href = resourceHref(resource);
+const external = isExternal(resource);
+const cta = ctaLabel(resource);
+---
+
+<li
+  class="row group relative grid grid-cols-1 gap-2 py-6 md:grid-cols-[180px_1fr_auto] md:gap-8 md:items-baseline"
+  data-type={type}
+>
+  <div class="flex items-center gap-2 text-sm text-ink-muted md:flex-col md:items-start md:gap-0.5">
+    <span class="font-medium uppercase tracking-wide text-primary-deep"
+      >{typeLabel(type)}</span
+    >
+    <span class="md:hidden" aria-hidden="true">·</span>
+    <time datetime={isoDate(date)}>{formatMonthYear(date)}</time>
+  </div>
+
+  <div class="flex flex-col gap-1.5">
+    <h3 class="font-medula text-3xl uppercase leading-[1.05] text-ink">
+      <a
+        href={href}
+        class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none group-hover:text-primary-deep transition-colors duration-150"
+        {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+      >
+        {title}
+      </a>
+    </h3>
+    <p class="max-w-prose text-base leading-relaxed text-ink-muted">
+      {description}
+    </p>
+  </div>
+
+  <span
+    class="inline-flex items-center gap-1 text-base text-primary-deep transition-colors duration-150 group-hover:text-primary md:self-start md:pt-1"
+    aria-hidden="true"
+  >
+    {cta}
+    <Icon
+      name={external ? "solar:arrow-right-up-bold" : "solar:arrow-right-bold"}
+      class="h-[0.9em] w-[0.9em] transition-transform duration-150 group-hover:translate-x-0.5"
+    />
+  </span>
+</li>
+
+<style>
+  .row + .row {
+    border-top: 1px dashed var(--color-line);
+  }
+
+  .row:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 0.5rem;
+  }
+</style>

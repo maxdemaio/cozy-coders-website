@@ -1,0 +1,104 @@
+---
+import { Icon } from "astro-icon/components";
+import {
+  TYPE_ICONS,
+  ctaLabel,
+  formatMonthYear,
+  isExternal,
+  isoDate,
+  resourceHref,
+  typeLabel,
+  type Resource,
+} from "./resourceMeta";
+
+interface Props {
+  resource: Resource;
+  /** First card in the row loads its image eagerly. */
+  eager?: boolean;
+}
+
+const { resource, eager = false } = Astro.props;
+const { title, description, date, type, image } = resource.data;
+const href = resourceHref(resource);
+const external = isExternal(resource);
+const cta = ctaLabel(resource);
+---
+
+<article
+  class="card group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-colors duration-200 hover:border-primary focus-within:border-primary"
+  data-type={type}
+>
+  <div
+    class="cover relative aspect-[1200/630] w-full overflow-hidden border-b border-line bg-primary/10"
+  >
+    {
+      image ? (
+        <img
+          src={image}
+          alt=""
+          width="1200"
+          height="630"
+          class="h-full w-full object-cover"
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+        />
+      ) : (
+        <div class="placeholder absolute inset-0 flex items-center justify-center">
+          <Icon
+            name={TYPE_ICONS[type]}
+            class="h-14 w-14 text-primary-deep"
+            aria-hidden="true"
+          />
+        </div>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-3 p-6">
+    <div class="flex items-center gap-2 text-sm text-ink-muted">
+      <span class="font-medium uppercase tracking-wide text-primary-deep"
+        >{typeLabel(type)}</span
+      >
+      <span aria-hidden="true">·</span>
+      <time datetime={isoDate(date)}>{formatMonthYear(date)}</time>
+    </div>
+
+    <h3 class="font-medula text-3xl uppercase leading-[1.05] text-ink">
+      <a
+        href={href}
+        class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
+        {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+      >
+        {title}
+      </a>
+    </h3>
+
+    <p class="text-base leading-relaxed text-ink-muted">{description}</p>
+
+    <span
+      class="mt-auto inline-flex items-center gap-1 pt-2 text-base text-primary-deep transition-colors duration-150 group-hover:text-primary"
+      aria-hidden="true"
+    >
+      {cta}
+      <Icon
+        name={external ? "solar:arrow-right-up-bold" : "solar:arrow-right-bold"}
+        class="h-[0.9em] w-[0.9em] transition-transform duration-150 group-hover:translate-x-0.5"
+      />
+    </span>
+  </div>
+</article>
+
+<style>
+  .placeholder {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--color-primary) 22%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 14px 14px;
+  }
+
+  .card:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+</style>

@@ -1,47 +1,58 @@
 ---
-import FancyNavButton from "./FancyNavButton.astro";
+// Site nav, in the spirit of lowercase.club: one hairline bar, wordmark left,
+// plain lowercase links on the right, and the CTA as a solid block locked to
+// the right edge. No icons, no pill.
+import MarketingBanner from "./MarketingBanner.astro";
+import Wordmark from "./Wordmark.astro";
+
+const navItems = [
+  { label: "work", href: "/#work" },
+  { label: "resources", href: "/resources" },
+  { label: "pricing", href: "/#pricing" },
+] as const;
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  !href.includes("#") && currentPath.startsWith(href);
 ---
 
-<style>
-  .bg-filter {
-    backdrop-filter: blur(6px);
-  }
-</style>
-<nav
-  class="bg-filter w-full fixed top-0 pt-5 pb-[4.2rem] px-8 z-40 [mask-image:linear-gradient(to_bottom,red_40%,transparent)] bg-gradient-to-b from-background/50 to-transparent select-none"
->
-  <div class="text-white flex justify-between items-center">
-    <div class="text-primary text-3xl font-medula">CCC</div>
-    <!-- spacer -->
-    <div></div>
-
-    <FancyNavButton />
-
-    <button aria-label="Menu button" id="menu-button" class="hidden">
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+<header class="sticky top-0 inset-x-0 z-40">
+  <MarketingBanner />
+  <nav aria-label="Main" class="bg-background/95 backdrop-blur-md border-b border-line">
+    <div class="flex items-stretch justify-between min-h-16">
+      <a
+        href="/"
+        class="flex items-center gap-3 pl-5 md:pl-8 pr-4 text-ink select-none whitespace-nowrap"
       >
-        <path
-          d="M40 14H8"
-          stroke="white"
-          stroke-width="3"
-          stroke-linecap="round"></path>
-        <path
-          opacity="0.5"
-          d="M40 24H8"
-          stroke="#F2F1EB"
-          stroke-width="3"
-          stroke-linecap="round"></path>
-        <path
-          d="M40 34H8"
-          stroke="white"
-          stroke-width="3"
-          stroke-linecap="round"></path>
-      </svg>
-    </button>
-  </div>
-</nav>
+        <Wordmark class="h-10 w-auto" />
+        <span class="font-mono font-semibold text-[15px] tracking-[-0.01em] [word-spacing:-0.35em]">cozy coders</span>
+      </a>
+
+      <div class="flex items-stretch">
+        <ul class="hidden md:flex items-center gap-1 m-0 p-0 pr-6 list-none font-mono text-[15px] text-ink-muted">
+          {
+            navItems.map((item, i) => (
+              <li class="flex items-center">
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  class:list={[
+                    "px-2 py-2 hover:text-ink transition-colors duration-150",
+                    isActive(item.href) && "text-ink",
+                  ]}
+                >
+                  {item.label}{i < navItems.length - 1 && ","}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="flex items-center pr-4 md:pr-6">
+          <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push cta-push--grey whitespace-nowrap">
+            Press<span class="keycap">B</span>to Book a Call
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

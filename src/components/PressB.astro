@@ -1,0 +1,16 @@
+---
+// "Press B to book a call": a plain B keypress (no modifiers, not in a text field)
+// opens the booking link in a new tab. Same mechanism as quick14studio.com;
+// the link is whichever element carries data-book-url.
+---
+
+<script>
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "b" && e.key !== "B") return;
+    if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+    const t = e.target as HTMLElement | null;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    const url = document.querySelector<HTMLAnchorElement>("[data-book-url]")?.href;
+    if (url) window.open(url, "_blank", "noopener");
+  });
+</script>

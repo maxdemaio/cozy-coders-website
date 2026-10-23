@@ -1,0 +1,41 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  href: string;
+  external?: boolean;
+  icon?: string;
+  class?: string;
+}
+
+const { href, class: className = "", icon: iconName } = Astro.props;
+const isExternal =
+  Astro.props.external ??
+  (href.startsWith("http://") || href.startsWith("https://"));
+const leadingIcon = iconName ?? (isExternal ? "solar:arrow-right-up-bold" : undefined);
+---
+
+<a
+  href={href}
+  class:list={[
+    "inline-flex items-baseline gap-1 rounded-sm px-1 py-0.5",
+    "text-primary-deep underline underline-offset-2 decoration-primary/40",
+    "bg-primary/10 hover:bg-primary/20 hover:decoration-primary",
+    "transition-colors duration-150",
+    className,
+  ]}
+  {...isExternal
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {}}
+>
+  {
+    leadingIcon && (
+      <Icon
+        name={leadingIcon}
+        class="w-[0.9em] h-[0.9em] self-center shrink-0"
+        aria-hidden="true"
+      />
+    )
+  }
+  <slot />
+</a>

@@ -1,60 +1,9 @@
-<style>
-  /** Start hero button styles **/
-  .hero-button {
-    border-radius: 999px;
-  }
-  .hero-button::after {
-    pointer-events: none;
-    content: "";
-    z-index: -1;
-    position: absolute;
-    inset: 0px;
-    background: conic-gradient(
-      from var(--a),
-      #414141 0%,
-      white 12.5%,
-      #414141 25%,
-      #414141 50%,
-      white 62.5%,
-      #414141 75%
-    );
-    animation: animate 4s linear infinite;
-    mask-image: url("/mask.svg");
-    mask-size: cover;
-    mask-position: center center;
-    height: 58px;
-    width: 216px;
-  }
-
-  @property --a {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-  }
-
-  @keyframes animate {
-    0% {
-      --a: 0deg;
-    }
-    100% {
-      --a: 360deg;
-    }
-  }
-
-  .hero-button:hover {
-    box-shadow:
-      0 0px 40px rgba(255, 255, 255, 0.1),
-      0px 0px 10px #96bd9d;
-  }
-  /** End hero button styles **/
-</style>
-
 <a
   href="https://tally.so/r/mJ6yor"
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Contact - Cozy Coders Tally Form"
-  class="text-lg hero-button text-white relative flex hover:scale-105 transition-all duration-300 h-[58px] w-[216px] isolate items-center justify-center cursor-pointer"
+  class="group relative inline-flex items-center justify-center rounded-full bg-ink text-background h-[58px] px-10 text-lg hover:bg-ink-muted transition-colors duration-200"
 >
   <span>Contact</span>
 </a>

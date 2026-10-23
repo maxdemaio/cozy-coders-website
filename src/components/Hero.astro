@@ -1,122 +1,61 @@
-<style>
-  .cozy-coder-svg {
-    animation: weenwao 3s ease-in-out infinite;
-  }
+---
+import { Icon } from "astro-icon/components";
+import AsciiArt from "./AsciiArt.astro";
+import Wordmark from "./Wordmark.astro";
+import WorkList from "./WorkList.astro";
+---
 
-  @keyframes weenwao {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(14px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-</style>
-
-<header
-  class="pt-28 relative px-5 md:px-10 flex flex-col items-center justify-center"
->
-  <img
-    src="/bell.svg"
-    class="hidden md:block absolute -right-[2px] md:top-[60%] top-[50%] -translate-y-[50%] -z-[3]"
-    alt="bell curve"
-    width="212"
-    height="811"
-    loading="eager"
-    decoding="async"
-  />
-  <div class="flex flex-col gap-3 md:gap-0 items-center justify-center pb-12">
-    <h1
-      class="uppercase md:text-8xl text-7xl font-medula text-center text-primary px-2"
-    >
-      Get cozy. We'll take it from here.
-    </h1>
-    <div class="flex flex-wrap gap-0 md:gap-6 items-center justify-center">
-      <div
-        class="flex flex-col gap-2 max-w-[800px] lg:max-w-[600px] md:pt-4 md:pr-4 md:pl-4 text-neutral-100"
-      >
-        <p class="text-lg sm:text-xl hyphens-auto">
-          Cozy Coders is a collective of experienced software professionals. We
-          work with many companies to build and proactively deliver engaging
-          brand experiences. We are unique in our ability to take a strategic
-          approach while being visually driven.
-        </p>
-        <div
-          class="pt-2 flex flex-col gap-2 items-center md:items-start justify-center"
-        >
-          <p class="text-lg md:text-xl opacity-60">
-            Crafting solutions that are...
-          </p>
-          <div
-            class="flex-wrap text-base md:text-xl flex gap-4 ;xs:gap-8 py-2 justify-center md:justify-start items-center"
-          >
-            <div
-              class="flex items-center gap-2"
-            >
-              <svg
-                width="32"
-                height="32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                id="svg-1421100695_1018"
-                ><path
-                  opacity=".2"
-                  d="m26.707 25.125-1.582 1.582a1 1 0 0 1-1.414 0L17.5 20.5a1 1 0 0 0-1.625.308l-2.432 5.596a1 1 0 0 1-1.857-.089L5.051 6.305a1 1 0 0 1 1.25-1.25l20.013 6.53a1 1 0 0 1 .088 1.856l-5.596 2.434A1 1 0 0 0 20.5 17.5l6.209 6.209a1.002 1.002 0 0 1-.002 1.416Z"
-                  fill="#fff"></path><path
-                  d="m21.205 16.791 5.596-2.432a2.001 2.001 0 0 0-.176-3.725L6.615 4.1A2 2 0 0 0 4.1 6.615l6.534 20.01A1.978 1.978 0 0 0 12.435 28h.099a1.979 1.979 0 0 0 1.825-1.199l2.432-5.596L23 27.414a2 2 0 0 0 2.829 0l1.585-1.585a2.002 2.002 0 0 0 0-2.829l-6.209-6.209ZM24.414 26l-6.208-6.209a1.998 1.998 0 0 0-3.25.618L12.53 25.99 6 6l19.984 6.526-5.58 2.427a2 2 0 0 0-.618 3.25L26 24.413 24.414 26ZM11 3V2a1 1 0 0 1 2 0v1a1 1 0 1 1-2 0ZM1 12a1 1 0 0 1 1-1h1a1 1 0 0 1 0 2H2a1 1 0 0 1-1-1Zm14.106-8.447 1-2a1 1 0 1 1 1.789.895l-1 2a1 1 0 1 1-1.789-.895Zm-10.211 12a1 1 0 0 1-.447 1.342l-2 1a1 1 0 1 1-.895-1.789l2-1a1.001 1.001 0 0 1 1.342.447Z"
-                  fill="#fff"></path></svg
-              >
-              <p class="opacity-60">Interactive</p>
-            </div>
-            <div
-              class="flex items-center gap-2"
-            >
-              <svg
-                width="32"
-                height="32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                id="svg-949001594_486"
-                ><path
-                  opacity=".2"
-                  d="m12 30 2-10-8-3L20 2l-2 10 8 3-14 15Z"
-                  fill="#fff"></path><path
-                  d="M26.974 14.771a1 1 0 0 0-.625-.707l-7.201-2.701 1.832-9.167a1 1 0 0 0-1.711-.875l-14 15a1 1 0 0 0 .375 1.625l7.204 2.701-1.828 9.157a1 1 0 0 0 1.711.875l14-15a1 1 0 0 0 .243-.908ZM13.67 26.75l1.309-6.547a1 1 0 0 0-.625-1.133L7.75 16.589 18.328 5.256l-1.308 6.548a1 1 0 0 0 .625 1.132l6.6 2.475L13.671 26.75Z"
-                  fill="#fff"></path></svg
-              >
-              <p class="opacity-60">Fast</p>
-            </div>
-            <div class="flex gap-2 items-center">
-              <svg
-                width="32"
-                height="32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                id="svg1213898866_487"
-                ><path
-                  opacity=".2"
-                  d="M26 6v6l-6-6h6ZM6 26h6l-6-6v6Z"
-                  fill="#fff"></path><path
-                  d="M26 5h-6a1 1 0 0 0-.707 1.707L21.585 9l-4.293 4.293a1 1 0 1 0 1.415 1.415L23 10.413l2.293 2.293A1 1 0 0 0 27 12V6a1 1 0 0 0-1-1Zm-1 4.586L22.414 7H25v2.586Zm-11.707 7.707L9 21.585l-2.293-2.293A1 1 0 0 0 5 20v6a1 1 0 0 0 1 1h6a1 1 0 0 0 .707-1.707L10.415 23l4.293-4.293a1 1 0 1 0-1.415-1.415ZM7 25v-2.586L9.586 25H7Z"
-                  fill="#fff"></path></svg
-              >
-              <p class="opacity-60">Responsive</p>
-            </div>
-          </div>
+<section class="hero relative bg-background grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+  <div class="relative flex flex-col lg:border-r lg:border-line overflow-hidden">
+    <div class="relative z-10 flex flex-col gap-6 max-w-[720px] px-6 pt-12 pb-8 md:px-10 lg:pt-16">
+      <div class="flex flex-col md:flex-row md:items-center gap-5 md:gap-4">
+        <Wordmark class="shrink-0 h-[clamp(96px,11vw,150px)] w-auto text-ink" label="cozy" />
+        <div class="min-w-0">
+          <h1 class="m-0 font-display text-[clamp(40px,5.4vw,64px)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink text-balance">
+            Websites, apps, with personality.
+          </h1>
         </div>
       </div>
-      <img
-        src="/spacegirl.svg"
-        class="cozy-coder-svg"
-        alt="space girl"
-        width="400"
-        height="300"
-        loading="eager"
-        decoding="async"
+      <p class="m-0 text-base md:text-[17px] leading-relaxed text-ink-muted">
+        Cozy Coders is a design and engineering studio. We make websites and
+        apps that feel like someone made them.
+      </p>
+      <div class="flex flex-wrap items-center gap-2.5">
+        <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push" data-book-url>
+          Book a call
+        </a>
+        <a href="#what-we-do" class="cta-push cta-push--grey cta-push--lg">
+          What we do <Icon name="solar:arrow-down-bold" class="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <AsciiArt
+        src="/hero/bpl.jpg"
+        fallback="/hero/bpl-ascii.png"
+        width={1074}
+        height={806}
+        alt="Bates Hall reading room at the Boston Public Library, its barrel-vaulted ceiling and rows of green lamps rendered as sage-green text characters"
       />
     </div>
   </div>
-</header>
+
+  <div class="relative flex flex-col">
+    <!-- the bubble / Framer Motion island will mount here, above the list -->
+    <WorkList limit={6} />
+  </div>
+</section>
+
+<style>
+  .hero-art {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    /* fills the rest of the left column, so it runs down beside the work list */
+    min-height: clamp(300px, 30vw, 420px);
+    /* fade in from the top so the glyphs grow out of the copy, like the reference */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+  }
+</style>

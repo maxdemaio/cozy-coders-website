@@ -11,116 +11,84 @@
     position: relative;
   }
 
-  .highlight-bar-3 {
+  .highlight-bar {
     background: linear-gradient(
       90deg,
-      rgb(9, 9, 11) /* background color */ 0%,
-      rgb(177, 178, 167) /* {"name":"primary-line"} */ 50%,
-      rgb(9, 9, 11) /* background color */ 100%
+      transparent 0%,
+      var(--color-line) 50%,
+      transparent 100%
     );
     flex: 0 0 auto;
     height: 1px;
-    overflow: hidden;
-    position: relative;
-    transform: perspective(1200px);
     width: 100%;
-  }
-
-  .bg {
-    filter: contrast(100%) brightness(100%);
-    flex: 0 0 auto;
-    position: absolute;
-    top: 0px;
-    width: 100%;
-  }
-  .bg-3 {
-    background: radial-gradient(
-        46% 90% at 50% 0%,
-        rgba(159, 159, 146, 0.64) 0%,
-        rgb(9, 9, 11) 100% /* background color */
-      ),
-      url("/noise.svg");
-    opacity: 0.8;
-    z-index: -3;
   }
 </style>
 
-<div class="px-6 md:px-8 relative overflow-hidden pb-20">
+<div id="process" class="px-6 md:px-8 relative overflow-hidden pb-20">
   <div class="str-section">
-    <div class="highlight-bar-3"></div>
-    <div class="h-[10rem] md:h-[12rem] bg bg-3"></div>
+    <div class="highlight-bar"></div>
+
     <div class="flex flex-col items-center gap-4 z-10">
       <div
-        class="rounded-full bg-gradient-to-r from-[#cecec7] to-[#bbbbb2] brightness-125 contrast-100 flex gap-1 items-center text-lg p-[1px] select-none"
+        class="rounded-full border border-line bg-surface flex gap-2 items-center text-sm px-3 py-1 select-none text-ink-muted"
       >
-        <div class="flex items-center gap-1 bg-black/80 px-3 py-1 rounded-full">
-          <svg
-            class="align-bottom inline-block h-4 w-4 fill-[#cecec7]"
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            ><path
-              fill="currentColor"
-              d="M7.604 4.604C9.34 2.868 10.208 2 11.286 2c1.079 0 1.947.868 3.682 2.604l4.42 4.419c1.735 1.735 2.603 2.603 2.603 3.682c0 1.078-.868 1.946-2.604 3.682c-1.736 1.736-2.604 2.604-3.682 2.604c-1.079 0-1.947-.868-3.682-2.604l-4.42-4.419C5.869 10.233 5 9.365 5 8.286c0-1.078.868-1.946 2.604-3.682"
-            ></path><path
-              fill="currentColor"
-              d="m8.345 12.71l-5.52 5.518c-.342.343-.513.514-.616.692a1.562 1.562 0 0 0 0 1.562c.103.178.274.35.617.692c.342.342.513.514.692.617a1.562 1.562 0 0 0 1.562 0c.178-.103.35-.275.692-.617l5.518-5.519zm10.31-4.42l.373-.372c.342-.343.514-.514.617-.692a1.562 1.562 0 0 0 0-1.562c-.103-.179-.275-.35-.617-.692c-.342-.343-.514-.514-.692-.617a1.562 1.562 0 0 0-1.562 0c-.178.103-.35.274-.692.617l-.373.373z"
-              opacity=".5"></path></svg
-          >
-          <span
-            class="bg-gradient-to-r from-[#cecec7] to-[#bbbbb2] bg-clip-text text-transparent"
-            >Streamlining Success
-          </span>
-        </div>
+        <svg
+          class="align-bottom inline-block h-4 w-4 fill-primary-deep"
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          ><path
+            fill="currentColor"
+            d="M7.604 4.604C9.34 2.868 10.208 2 11.286 2c1.079 0 1.947.868 3.682 2.604l4.42 4.419c1.735 1.735 2.603 2.603 2.603 3.682c0 1.078-.868 1.946-2.604 3.682c-1.736 1.736-2.604 2.604-3.682 2.604c-1.079 0-1.947-.868-3.682-2.604l-4.42-4.419C5.869 10.233 5 9.365 5 8.286c0-1.078.868-1.946 2.604-3.682"
+          ></path><path
+            fill="currentColor"
+            d="m8.345 12.71l-5.52 5.518c-.342.343-.513.514-.616.692a1.562 1.562 0 0 0 0 1.562c.103.178.274.35.617.692c.342.342.513.514.692.617a1.562 1.562 0 0 0 1.562 0c.178-.103.35-.275.692-.617l5.518-5.519zm10.31-4.42l.373-.372c.342-.343.514-.514.617-.692a1.562 1.562 0 0 0 0-1.562c-.103-.179-.275-.35-.617-.692c-.342-.343-.514-.514-.692-.617a1.562 1.562 0 0 0-1.562 0c-.178.103-.35.274-.692.617l-.373.373z"
+            opacity=".5"></path></svg
+        >
+        <span>Streamlining Success</span>
       </div>
 
       <h2
-        class="text-center text-5xl md:text-6xl text-white font-medula uppercase"
+        class="text-center text-5xl md:text-6xl text-ink font-medula uppercase"
       >
         Efficient, Future-Proof Development
       </h2>
     </div>
-    <div class="grid grid-cols-1 xl:grid-cols-3 lg:gap-4 gap-12 pt-6">
-      <div
-        class="p-8 gap-4 border-2 border-neutral-500 rounded-xl flex flex-col"
-      >
-        <div class="text-primary uppercase font-medula text-2xl mb-2">
+    <div class="grid grid-cols-1 xl:grid-cols-3 lg:gap-4 gap-6 pt-6">
+      <div class="p-8 gap-4 border border-line bg-surface rounded-xl flex flex-col">
+        <div class="text-primary-deep uppercase font-medula text-2xl mb-2">
           Step 1
         </div>
-        <div class="text-4xl font-medula uppercase">
+        <div class="text-4xl font-medula uppercase text-ink">
           Book a Free Discovery Call
         </div>
-        <div>
+        <div class="text-ink-muted">
           Fill out our contact form and receive a free discovery call to define your
           website's vision, functionalities, and objectives in an initial
           discussion.
         </div>
       </div>
-      <div
-        class="p-8 gap-3 border-2 border-neutral-500 rounded-xl flex flex-col"
-      >
-        <div class="text-primary uppercase font-medula text-2xl mb-2">
+      <div class="p-8 gap-3 border border-line bg-surface rounded-xl flex flex-col">
+        <div class="text-primary-deep uppercase font-medula text-2xl mb-2">
           Step 2
         </div>
-        <div class="text-4xl font-medula uppercase">
+        <div class="text-4xl font-medula uppercase text-ink">
           Review & Accept Proposal
         </div>
-        <div>
+        <div class="text-ink-muted">
           Review our proposal with all website features, elements, and the final
           price detailed.
         </div>
       </div>
-      <div
-        class="p-8 gap-3 border-2 border-neutral-500 rounded-xl flex flex-col"
-      >
-        <div class="text-primary uppercase font-medula text-2xl mb-2">
+      <div class="p-8 gap-3 border border-line bg-surface rounded-xl flex flex-col">
+        <div class="text-primary-deep uppercase font-medula text-2xl mb-2">
           Step 3
         </div>
-        <div class="text-4xl font-medula uppercase">
+        <div class="text-4xl font-medula uppercase text-ink">
           Take Delivery of Your Website
         </div>
-        <div>
+        <div class="text-ink-muted">
           Receive your website and request styling changes to ensure it fits
           your exact preferences.
         </div>

@@ -2,80 +2,29 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
+import WhatWeDo from "../components/WhatWeDo.astro";
+import FinalCta from "../components/FinalCta.astro";
+import WorkSheet from "../components/WorkSheet.astro";
 import Footsies from "../components/Footsies.astro";
-
-import FeaturedWork from "../components/FeaturedWork/FeaturedWork.astro";
-import Contact from "../components/Contact.astro";
-import Expertise from "@/components/Strengths/Expertise.astro";
-import Process from "@/components/Strengths/Process.astro";
+import CursorFollow from "../components/CursorFollow.astro";
+import InkSwitcher from "../components/InkSwitcher.astro";
+import HeadingSwitcher from "../components/HeadingSwitcher.astro";
+import RevealSwitcher from "../components/RevealSwitcher.astro";
 ---
 
-<style>
-  .space-bg::before {
-    top: 0;
-    right: 0;
-    content: " ";
-    display: block;
-    position: absolute;
-    background-image: url("/texture.png");
-    background-repeat: repeat;
-    /* set width media queries w/ tailwind, max is 1000px which is image size */
-    height: 100%;
-    z-index: -2;
-    opacity: 53%;
-    mask-image: linear-gradient(to left, red, transparent);
-  }
-</style>
-
-<Layout title="Cozy Coders - Home">
-  <div
-    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[400px] relative overflow-hidden pb-[4.2rem]"
-  >
+<Layout title="Cozy Coders — Home">
+  <div class="min-h-screen flex flex-col">
     <Nav />
-    <Hero />
-    <FeaturedWork />
-  </div>
-
-  <Expertise />
-
-  <div
-    class="space-bg lg:before:w-[1000px] md:before:w-[800px] before:w-[400px] relative"
-  >
-    <Process />
-    <!-- TBD, could include cost cards in the future -->
-
-    <Contact />
+    <main class="flex-1">
+      <Hero />
+      <WhatWeDo />
+      <FinalCta />
+    </main>
     <Footsies />
   </div>
+  <CursorFollow />
+  <InkSwitcher />
+  <HeadingSwitcher />
+  <RevealSwitcher />
+  <WorkSheet />
 </Layout>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    //// nav squiggle animation
-    let paths: NodeListOf<SVGGeometryElement> | null =
-      document.querySelectorAll(".squiggle-animated path");
-    if (paths) {
-      for (let i = 0; i < paths.length; i++) {
-        let path: SVGGeometryElement = paths[i];
-        var length: number = path.getTotalLength();
-        // Clear any previous transition
-        path.style.transition = path.style.webkitTransition = "none";
-        path.style.transition = "none";
-
-        // Set up the starting positions
-        path.style.strokeDasharray = length + " " + length;
-        path.style.strokeDashoffset = length.toString();
-        // Trigger a layout so styles are calculated & the browser
-        // picks up the starting position before animating
-        path.getBoundingClientRect();
-        // Define our transition
-        path.style.transition = path.style.webkitTransition =
-          "stroke-dashoffset 2s ease-in-out";
-        path.style.transition = path.style.transition =
-          "stroke-dashoffset 2s ease-in-out";
-        // Go!
-        path.style.strokeDashoffset = "0";
-      }
-    }
-  });
-</script>

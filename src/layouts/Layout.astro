@@ -1,36 +1,64 @@
 ---
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Cozy Coders — a design and engineering studio making websites and apps with personality.",
+} = Astro.props;
+import "@fontsource/funnel-sans/400.css";
+import "@fontsource/funnel-sans/500.css";
+import "@fontsource/funnel-sans/600.css";
+import "@fontsource/funnel-sans/700.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/600.css";
+import "@fontsource/instrument-serif"; // section-heading candidate (see HeadingSwitcher)
+import "@fontsource/pixelify-sans"; // evaluation only
 import "@fontsource/medula-one";
 import "@fontsource/neuton";
+import "../styles/global.css";
+import PageReveal from "../components/PageReveal.astro";
+import PressB from "../components/PressB.astro";
 ---
 
 <style is:global>
   .link {
-    color: rgb(150, 189, 157);
+    color: var(--color-primary-deep);
     transition-property: color;
     transition-duration: 150ms;
     transition-timing-function: ease-in-out;
   }
 
   .link:hover {
-    color: rgb(110, 139, 115);
+    color: var(--color-primary);
   }
 </style>
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <style>
+      /* hold the page until the ascii reveal takes over (PageReveal.astro); reduced-motion users skip it */
+      html.ar-pending [data-reveal] { visibility: hidden; }
+    </style>
+    <script is:inline>
+      // heading face / art for the "What we do" head, picked by ?heading=&headbg= before first paint
+      try { var q = new URLSearchParams(location.search); if (q.get("heading")) document.documentElement.dataset.heading = q.get("heading"); if (q.get("headbg")) document.documentElement.dataset.headbg = q.get("headbg"); } catch (e) {}
+      try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (sessionStorage.getItem("cozy:reveal-seen") !== "1" || /[?&]reveal/.test(location.search))) document.documentElement.classList.add("ar-pending"); } catch (e) {}
+      setTimeout(function () { document.documentElement.classList.remove("ar-pending"); }, 2500); // safety net if the script never runs
+    </script>
   </head>
-  <body class="bg-background text-xl text-white">
+  <body class="bg-background text-ink text-xl">
     <slot />
+    <PageReveal />
+    <PressB />
   </body>
 </html>

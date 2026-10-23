@@ -1,32 +1,4 @@
 <style>
-  .moving-grid-bg {
-    z-index: -2;
-    top: 0;
-    position: absolute;
-    height: 500%;
-    width: 100vw;
-    will-change: transform;
-    background-size: 3rem 3rem;
-    background-image: linear-gradient(to right, #8882 1px, transparent 1px),
-      linear-gradient(to bottom, #8882 1px, transparent 1px);
-    animation: none 200s linear infinite !important;
-  }
-
-  @keyframes movingbackground {
-    0% {
-      transform: translate(-50%, 0);
-    }
-    100% {
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .moving-grid-bg {
-      animation: none !important;
-    }
-  }
-
   .str-section {
     place-content: center;
     align-items: center;
@@ -39,97 +11,73 @@
     position: relative;
   }
 
-  .highlight-bar-1 {
+  .highlight-bar {
     background: linear-gradient(
       90deg,
-      rgb(9, 9, 11) /* background color */ 0%,
-      rgb(119, 124, 118) /* {"name":"primary-line"} */ 50%,
-      rgb(9, 9, 11) /* background color */ 100%
+      transparent 0%,
+      var(--color-line) 50%,
+      transparent 100%
     );
     flex: 0 0 auto;
     height: 1px;
-    overflow: hidden;
-    position: relative;
-    transform: perspective(1200px);
     width: 100%;
   }
 
-  .bg {
-    filter: contrast(100%) brightness(100%);
-    flex: 0 0 auto;
-    position: absolute;
-    top: 0px;
-    width: 100%;
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.5rem;
+    transition: border-color 200ms ease;
   }
 
-  .bg-1 {
-    background: radial-gradient(
-        46% 90% at 50% 0%,
-        rgba(67, 74, 66, 0.64) 0%,
-        rgb(9, 9, 11) 100% /* background color */
-      ),
-      url("/noise.svg");
+  .card:hover {
+    border-color: var(--color-primary);
   }
 </style>
 
-<div id="tools" class="px-6 md:px-8 relative overflow-hidden pb-20">
+<div id="expertise" class="px-6 md:px-8 relative overflow-hidden pb-20">
   <div class="str-section">
-    <div class="highlight-bar-1"></div>
-    <div class="h-[10rem] md:h-[12rem] bg bg-1"></div>
+    <div class="highlight-bar"></div>
     <div class="flex flex-col items-center gap-4 z-10">
       <div
-        class="rounded-full bg-gradient-to-r from-[#9ca09b] to-[#777c76] brightness-125 contrast-100 flex gap-1 items-center text-lg p-[1px] select-none"
+        class="rounded-full border border-line bg-surface flex gap-2 items-center text-sm px-3 py-1 select-none text-ink-muted"
       >
-        <div class="flex items-center gap-1 bg-black/80 px-3 py-1 rounded-full">
-          <svg
-            class="align-bottom inline-block h-4 w-4 fill-[#9ca09b]"
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            ><rect
-              width="10"
-              height="10"
-              x="12"
-              y="2"
-              fill="currentColor"
-              rx="2"></rect><path
-              fill="currentColor"
-              d="M12 7h-1c-1.886 0-2.828 0-3.414.586C7 8.172 7 9.114 7 11v2c0 1.886 0 2.828.586 3.414C8.172 17 9.114 17 11 17h2c1.886 0 2.828 0 3.414-.586C17 15.828 17 14.886 17 13v-1h-1c-1.886 0-2.828 0-3.414-.586C12 10.828 12 9.886 12 8z"
-              opacity=".7"></path><path
-              fill="currentColor"
-              d="M7 12v1c0 1.886 0 2.828.586 3.414C8.172 17 9.114 17 11 17h1v1c0 1.886 0 2.828-.586 3.414C10.828 22 9.886 22 8 22H6c-1.886 0-2.828 0-3.414-.586C2 20.828 2 19.886 2 18v-2c0-1.886 0-2.828.586-3.414C3.172 12 4.114 12 6 12z"
-              opacity=".4"></path></svg
-          >
-          <span
-            class="bg-gradient-to-r from-[#9ca09b] to-[#c2c5c2] bg-clip-text text-transparent"
-            >Empowering Innovation</span
-          >
-        </div>
+        <svg
+          class="align-bottom inline-block h-4 w-4 fill-primary-deep"
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          ><rect
+            width="10"
+            height="10"
+            x="12"
+            y="2"
+            fill="currentColor"
+            rx="2"></rect><path
+            fill="currentColor"
+            d="M12 7h-1c-1.886 0-2.828 0-3.414.586C7 8.172 7 9.114 7 11v2c0 1.886 0 2.828.586 3.414C8.172 17 9.114 17 11 17h2c1.886 0 2.828 0 3.414-.586C17 15.828 17 14.886 17 13v-1h-1c-1.886 0-2.828 0-3.414-.586C12 10.828 12 9.886 12 8z"
+            opacity=".7"></path><path
+            fill="currentColor"
+            d="M7 12v1c0 1.886 0 2.828.586 3.414C8.172 17 9.114 17 11 17h1v1c0 1.886 0 2.828-.586 3.414C10.828 22 9.886 22 8 22H6c-1.886 0-2.828 0-3.414-.586C2 20.828 2 19.886 2 18v-2c0-1.886 0-2.828.586-3.414C3.172 12 4.114 12 6 12z"
+            opacity=".4"></path></svg
+        >
+        <span>Empowering Innovation</span>
       </div>
-      <div class="moving-grid-bg"></div>
 
       <h2
-        class="text-center text-5xl md:text-6xl text-white font-medula uppercase"
+        class="text-center text-5xl md:text-6xl text-ink font-medula uppercase"
       >
         Our technical expertise
       </h2>
     </div>
 
-    <ul class="pt-2 z-10 grid grid-cols-1 xl:grid-cols-3 gap-12">
-      <div data-glow class="relative w-full rounded-3xl">
-        <div data-glow></div>
-
-        <div
-          class="rounded-3xl absolute h-full w-full bg-gradient-to-b to-neutral-900 from-neutral-800 -z-[1]"
-        >
-        </div>
+    <ul class="pt-2 z-10 grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <li class="card">
         <div class="flex justify-between h-[240px] items-center overflow-visible relative">
-          <div
-            class="flex py-12 px-8 flex-col"
-          >
-            <h2 class="text-5xl font-medula uppercase">Product design</h2>
-            <p class="text-lg">Designed with</p>
+          <div class="flex py-12 px-8 flex-col">
+            <h2 class="text-5xl font-medula uppercase text-ink">Product design</h2>
+            <p class="text-lg text-ink-muted">Designed with</p>
             <div class="flex items-center">
               <div class="flex gap-1 items-center justify-center">
                 <img
@@ -141,15 +89,7 @@
                   loading="lazy"
                   decoding="async"
                 />
-                <img
-                  src="/Figma-Wordmark-White.svg"
-                  class="inline"
-                  alt="Figma"
-                  width="49"
-                  height="18"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span class="text-ink font-medium text-lg">Figma</span>
               </div>
             </div>
           </div>
@@ -170,7 +110,7 @@
         </div>
 
         <ul
-          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="text-lg px-8 pb-6 text-left text-ink-muted [&_li]:relative [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-line [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
@@ -179,7 +119,8 @@
                 href="https://www.figma.com/collaboration/">real-time editor</a
               >, on Slack, or in Notion.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Leave <a
                 class="link"
@@ -187,7 +128,8 @@
                 >real-time comments</a
               > directly on designs to provide feedback.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Quickly translate designs into code using <a
                 class="link"
@@ -196,31 +138,16 @@
             </p>
           </li>
         </ul>
-      </div>
-      <div data-glow class="relative w-full rounded-3xl">
-        <div data-glow></div>
+      </li>
 
-        <div
-          class="rounded-3xl absolute h-full w-full bg-gradient-to-b to-neutral-900 from-neutral-800 -z-[1]"
-        >
-        </div>
+      <li class="card">
         <div class="flex justify-between h-[240px] items-center overflow-visible relative">
-          <div
-            class="flex py-12 px-8 flex-col"
-          >
-            <h2 class="text-5xl font-medula uppercase">Design system</h2>
+          <div class="flex py-12 px-8 flex-col">
+            <h2 class="text-5xl font-medula uppercase text-ink">Design system</h2>
             <div class="flex flex-wrap items-center justify-start gap-2">
-              <p class="text-lg">Built on</p>
+              <p class="text-lg text-ink-muted">Built on</p>
               <div class="flex gap-1 items-center justify-center">
-                <img
-                  src="/tailwind.svg"
-                  class="inline"
-                  alt="tailwind"
-                  width="147"
-                  height="20"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span class="text-ink font-medium text-lg">Tailwind CSS</span>
               </div>
             </div>
           </div>
@@ -240,7 +167,7 @@
           </div>
         </div>
         <ul
-          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="text-lg px-8 pb-6 text-left text-ink-muted [&_li]:relative [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-line [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
@@ -250,15 +177,17 @@
                 >Tailwind configuration file</a
               >.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Leverage <a
                 class="link"
                 href="https://tailwindcss.com/docs/browser-support#vendor-prefixes"
                 >auto-prefixing</a
-              > to ensure support all of the latest browsers.
+              > to ensure support for all of the latest browsers.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Easily take your brand anywhere using Tailwind's <a
                 class="link"
@@ -268,33 +197,16 @@
             </p>
           </li>
         </ul>
-      </div>
-      <div data-glow class="relative w-full rounded-3xl">
-        <div data-glow></div>
+      </li>
 
-        <div
-          class="rounded-3xl absolute h-full w-full bg-gradient-to-b to-neutral-900 from-neutral-800 -z-[1]"
-        >
-        </div>
+      <li class="card">
         <div class="flex justify-between h-[240px] items-center overflow-visible relative">
-          <div
-            class="flex py-12 px-8 flex-col"
-          >
-            <h2 class="text-5xl font-medula uppercase">Pages/Apps</h2>
-            <div
-              class="flex flex-wrap items-center justify-start gap-2"
-            >
-              <p class="text-lg">Built with</p>
+          <div class="flex py-12 px-8 flex-col">
+            <h2 class="text-5xl font-medula uppercase text-ink">Pages / apps</h2>
+            <div class="flex flex-wrap items-center justify-start gap-2">
+              <p class="text-lg text-ink-muted">Built with</p>
               <div class="flex gap-1 items-center justify-center">
-                <img
-                  src="/astro-logo.svg"
-                  class="inline"
-                  alt="tailwind"
-                  width="90"
-                  height="32"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <span class="text-ink font-medium text-lg">Astro</span>
               </div>
             </div>
           </div>
@@ -314,7 +226,7 @@
           </div>
         </div>
         <ul
-          class="hypens-auto text-lg px-8 pb-4 text-left [&_li]:relative [&_li]:text-subtle [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-white/60 [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
+          class="text-lg px-8 pb-6 text-left text-ink-muted [&_li]:relative [&_li]:py-4 [&_li:last-of-type]:after:hidden [&_li]:after:border-b [&_li]:after:border-dashed [&_li]:after:border-line [&_li]:after:w-full [&_li]:after:h-px [&_li]:after:absolute [&_li]:after:bottom-0 [&_li]:after:left-0"
         >
           <li>
             <p>
@@ -324,7 +236,8 @@
                 >almost no JavaScript</a
               >.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Edit your site's content without touching code using <a
                 class="link"
@@ -332,18 +245,19 @@
                 >content collections</a
               >.
             </p>
-          </li><li>
+          </li>
+          <li>
             <p>
               Share your components between your landing pages and product using
               Astro's support for libraries like <a
                 class="link"
-                href="(https://docs.astro.build/en/core-concepts/framework-components/"
+                href="https://docs.astro.build/en/core-concepts/framework-components/"
                 >React, Vue, and Svelte</a
               >.
             </p>
           </li>
         </ul>
-      </div>
+      </li>
     </ul>
   </div>
 </div>

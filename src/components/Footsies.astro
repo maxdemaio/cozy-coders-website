@@ -1,34 +1,35 @@
 ---
+import Wordmark from "./Wordmark.astro";
+import { Icon } from "astro-icon/components";
+
 let currentYear = new Date().getFullYear();
 ---
 
-<footer class="text-white">
-  <svg
-    width="100%"
-    height="87"
-    viewBox="0 0 1590 87"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    class="mb-[-26px] squiggle-animated"
-  >
-    <path
-      d="M1 85.7946C214.86 57.7539 493 -11.1441 516.5 2.85586C540 16.8559 468 61.5 487 78C506 94.5 612 18.4389 632.5 25.5C653 32.5611 610 59 632.5 68C655 77 1591 40 1590.5 28"
-      stroke="white"
-      stroke-width="2"
-      stroke-miterlimit="3.8637"></path>
-  </svg>
+<footer class="text-ink border-t border-line">
   <div
-    class="p-6 md:px-8 md:py-10 flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between"
+    class="px-6 md:px-10 py-8 flex flex-col md:flex-row gap-6 items-start justify-between"
   >
-    <div class="flex flex-col px-4">
-      <div class="font-medula text-3xl uppercase">Cozy Coders Collective</div>
-      <div class="text-base">© {currentYear} Cozy Coders LLC</div>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+        <a href="/" class="flex items-center gap-3 text-ink">
+          <Wordmark class="h-10 w-auto" label="cozy coders, home" />
+          <span class="font-mono font-semibold text-[15px] tracking-[-0.01em] [word-spacing:-0.35em]">cozy coders</span>
+        </a>
+        <span class="hidden sm:block self-stretch w-px bg-line" aria-hidden="true"></span>
+        <p class="m-0 inline-flex items-center gap-1.5 font-mono text-[13px] text-ink-muted">
+          made with
+          <Icon name="solar:heart-linear" class="w-3.5 h-3.5 text-[#d6649a]" aria-label="love" />
+          in massachusetts, usa
+        </p>
+      </div>
+      <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">© {currentYear} Cozy Coders LLC</p>
     </div>
-    <div></div>
-    <div class="px-4 flex gap-14 text-lg">
-      <!-- <a href="https://github.com/cozy-coders-collective" class="my-blur">GitHub</a>
-      <a href="#" class="my-blur">Contact</a> -->
-
+    <div class="flex flex-col items-start md:items-end md:min-h-10 md:justify-center">
+      <nav aria-label="Footer" class="flex flex-wrap gap-x-1 gap-y-3 -mx-2 font-mono text-[15px] text-ink-muted">
+        <a href="/#work" class="px-2 py-1 hover:text-ink transition-colors duration-150">work,</a>
+        <a href="/resources" class="px-2 py-1 hover:text-ink transition-colors duration-150">resources,</a>
+        <a href="/#pricing" class="px-2 py-1 hover:text-ink transition-colors duration-150">pricing</a>
+      </nav>
     </div>
   </div>
 </footer>
