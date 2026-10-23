@@ -113,8 +113,8 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let opener: HTMLElement | null = null;
     // the shot dithers in once the panel has landed, with the same preset as the home page's work column
-    // (PageReveal.astro). One controller for the dialog; each open hides the visible item's media instantly,
-    // then decodes it after the slide. Off under reduced motion.
+    // (PageReveal.astro). One controller for the dialog; the first open of a project this session hides its media
+    // instantly, then decodes it after the slide. Off under reduced motion.
     let reveal: ReturnType<typeof createAsciiReveal> | null = null;
     const media = () => (reduced ? null : (reveal ||= createAsciiReveal(dialog!, { preset: "dither", origin: "center", selector: "[data-sheet-media]", duration: "fast", speed: 0.9, lazy: false })));
 
@@ -122,9 +122,12 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
       items.forEach((it) => { it.hidden = it.dataset.work !== slug; });
       opener = from;
       const item = dialog!.querySelector<HTMLElement>(".work-sheet__item:not([hidden])")!;
-      media()?.hide({ within: item, instant: true });
+      // each project decodes once per session, like the page reveal: a second look should be instant
+      let seen = false;
+      try { const key = "cozy:sheet-seen"; const list = JSON.parse(sessionStorage.getItem(key) || "[]") as string[]; seen = list.includes(slug); if (!seen) sessionStorage.setItem(key, JSON.stringify([...list, slug])); } catch {}
+      if (!seen) media()?.hide({ within: item, instant: true });
       dialog!.showModal();
-      if (!reduced) setTimeout(() => media()?.reveal({ within: item }), 300);
+      if (!seen && !reduced) setTimeout(() => media()?.reveal({ within: item }), 300);
       // let the dialog paint in its closed state first, then flip the class so the transition has a start value
       requestAnimationFrame(() => requestAnimationFrame(() => dialog!.classList.add("is-open")));
       // lock page scroll without a layout shift: pad for the scrollbar that disappears
