@@ -2,12 +2,16 @@
 interface Props {
   title: string;
   description?: string;
+  /** social card, a path under public/og/ (pnpm og renders one per route; see scripts/og.mjs) */
+  image?: string;
 }
 
 const {
   title,
   description = "Cozy Coders — a design and engineering studio making websites and apps with personality.",
+  image = "/og/home.webp",
 } = Astro.props;
+const ogImage = new URL(image, Astro.site ?? Astro.url).href;
 import "@fontsource/funnel-sans/400.css";
 import "@fontsource/funnel-sans/500.css";
 import "@fontsource/funnel-sans/600.css";
@@ -38,6 +42,15 @@ import PressB from "../components/PressB.astro";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site ?? Astro.url).href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       /* hold the page until the ascii reveal takes over (PageReveal.astro); reduced-motion users skip it */

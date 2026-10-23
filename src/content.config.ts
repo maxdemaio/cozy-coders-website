@@ -8,7 +8,11 @@ export const RESOURCE_TYPES = {
   "case-study": "Case study",
   article: "Article",
   template: "Template",
+  video: "Video",
 } as const;
+
+/** What a resource is at the coarsest grain, for the share card: every written type is a "blog", a video is a "video". */
+export const resourceKind = (type: ResourceType): "blog" | "video" => (type === "video" ? "video" : "blog");
 
 export type ResourceType = keyof typeof RESOURCE_TYPES;
 
@@ -23,6 +27,8 @@ const resources = defineCollection({
     ),
     /** Optional cover, ideally 1200x630. Falls back to a typed placeholder. */
     image: z.string().optional(),
+    /** For type "video": the embed or watch URL. The detail page shows it above the body. */
+    video: z.string().url().optional(),
     /** External resource (download, external doc). Card links out instead of to a detail page. */
     href: z.string().url().optional(),
     /** Overrides the card's action label ("Read", "Download", "Open"). */

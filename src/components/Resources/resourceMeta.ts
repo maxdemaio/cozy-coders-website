@@ -13,6 +13,7 @@ export const TYPE_ICONS: Record<ResourceType, string> = {
   "case-study": "solar:case-round-bold-duotone",
   article: "solar:document-text-bold-duotone",
   template: "solar:layers-minimalistic-bold-duotone",
+  video: "solar:videocamera-record-bold-duotone",
 };
 
 export function typeLabel(type: ResourceType): string {
