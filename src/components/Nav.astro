@@ -6,15 +6,15 @@ import MarketingBanner from "./MarketingBanner.astro";
 import Wordmark from "./Wordmark.astro";
 
 const navItems = [
-  { label: "work", href: "/#work" },
-  { label: "resources", href: "/resources" },
+  { label: "home", href: "/" },
   { label: "pricing", href: "/#pricing" },
+  { label: "resources", href: "/resources" },
   { label: "contact", href: "/contact" },
 ] as const;
 
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
-  !href.includes("#") && currentPath.startsWith(href);
+  href === "/" ? currentPath === "/" : !href.includes("#") && currentPath.startsWith(href);
 ---
 
 <header class="sticky top-0 inset-x-0 z-40">
