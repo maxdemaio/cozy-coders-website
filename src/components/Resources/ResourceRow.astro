@@ -1,6 +1,6 @@
 ---
 // One post as a hairline row in the "all" list, after the home work list: type chip and date
-// in the first column, the title in mono uppercase, the description, a mono "read →" on the right.
+// in the first column, the title in Funnel Sans, the description, a mono "read →" on the right.
 import {
   ctaLabel,
   formatMonthYear,
@@ -32,7 +32,7 @@ const cta = ctaLabel(resource).toLowerCase();
   </div>
 
   <div class="flex flex-col gap-2 min-w-0">
-    <h3 class="m-0 font-mono text-[22px] md:text-[26px] uppercase leading-[1.05] text-ink text-balance">
+    <h3 class="m-0 font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink text-balance">
       <a
         href={href}
         class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"

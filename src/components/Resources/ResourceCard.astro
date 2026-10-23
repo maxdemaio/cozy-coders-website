@@ -1,6 +1,6 @@
 ---
 // One post as a column in a hairline grid (the "What we do" idiom): a chip row with the type and
-// the date, the title in mono uppercase, the description, and a mono "read →". No cover image
+// the date, the title in Funnel Sans, the description, and a mono "read →". No cover image
 // and no rounded card; the grid's rules do the framing. Renders as an <li> for the grid's <ul>.
 import {
   ctaLabel,
@@ -31,7 +31,7 @@ const cta = ctaLabel(resource).toLowerCase();
     <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">{typeLabel(type)}</span>
     <time datetime={isoDate(date)} class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">{formatMonthYear(date)}</time>
   </div>
-  <h3 class="m-0 px-5 md:px-6 pt-6 pb-3 font-mono text-[24px] md:text-[26px] uppercase leading-[1.05] text-ink text-balance">
+  <h3 class="m-0 px-5 md:px-6 pt-6 pb-3 font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink text-balance">
     <a
       href={href}
       class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"

@@ -63,7 +63,7 @@ const more = publishedSorted(await getCollection("resources"))
         </div>
 
         <h1
-          class="font-mono text-6xl uppercase leading-[0.95] text-ink md:text-7xl"
+          class="font-display text-[clamp(36px,5vw,56px)] font-semibold leading-[1.05] tracking-[-0.04em] text-ink text-balance"
         >
           {title}
         </h1>
@@ -130,19 +130,21 @@ const more = publishedSorted(await getCollection("resources"))
   }
 
   .prose-cozy h2 {
-    font-family: var(--font-mono);
-    font-size: 2.25rem;
-    line-height: 1;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     margin-top: 2em;
     color: var(--color-ink);
   }
 
   .prose-cozy h3 {
-    font-family: var(--font-mono);
-    font-size: 1.75rem;
-    line-height: 1.05;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
     margin-top: 1.6em;
     color: var(--color-ink);
   }
