@@ -13,13 +13,15 @@
 /* one weight of mono: never let the browser fake a bold or italic of the pixel face */
 html { font-synthesis: none; }
 
-/* motion tokens, from the design-engineering skill: one house ease-out for enters/exits, the iOS-like
-   drawer curve for sheets. Exits run shorter than enters; a panel and its backdrop share one curve and one clock. */
+/* motion tokens. --ease-out is the design-engineering skill's house curve for enters/exits. The sheet is
+   lowercase.club's, measured 2026-10-23 (Radix Dialog + tailwindcss-animate): panel slides on ease-out-quad,
+   300ms in / 200ms out, no fade; the overlay fades 150ms with plain `ease`, both ways. Exits shorter than enters. */
 :root {
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --sheet-in: 400ms;
-  --sheet-out: 280ms;
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --sheet-in: 300ms;
+  --sheet-out: 200ms;
+  --overlay: 150ms;
 }
 
 @theme {

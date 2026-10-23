@@ -70,16 +70,17 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
        then appeared in place with no slide and drifted on close. clip can't be scrolled, programmatically or not. */
     overflow: clip;
   }
-  /* Motion (after shadcn's Sheet + the design-engineering recipe): the backdrop fades and the panel slides on
-     the same drawer curve and the same clock, 400ms in, 280ms out. The dialog goes display:none → block on
+  /* Motion, stolen from lowercase.club's project sheet (measured 2026-10-23, see the steal skill): the overlay is
+     near-black at 80% and fades in 150ms with plain `ease`; the panel slides from the right on ease-out-quad,
+     300ms in and 200ms out, with no fade and nothing staggered inside. The dialog goes display:none → block on
      showModal(), so the open state is a class added one frame later (see script); keying it on [open] alone
      makes the panel pop in without a transition. */
   .work-sheet::backdrop {
-    background: rgb(24 24 27 / 0.35);
+    background: rgb(24 24 27 / 0.8);
     opacity: 0;
-    transition: opacity var(--sheet-out) var(--ease-drawer);
+    transition: opacity var(--overlay) ease;
   }
-  .work-sheet.is-open::backdrop { opacity: 1; transition-duration: var(--sheet-in); }
+  .work-sheet.is-open::backdrop { opacity: 1; }
   .work-sheet__panel {
     position: absolute;
     top: 0;
@@ -92,16 +93,12 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
        the shadow alone separates the panel from the backdrop */
     box-shadow: -24px 0 48px rgb(24 24 27 / 0.12);
     transform: translateX(100%);
-    transition: transform var(--sheet-out) var(--ease-drawer);
+    transition: transform var(--sheet-out) var(--ease-out-quad);
   }
   .work-sheet.is-open .work-sheet__panel { transform: translateX(0); transition-duration: var(--sheet-in); }
-  /* the content settles a beat after the panel: a short fade + 8px rise, so the sheet reads as "arrive, then present" */
-  .work-sheet__item > * { opacity: 0; transform: translateY(8px); transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
-  .work-sheet.is-open .work-sheet__item > * { opacity: 1; transform: none; transition-delay: 120ms; }
-  .work-sheet.is-open .work-sheet__item > header { transition-delay: 60ms; }
   .work-sheet__item > header { position: sticky; top: 0; z-index: 1; }
   @media (prefers-reduced-motion: reduce) {
-    .work-sheet__panel, .work-sheet::backdrop, .work-sheet__item > * { transition: none; }
+    .work-sheet__panel, .work-sheet::backdrop { transition: none; }
   }
 </style>
 
@@ -124,7 +121,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
       if (gutter > 0) document.documentElement.style.paddingRight = gutter + "px";
       // focus CLOSE only once the panel has arrived: focusing it while the panel is translated off-screen makes
       // the overflow:hidden dialog scroll sideways to reveal it, which is what made the sheet pop in with no slide
-      setTimeout(() => dialog!.querySelector<HTMLElement>(".work-sheet__item:not([hidden]) [data-work-close]")?.focus({ preventScroll: true }), reduced ? 0 : 400);
+      setTimeout(() => dialog!.querySelector<HTMLElement>(".work-sheet__item:not([hidden]) [data-work-close]")?.focus({ preventScroll: true }), reduced ? 0 : 300);
     }
     function close() {
       if (!dialog!.open) return;
@@ -135,7 +132,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
         document.documentElement.style.paddingRight = "";
         opener?.focus({ preventScroll: true });
       };
-      reduced ? done() : setTimeout(done, 280);
+      reduced ? done() : setTimeout(done, 200);
     }
 
     document.querySelectorAll<HTMLElement>("[data-work-open]").forEach((b) => b.addEventListener("click", () => open(b.dataset.workOpen!, b)));
