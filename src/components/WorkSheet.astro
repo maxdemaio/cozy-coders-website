@@ -4,6 +4,7 @@
 // plus an optional blurb and link. All projects are rendered once and the
 // chosen one is shown, so the images are build-optimised like the list.
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import type { ImageMetadata } from "astro";
 import { work } from "../data/work";
 
@@ -23,7 +24,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
                 <h2 class="m-0 font-mono text-[15px] font-semibold leading-none">{item.name}</h2>
                 <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-background/70">{item.tags.join(", ")}</p>
               </div>
-              <button type="button" class="shrink-0 font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close>CLOSE</button>
+              <button type="button" class="shrink-0 inline-flex items-center gap-2 font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close><Icon name="solar:close-circle-linear" class="w-4 h-4" aria-hidden="true" /> CLOSE</button>
             </header>
             <div class="flex flex-col gap-5 p-5 md:p-6">
               {img && (
@@ -64,7 +65,10 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
     border: 0;
     background: transparent;
     color: var(--color-ink);
-    overflow: hidden; /* the panel slides past the right edge on close; never let that widen the page */
+    /* clip, not hidden: the panel sits translated past the right edge while closed, and showModal() autofocuses
+       the first control inside it, which made an overflow:hidden dialog scroll sideways to reveal it: the panel
+       then appeared in place with no slide and drifted on close. clip can't be scrolled, programmatically or not. */
+    overflow: clip;
   }
   /* Motion (after shadcn's Sheet + the design-engineering recipe): the backdrop fades and the panel slides on
      the same drawer curve and the same clock, 400ms in, 280ms out. The dialog goes display:none → block on
