@@ -54,8 +54,9 @@ import WorkList from "./WorkList.astro";
     flex: 1 1 auto;
     /* fills the rest of the left column, so it runs down beside the work list */
     min-height: clamp(300px, 30vw, 420px);
-    /* fade in from the top so the glyphs grow out of the copy, like the reference */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    /* fade in from the top so the glyphs grow out of the copy, like the reference; fade out over the
+       last 28px so the section's 1px zinc-200 border-b reads against paper instead of vanishing under dark cells */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 calc(100% - 28px), transparent 100%);
   }
 </style>
