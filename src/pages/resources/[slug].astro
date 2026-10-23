@@ -6,6 +6,7 @@ import Nav from "@/components/Nav.astro";
 import Footsies from "@/components/Footsies.astro";
 import FinalCta from "@/components/FinalCta.astro";
 import ResourceCard from "@/components/Resources/ResourceCard.astro";
+import PageToc from "@/components/Resources/PageToc.astro";
 import {
   TYPE_ICONS,
   formatFullDate,
@@ -24,7 +25,7 @@ export async function getStaticPaths() {
 
 const { resource } = Astro.props;
 const { title, description, date, type, image, video } = resource.data;
-const { Content } = await render(resource);
+const { Content, headings } = await render(resource);
 
 const more = publishedSorted(await getCollection("resources"))
   .filter((r) => r.id !== resource.id)
@@ -34,8 +35,9 @@ const more = publishedSorted(await getCollection("resources"))
 <Layout title={`${title} — Cozy Coders`} description={description} image={`/og/resources/${resource.id}.webp`}>
   <Nav />
 
-  <main class="relative px-5 pt-36 md:px-10 md:pt-40">
-    <article class="mx-auto flex max-w-[720px] flex-col gap-10 pb-16">
+  <main class="relative px-5 pt-10 md:px-10 md:pt-14">
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_minmax(0,720px)_1fr] xl:gap-x-12">
+    <article class="mx-auto w-full max-w-[720px] xl:col-start-2 flex flex-col gap-10 pb-16">
       <header class="flex flex-col gap-5">
         <a
           href="/resources"
@@ -98,6 +100,8 @@ const more = publishedSorted(await getCollection("resources"))
         <Content />
       </div>
     </article>
+    <PageToc title={title} headings={headings} />
+    </div>
 
     {
       more.length > 0 && (

@@ -1,0 +1,57 @@
+---
+// "on this page", after mayo-os's page-toc: the title first (scrolls to the top), then the
+// article's h2/h3 from Astro's render() headings. Scroll-spy marks the lowest heading that
+// has passed 120px from the top. Sticky beside the article on wide screens, hidden below.
+interface Props {
+  title: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+const { title, headings } = Astro.props;
+const sections = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const min = Math.min(...sections.map((h) => h.depth), 2);
+const items = [{ id: "top", text: title, depth: 0 }, ...sections.map((h) => ({ id: h.slug, text: h.text, depth: h.depth - min }))];
+---
+
+<aside class="page-toc hidden xl:flex flex-col sticky top-28 self-start max-h-[calc(100vh-9rem)] w-56" aria-label="On this page">
+  <p class="m-0 mb-2 px-2 font-mono text-[11px] tracking-[0.08em] text-ink-soft">on this page</p>
+  <nav class="relative flex min-h-0 flex-col gap-0.5 overflow-y-auto" data-toc>
+    {items.map((item) => (
+      <a
+        href={`#${item.id}`}
+        data-toc-id={item.id}
+        style={`padding-left:${item.depth * 0.75 + 0.5}rem`}
+        class="toc-link block shrink-0 truncate py-1 pr-2 font-mono text-[12px] text-ink-muted hover:text-ink transition-colors duration-150"
+      >{item.text}</a>
+    ))}
+  </nav>
+</aside>
+
+<style>
+  .toc-link[aria-current="true"] { background: var(--color-stage); color: var(--color-ink); }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-toc]");
+  if (nav) {
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("[data-toc-id]"));
+    const targets = links.map((l) => ({ id: l.dataset.tocId!, el: l.dataset.tocId === "top" ? null : document.getElementById(l.dataset.tocId!) }));
+    const THRESHOLD = 120;
+    let ticking = false;
+    const update = () => {
+      let current = "top";
+      for (const t of targets) {
+        if (t.el && t.el.getBoundingClientRect().top <= THRESHOLD) current = t.id;
+        else if (t.el) break;
+      }
+      for (const l of links) {
+        const on = l.dataset.tocId === current;
+        if (on) l.setAttribute("aria-current", "true"); else l.removeAttribute("aria-current");
+        if (on && (l.offsetTop < nav.scrollTop || l.offsetTop + l.offsetHeight > nav.scrollTop + nav.clientHeight)) nav.scrollTop = l.offsetTop - 8;
+      }
+    };
+    addEventListener("scroll", () => { if (ticking) return; ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); }, { passive: true });
+    // "#top" has no element; scroll to the top by hand so the hash still works
+    links[0]?.addEventListener("click", (e) => { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); history.replaceState(null, "", location.pathname); });
+    update();
+  }
+</script>
