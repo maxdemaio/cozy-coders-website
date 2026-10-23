@@ -45,8 +45,8 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
     <main class="flex-1">
       <!-- head: copy left, the newest post right -->
       <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] border-b border-ink-soft lg:min-h-[min(640px,80vh)]">
-        <div class="flex flex-col justify-center lg:border-r lg:border-line">
-        <div class="flex flex-col gap-6 max-w-[640px] px-6 pt-12 pb-12 md:px-10 lg:py-20">
+        <div class="flex flex-col lg:border-r lg:border-line">
+        <div class="flex flex-col gap-6 max-w-[640px] px-6 pt-12 pb-12 md:px-10 lg:pt-16 lg:pb-20">
           <h1 class="m-0 font-display text-[clamp(40px,5.4vw,64px)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink text-balance">
             Notes from the studio.
           </h1>
@@ -64,7 +64,7 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
             {...isExternal(feature) ? { target: "_blank", rel: "noopener noreferrer" } : {}}
             class="feature group relative grid grid-cols-1 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] bg-stage/50 hover:bg-stage transition-colors duration-200 border-t border-line lg:border-t-0"
           >
-            <div class="flex flex-col justify-center gap-10 px-6 py-10 md:px-10 lg:py-16">
+            <div class="flex flex-col gap-10 px-6 py-10 md:px-10 lg:pt-16 lg:pb-16">
             <div class="flex flex-wrap items-stretch">
               <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background px-2.5 py-2">Latest</span>
               <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border border-line px-2.5 py-2">{typeLabel(feature.data.type)}</span>
