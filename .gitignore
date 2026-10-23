@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# hero photo trials for the dev photo switcher (PhotoSwitcher.astro); local only
+public/hero/try/

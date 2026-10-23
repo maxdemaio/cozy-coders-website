@@ -13,7 +13,7 @@ interface Props {
 const { limit } = Astro.props;
 const items = limit ? work.slice(0, limit) : work;
 
-const images = import.meta.glob<{ default: ImageMetadata }>("../assets/work/*.{png,jpg,jpeg}", { eager: true });
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/work/*.webp", { eager: true });
 const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
 ---
 

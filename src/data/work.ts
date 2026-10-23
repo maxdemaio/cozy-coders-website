@@ -13,13 +13,13 @@ export interface WorkItem {
 }
 
 export const work: WorkItem[] = [
-  { slug: "resto", name: "Resto", tags: ["Website", "Brand"], image: "resto.png", alt: "Resto restaurant homepage" },
-  { slug: "splist", name: "Splist", tags: ["App"], image: "splist-app.png", alt: "Splist app" },
-  { slug: "chessheat", name: "Chess Heat", tags: ["Website", "Tool"], image: "chessheat.png", alt: "Chess Heat homepage" },
-  { slug: "typehero", name: "TypeHero", tags: ["Website"], image: "typehero.png", alt: "TypeHero homepage" },
-  { slug: "wikihop", name: "WikiHop", tags: ["Website", "Tool"], image: "WikiHop.jpg", alt: "WikiHop homepage" },
-  { slug: "overlayed", name: "Overlayed", tags: ["Website", "App"], image: "overlayed.png", alt: "Overlayed homepage" },
-  { slug: "music", name: "Music", tags: ["Website"], image: "music.png", alt: "Music homepage" },
-  { slug: "maxdemaio", name: "Max DeMaio", tags: ["Website"], image: "maxdemaio-home.jpeg", alt: "Max DeMaio personal site" },
-  { slug: "cozy", name: "Cozy Coders", tags: ["Website", "Brand"], image: "cozy.png", alt: "Cozy Coders homepage" },
+  { slug: "resto", name: "Resto", tags: ["Website", "Brand"], image: "resto.webp", alt: "Resto restaurant homepage" },
+  { slug: "splist", name: "Splist", tags: ["App"], image: "splist-app.webp", alt: "Splist app" },
+  { slug: "chessheat", name: "Chess Heat", tags: ["Website", "Tool"], image: "chessheat.webp", alt: "Chess Heat homepage" },
+  { slug: "typehero", name: "TypeHero", tags: ["Website"], image: "typehero.webp", alt: "TypeHero homepage" },
+  { slug: "wikihop", name: "WikiHop", tags: ["Website", "Tool"], image: "WikiHop.webp", alt: "WikiHop homepage" },
+  { slug: "overlayed", name: "Overlayed", tags: ["Website", "App"], image: "overlayed.webp", alt: "Overlayed homepage" },
+  { slug: "music", name: "Music", tags: ["Website"], image: "music.webp", alt: "Music homepage" },
+  { slug: "maxdemaio", name: "Max DeMaio", tags: ["Website"], image: "maxdemaio-home.webp", alt: "Max DeMaio personal site" },
+  { slug: "cozy", name: "Cozy Coders", tags: ["Website", "Brand"], image: "cozy.webp", alt: "Cozy Coders homepage" },
 ];
