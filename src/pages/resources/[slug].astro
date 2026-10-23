@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/Nav.astro";
 import Footsies from "@/components/Footsies.astro";
-import Contact from "@/components/Contact.astro";
+import FinalCta from "@/components/FinalCta.astro";
 import ResourceCard from "@/components/Resources/ResourceCard.astro";
 import {
   TYPE_ICONS,
@@ -101,32 +101,20 @@ const more = publishedSorted(await getCollection("resources"))
 
     {
       more.length > 0 && (
-        <section
-          aria-labelledby="more-heading"
-          class="mx-auto flex max-w-[1200px] flex-col gap-6 border-t border-line pb-16 pt-16"
-        >
-          <h2
-            id="more-heading"
-            class="font-mono text-4xl uppercase text-ink md:text-5xl"
-          >
-            More resources
-          </h2>
-          <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {more.map((r) => (
-              <li class="flex">
-                <ResourceCard resource={r} />
-              </li>
-            ))}
+        <section aria-labelledby="more-heading" class="-mx-5 md:-mx-10 border-t border-line">
+          <div class="px-6 md:px-10 pt-14 pb-8 md:pt-16 md:pb-10">
+            <h2 id="more-heading" class="m-0 font-display text-[36px] md:text-[48px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink">More from the studio</h2>
+          </div>
+          <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto_1fr] border-t border-line">
+            {more.map((r) => <ResourceCard resource={r} />)}
           </ul>
         </section>
       )
     }
   </main>
 
-  <div class="relative">
-    <Contact />
-    <Footsies />
-  </div>
+  <FinalCta />
+  <Footsies />
 </Layout>
 
 <style is:global>

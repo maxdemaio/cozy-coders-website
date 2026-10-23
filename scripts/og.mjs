@@ -4,7 +4,7 @@
 // word at 132px Departure Mono with an uppercase mono tagline, left-aligned and vertically
 // centred; the sketch wordmark behind the text at 28% paper, cropped by the right edge; a white
 // inset hairline; the url bottom-left. The route changes the word, the tagline, the url path and
-// which photo sits behind (Bates Hall everywhere, the market square on /contact, as on the site).
+// which photo sits behind (Bates Hall everywhere, the market square on /contact, the plant shop on /pricing, as on the site).
 //
 // Composed in HTML and screenshotted with Playwright (same Chromium build as the dev checks),
 // then written as webp with sharp. Cards are committed; re-run when a route or title changes.
@@ -27,6 +27,7 @@ const routes = [
   { file: "home", path: "", word: "cozy coders", tag: tagline, photo: "bpl-ascii.png" },
   { file: "contact", path: "/contact", word: "contact", tag: tagline, photo: "market-ascii.png", focus: "70% 80%" },
   { file: "resources", path: "/resources", word: "resources", tag: tagline, photo: "bpl-ascii.png" },
+  { file: "pricing", path: "/pricing", word: "pricing", tag: tagline, photo: "plant-ascii.png", focus: "50% 60%" },
 ];
 // one card per published resource post: the word is its kind ("video" for type video, "blog" for every written type;
 // src/content.config.ts resourceKind), the tagline stays

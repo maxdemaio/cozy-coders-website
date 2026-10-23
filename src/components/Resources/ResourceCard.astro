@@ -1,7 +1,8 @@
 ---
-import { Icon } from "astro-icon/components";
+// One post as a column in a hairline grid (the "What we do" idiom): a chip row with the type and
+// the date, the title in mono uppercase, the description, and a mono "read →". No cover image
+// and no rounded card; the grid's rules do the framing. Renders as an <li> for the grid's <ul>.
 import {
-  TYPE_ICONS,
   ctaLabel,
   formatMonthYear,
   isExternal,
@@ -13,92 +14,40 @@ import {
 
 interface Props {
   resource: Resource;
-  /** First card in the row loads its image eagerly. */
-  eager?: boolean;
 }
 
-const { resource, eager = false } = Astro.props;
-const { title, description, date, type, image } = resource.data;
+const { resource } = Astro.props;
+const { title, description, date, type } = resource.data;
 const href = resourceHref(resource);
 const external = isExternal(resource);
-const cta = ctaLabel(resource);
+const cta = ctaLabel(resource).toLowerCase();
 ---
 
-<article
-  class="card group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-colors duration-200 hover:border-primary focus-within:border-primary"
+<li
+  class="card group relative flex flex-col md:grid md:grid-rows-subgrid md:row-span-3 border-b border-line md:border-b-0 md:border-r last:border-r-0 hover:bg-stage/40 transition-colors duration-200"
   data-type={type}
 >
-  <div
-    class="cover relative aspect-[1200/630] w-full overflow-hidden border-b border-line bg-primary/10"
-  >
-    {
-      image ? (
-        <img
-          src={image}
-          alt=""
-          width="1200"
-          height="630"
-          class="h-full w-full object-cover"
-          loading={eager ? "eager" : "lazy"}
-          decoding="async"
-        />
-      ) : (
-        <div class="placeholder absolute inset-0 flex items-center justify-center">
-          <Icon
-            name={TYPE_ICONS[type]}
-            class="h-14 w-14 text-primary-deep"
-            aria-hidden="true"
-          />
-        </div>
-      )
-    }
+  <div class="flex flex-wrap items-stretch border-b border-line">
+    <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">{typeLabel(type)}</span>
+    <time datetime={isoDate(date)} class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">{formatMonthYear(date)}</time>
   </div>
-
-  <div class="flex flex-1 flex-col gap-3 p-6">
-    <div class="flex items-center gap-2 text-sm text-ink-muted">
-      <span class="font-medium uppercase tracking-wide text-primary-deep"
-        >{typeLabel(type)}</span
-      >
-      <span aria-hidden="true">·</span>
-      <time datetime={isoDate(date)}>{formatMonthYear(date)}</time>
-    </div>
-
-    <h3 class="font-mono text-3xl uppercase leading-[1.05] text-ink">
-      <a
-        href={href}
-        class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
-        {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
-      >
-        {title}
-      </a>
-    </h3>
-
-    <p class="text-base leading-relaxed text-ink-muted">{description}</p>
-
-    <span
-      class="mt-auto inline-flex items-center gap-1 pt-2 text-base text-primary-deep transition-colors duration-150 group-hover:text-primary"
-      aria-hidden="true"
+  <h3 class="m-0 px-5 md:px-6 pt-6 pb-3 font-mono text-[24px] md:text-[26px] uppercase leading-[1.05] text-ink text-balance">
+    <a
+      href={href}
+      class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
+      {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
     >
-      {cta}
-      <Icon
-        name={external ? "solar:arrow-right-up-bold" : "solar:arrow-right-bold"}
-        class="h-[0.9em] w-[0.9em] transition-transform duration-150 group-hover:translate-x-0.5"
-      />
+      {title}
+    </a>
+  </h3>
+  <div class="flex flex-col gap-5 px-5 md:px-6 pb-7">
+    <p class="m-0 max-w-[40ch] text-[15px] leading-relaxed text-ink-muted">{description}</p>
+    <span class="mt-auto inline-flex items-center gap-2 font-mono text-[13px] text-ink" aria-hidden="true">
+      {cta} <span class="transition-transform duration-150 group-hover:translate-x-0.5">{external ? "↗" : "→"}</span>
     </span>
   </div>
-</article>
+</li>
 
 <style>
-  .placeholder {
-    background-image: radial-gradient(
-      color-mix(in oklab, var(--color-primary) 22%, transparent) 1px,
-      transparent 1px
-    );
-    background-size: 14px 14px;
-  }
-
-  .card:focus-within {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
+  .card:focus-within { outline: 2px solid var(--color-primary); outline-offset: -2px; }
 </style>
