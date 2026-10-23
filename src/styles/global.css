@@ -13,6 +13,15 @@
 /* one weight of mono: never let the browser fake a bold or italic of the pixel face */
 html { font-synthesis: none; }
 
+/* motion tokens, from the design-engineering skill: one house ease-out for enters/exits, the iOS-like
+   drawer curve for sheets. Exits run shorter than enters; a panel and its backdrop share one curve and one clock. */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --sheet-in: 400ms;
+  --sheet-out: 280ms;
+}
+
 @theme {
   --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;

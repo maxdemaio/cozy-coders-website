@@ -57,7 +57,7 @@ const html = (r) => `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .mark { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); height: 560px; width: auto; fill: currentColor; opacity: .28; z-index: 0; }
   .word { position: relative; z-index: 1; margin: 0; font-weight: 400; font-size: 132px; line-height: 132px; word-spacing: -0.35em; letter-spacing: -0.02em; white-space: nowrap; }
   .tag { position: relative; z-index: 1; margin: 0; font-size: 33px; line-height: 44px; text-transform: uppercase; letter-spacing: .08em; color: rgb(250 249 246 / .85); max-width: 900px; text-wrap: balance; }
-  .url { position: absolute; left: 72px; bottom: 56px; font-size: 22px; line-height: 22px; color: rgb(250 249 246 / .7); z-index: 1; }
+  .url { position: absolute; left: 72px; bottom: 56px; font-size: 33px; line-height: 33px; color: rgb(250 249 246 / .8); z-index: 1; }
 </style></head><body><div class="card">
   <div class="art"></div><div class="inset"></div>
   <svg class="mark" viewBox="0 0 922 845"><path d="${markPath}"/></svg>
