@@ -28,15 +28,17 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
             </header>
             <div class="flex flex-col gap-5 p-5 md:p-6">
               {img && (
-                <Image
-                  src={img}
-                  alt={item.alt}
-                  widths={[720, 1080, 1440]}
-                  sizes="(min-width: 1024px) 720px, 92vw"
-                  class="w-full h-auto border border-line bg-surface"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <div data-sheet-media>
+                  <Image
+                    src={img}
+                    alt={item.alt}
+                    widths={[720, 1080, 1440]}
+                    sizes="(min-width: 1024px) 720px, 92vw"
+                    class="w-full h-auto border border-line bg-surface"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               )}
               {item.blurb && <p class="m-0 max-w-[60ch] text-[15px] leading-relaxed text-ink-muted">{item.blurb}</p>}
               {item.href && (
@@ -103,16 +105,26 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
 </style>
 
 <script>
+  import { createAsciiReveal } from "ascii-reveal/core";
+
   const dialog = document.getElementById("work-sheet") as HTMLDialogElement | null;
   if (dialog) {
     const items = dialog.querySelectorAll<HTMLElement>(".work-sheet__item");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let opener: HTMLElement | null = null;
+    // the shot dithers in once the panel has landed, with the same preset as the home page's work column
+    // (PageReveal.astro). One controller for the dialog; each open hides the visible item's media instantly,
+    // then decodes it after the slide. Off under reduced motion.
+    let reveal: ReturnType<typeof createAsciiReveal> | null = null;
+    const media = () => (reduced ? null : (reveal ||= createAsciiReveal(dialog!, { preset: "dither", origin: "center", selector: "[data-sheet-media]", duration: "fast", speed: 0.9, lazy: false })));
 
     function open(slug: string, from: HTMLElement) {
       items.forEach((it) => { it.hidden = it.dataset.work !== slug; });
       opener = from;
+      const item = dialog!.querySelector<HTMLElement>(".work-sheet__item:not([hidden])")!;
+      media()?.hide({ within: item, instant: true });
       dialog!.showModal();
+      if (!reduced) setTimeout(() => media()?.reveal({ within: item }), 300);
       // let the dialog paint in its closed state first, then flip the class so the transition has a start value
       requestAnimationFrame(() => requestAnimationFrame(() => dialog!.classList.add("is-open")));
       // lock page scroll without a layout shift: pad for the scrollbar that disappears
