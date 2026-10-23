@@ -1,12 +1,13 @@
 ---
-// Dev-only photo panel for the ASCII hero. Shows on localhost automatically; elsewhere
+// Dev-only photo panel for whichever page mounts it (the resources head today). Shows on localhost automatically; elsewhere
 // only with ?photo in the URL (e.g. /?photo or /?photo=/hero/try/img_5488.jpg); ?photo=off hides it. Picks apply live via the hook
 // AsciiArt registers; the URL updates so a pick can be shared. Candidates live in
 // public/hero/try/ — drop a web-sized jpg there and add it to the list.
 const photos = [
-  { name: "bates hall (current)", src: "/hero/bpl.jpg" },
-  { name: "market square (contact page)", src: "/hero/market.jpg" },
-  { name: "street + dome", src: "/hero/try/img_4228.jpg" },
+  { name: "street + dome (resources)", src: "/hero/street.jpg" },
+  { name: "bates hall (home)", src: "/hero/bpl.jpg" },
+  { name: "market square (contact)", src: "/hero/market.jpg" },
+  { name: "plant shop (pricing)", src: "/hero/plant.jpg" },
   { name: "wet meadow", src: "/hero/try/img_5016.jpg" },
   { name: "goldenrod field", src: "/hero/try/img_5488.jpg" },
   { name: "trail", src: "/hero/try/img_5575.jpg" },
@@ -14,7 +15,6 @@ const photos = [
   { name: "lantern mall", src: "/hero/try/1000002328.jpg" },
   { name: "lantern canopy (wide)", src: "/hero/try/1000002335.jpg" },
   { name: "canal town", src: "/hero/try/1944.jpg" },
-  { name: "plant shop", src: "/hero/try/img_5057.jpg" },
   { name: "hanok cafe", src: "/hero/try/img_5062.jpg" },
   { name: "hanok roof + sky", src: "/hero/try/img_5084.jpg" },
   { name: "covered market", src: "/hero/try/img_5160.jpg" },
