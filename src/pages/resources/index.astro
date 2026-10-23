@@ -10,6 +10,7 @@ import Nav from "@/components/Nav.astro";
 import Footsies from "@/components/Footsies.astro";
 import FinalCta from "@/components/FinalCta.astro";
 import CursorFollow from "@/components/CursorFollow.astro";
+import AsciiArt from "@/components/AsciiArt.astro";
 import ResourceCard from "@/components/Resources/ResourceCard.astro";
 import ResourceRow from "@/components/Resources/ResourceRow.astro";
 import {
@@ -43,7 +44,8 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
     <main class="flex-1">
       <!-- head: copy left, the newest post right -->
       <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] border-b border-line">
-        <div class="flex flex-col gap-6 max-w-[640px] px-6 pt-12 pb-12 md:px-10 lg:pt-16 lg:pb-20 lg:border-r lg:border-line">
+        <div class="lg:border-r lg:border-line">
+        <div class="flex flex-col gap-6 max-w-[640px] px-6 pt-12 pb-12 md:px-10 lg:pt-16 lg:pb-20">
           <p class="m-0 font-mono text-[13px] text-ink-muted">resources</p>
           <h1 class="m-0 font-display text-[clamp(40px,5.4vw,64px)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink text-balance">
             Notes from the studio.
@@ -54,13 +56,15 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
           </p>
           <a href="#all" class="cta-push cta-push--grey cta-push--lg self-start">All {all.length} <Icon name="solar:arrow-down-bold" class="w-3.5 h-3.5" /></a>
         </div>
+        </div>
 
         {feature && (
           <a
             href={resourceHref(feature)}
             {...isExternal(feature) ? { target: "_blank", rel: "noopener noreferrer" } : {}}
-            class="feature group relative flex flex-col justify-between gap-10 px-6 py-10 md:px-10 lg:py-16 bg-stage/50 hover:bg-stage transition-colors duration-200 border-t border-line lg:border-t-0"
+            class="feature group relative grid grid-cols-1 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] bg-stage/50 hover:bg-stage transition-colors duration-200 border-t border-line lg:border-t-0"
           >
+            <div class="flex flex-col justify-between gap-10 px-6 py-10 md:px-10 lg:py-16">
             <div class="flex flex-wrap items-stretch">
               <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background px-2.5 py-2">Latest</span>
               <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border border-line px-2.5 py-2">{typeLabel(feature.data.type)}</span>
@@ -70,6 +74,10 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
               <h2 class="m-0 font-display text-[30px] md:text-[40px] lg:text-[44px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink text-balance max-w-[24ch]">{feature.data.title}</h2>
               <p class="m-0 max-w-[56ch] text-base md:text-[17px] leading-relaxed text-ink-muted">{feature.data.description}</p>
               <span class="inline-flex items-center gap-2 font-mono text-[13px] text-ink">read <span aria-hidden="true" class="transition-transform duration-150 group-hover:translate-x-0.5">→</span></span>
+            </div>
+            </div>
+            <div class="feature-art relative min-h-[260px] md:min-h-0 md:border-l md:border-line" aria-hidden="true">
+              <AsciiArt src="/hero/street.jpg" fallback="/hero/street-ascii.png" width={800} height={1067} focus="0.5,0.45" alt="" />
             </div>
           </a>
         )}
@@ -118,6 +126,17 @@ const description = "Guides, checklists, and the occasional opinion from Cozy Co
 </Layout>
 
 <style>
+  /* the street photo grows in from the seam with the copy, like the other page heads */
+  .feature-art {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+  }
+  @media (min-width: 768px) {
+    .feature-art {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 18%);
+    }
+  }
   .filter[aria-pressed="true"] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-background); position: relative; z-index: 1; }
   .filter[aria-pressed="true"] span { color: color-mix(in oklab, var(--color-background) 60%, transparent); }
 </style>
