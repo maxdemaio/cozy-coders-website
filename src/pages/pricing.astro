@@ -10,27 +10,24 @@ import FinalCta from "../components/FinalCta.astro";
 import AsciiArt from "../components/AsciiArt.astro";
 import CursorFollow from "../components/CursorFollow.astro";
 import { Icon } from "astro-icon/components";
-import { packages, retainer, faqs } from "../data/pricing";
+import { intro, plans, oneOff, faqs } from "../data/pricing";
 ---
 
-<Layout title="Pricing — Cozy Coders" description="Fixed prices for websites, brand work and apps, and a monthly retainer for after launch. From the number on the page, no surprises." image="/og/pricing.webp">
+<Layout title="Pricing — Cozy Coders" description="Monthly plans for design, and design with code to match. One week free, pause or cancel any time." image="/og/pricing.webp">
   <div class="min-h-screen flex flex-col">
     <Nav />
     <main class="flex-1">
       <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] border-b border-ink-soft">
         <div class="flex flex-col lg:border-r lg:border-line">
           <div class="flex flex-col gap-6 max-w-[640px] px-6 pt-12 pb-14 md:px-10 lg:pt-16 lg:pb-20">
-            <p class="m-0 font-mono text-[13px] text-ink-muted">pricing</p>
+            <p class="m-0 font-mono text-[13px] text-ink-muted">{intro.eyebrow}</p>
             <h1 class="m-0 font-display text-[clamp(40px,5.4vw,64px)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink text-balance">
-              Pick what you need. The price is the price.
+              {intro.title}
             </h1>
-            <p class="m-0 text-base md:text-[17px] leading-relaxed text-ink-muted max-w-[48ch]">
-              Three fixed-price packages and a monthly retainer. Every number below is a starting point;
-              you get a fixed quote after the intro call, before any work starts.
-            </p>
+            <p class="m-0 text-base md:text-[17px] leading-relaxed text-ink-muted max-w-[48ch]">{intro.lede}</p>
             <div class="flex flex-wrap items-center gap-2.5">
               <a href="/contact" class="cta-push">Book a call</a>
-              <a href="#packages" class="cta-push cta-push--grey cta-push--lg">See packages <Icon name="solar:arrow-down-bold" class="w-3.5 h-3.5" /></a>
+              <a href="#plans" class="cta-push cta-push--grey cta-push--lg">See plans <Icon name="solar:arrow-down-bold" class="w-3.5 h-3.5" /></a>
             </div>
           </div>
         </div>
@@ -46,57 +43,56 @@ import { packages, retainer, faqs } from "../data/pricing";
         </aside>
       </section>
 
-      <!-- packages: three columns in the What-we-do idiom -->
-      <section id="packages" class="scroll-mt-16">
+      <!-- plans: three columns in the What-we-do idiom -->
+      <section id="plans" class="scroll-mt-16">
         <div class="px-6 md:px-10 pt-16 pb-10 md:pt-20 md:pb-12">
-          <h2 class="m-0 font-display text-[36px] md:text-[48px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink text-balance">Packages</h2>
-          <p class="m-0 mt-5 max-w-[52ch] text-[17px] leading-[26px] text-ink-muted text-pretty"><span class="font-semibold text-ink">Projects, not hours.</span> One number, one timeline, one team of two. Half to start, half at launch.</p>
+          <h2 class="m-0 font-display text-[36px] md:text-[48px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink text-balance">Plans</h2>
+          <p class="m-0 mt-5 max-w-[52ch] text-[17px] leading-[26px] text-ink-muted text-pretty"><span class="font-semibold text-ink">A subscription, not a quote.</span> Each plan includes the one before it. Start on a free week, move up when the work needs it, pause when it doesn't.</p>
         </div>
-        <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto_auto_1fr_auto] border-t border-b border-line">
-          {packages.map((p) => (
-            <li class:list={["flex flex-col md:grid md:grid-rows-subgrid md:row-span-5 border-b border-line md:border-b-0 md:border-r last:border-r-0", p.featured && "bg-stage/50"]}>
+        <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto_auto_auto_1fr_auto] border-t border-b border-line">
+          {plans.map((p) => (
+            <li class:list={["flex flex-col md:grid md:grid-rows-subgrid md:row-span-6 border-b border-line md:border-b-0 md:border-r last:border-r-0", p.featured && "bg-stage/50"]}>
               <div class="flex flex-wrap items-stretch border-b border-line">
                 <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">{p.name}</span>
                 <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">{p.tag}</span>
                 {p.featured && <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-primary-deep border-r border-line px-2.5 py-2">Most picked</span>}
               </div>
-              <div class="px-5 md:px-6 pt-6 pb-2 flex items-baseline gap-2">
-                <span class="text-[15px] text-ink-muted">{p.unit}</span>
+              <p class="m-0 px-5 md:px-6 pt-6 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">{p.blurb}</p>
+              <div class="px-5 md:px-6 pt-5 pb-6 flex items-baseline gap-2 border-b border-line">
                 <span class="font-display text-[44px] font-semibold leading-none tracking-[-0.03em] text-ink tabular-nums">${p.price}</span>
+                <span class="text-[17px] text-ink-soft">{p.unit}</span>
               </div>
-              <p class="m-0 px-5 md:px-6 pb-5 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted border-b border-line">{p.blurb}</p>
-              <ul class="m-0 px-5 md:px-6 py-5 list-none flex flex-col gap-2.5">
+              <p class="m-0 px-5 md:px-6 pt-5 text-[13px] italic text-ink-muted">{p.plus ?? ""}</p>
+              <ul class="m-0 px-5 md:px-6 pt-3 pb-5 list-none flex flex-col gap-2.5">
                 {p.includes.map((line) => (
                   <li class="flex gap-2.5 text-[15px] leading-snug text-ink"><Icon name="solar:check-circle-bold" class="w-4 h-4 mt-0.5 shrink-0 text-primary" /> <span>{line}</span></li>
                 ))}
               </ul>
               <div class="px-5 md:px-6 pb-7 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-                <span class="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">{p.timeline}</span>
-                <a href={`/contact?package=${p.slug}`} class="cta-push cta-push--grey">Start with this</a>
+                <span class="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">{p.note}</span>
+                <a href={`/contact?plan=${p.slug}`} class:list={["cta-push", !p.featured && "cta-push--grey"]}>{p.cta}</a>
               </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <!-- retainer band -->
-      <section id="retainer" class="scroll-mt-16 border-b border-line bg-ink text-background">
+      <!-- one-off band -->
+      <section id="one-off" class="scroll-mt-16 border-b border-line bg-ink text-background">
         <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
           <div class="px-6 md:px-10 py-12 md:py-16 flex flex-col gap-5 lg:border-r lg:border-background/15">
             <div class="flex flex-wrap items-stretch">
-              <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-background text-ink px-2.5 py-2">{retainer.name}</span>
-              <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-background/70 border border-background/25 px-2.5 py-2">{retainer.tag}</span>
+              <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-background text-ink px-2.5 py-2">{oneOff.name}</span>
+              <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-background/70 border border-background/25 px-2.5 py-2">{oneOff.tag}</span>
             </div>
             <div class="flex items-baseline gap-2">
-              <span class="font-display text-[44px] font-semibold leading-none tracking-[-0.03em] tabular-nums">${retainer.price}</span>
-              <span class="text-[15px] text-background/70">{retainer.unit}</span>
+              <span class="font-display text-[36px] md:text-[44px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{oneOff.range}</span>
             </div>
-            <p class="m-0 max-w-[40ch] text-[15px] md:text-base leading-relaxed text-background/80">{retainer.blurb}</p>
-            <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-background/70">{retainer.slots}</p>
-            <a href="/contact?package=retainer" class="cta-push self-start">Ask about a slot</a>
+            <p class="m-0 max-w-[44ch] text-[15px] md:text-base leading-relaxed text-background/80">{oneOff.blurb}</p>
+            <a href="/contact?plan=one-off" class="cta-push self-start">{oneOff.cta}</a>
           </div>
           <ul class="m-0 px-6 md:px-10 py-12 md:py-16 list-none grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4 content-center">
-            {retainer.includes.map((line) => (
+            {oneOff.includes.map((line) => (
               <li class="flex gap-2.5 text-[15px] leading-snug"><Icon name="solar:check-circle-bold" class="w-4 h-4 mt-0.5 shrink-0 text-background" /> <span>{line}</span></li>
             ))}
           </ul>
