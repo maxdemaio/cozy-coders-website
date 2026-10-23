@@ -24,7 +24,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
                 <h2 class="m-0 font-mono text-[15px] font-semibold leading-none">{item.name}</h2>
                 <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-background/70">{item.tags.join(", ")}</p>
               </div>
-              <button type="button" class="shrink-0 inline-flex items-center gap-2 font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close><Icon name="solar:close-circle-linear" class="w-4 h-4" aria-hidden="true" /> CLOSE</button>
+              <button type="button" class="shrink-0 inline-flex items-center gap-2 cursor-pointer font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close><Icon name="solar:close-linear" class="w-4 h-4" aria-hidden="true" /> CLOSE</button>
             </header>
             <div class="flex flex-col gap-5 p-5 md:p-6">
               {img && (
