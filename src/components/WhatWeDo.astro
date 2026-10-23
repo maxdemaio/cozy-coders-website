@@ -8,22 +8,22 @@ import AsciiArt from "./AsciiArt.astro";
 ---
 
 <section id="what-we-do" class="scroll-mt-16"><!-- the divider above is the hero's border-b, so the ASCII art can never paint over it -->
-  <!-- Section head: "What we do" large in the pixel mono, olive, weight 400 (after lowercase.club's
-       headings), then the pitch in Funnel Sans. Optional faded ASCII photo behind (html[data-headbg], ?headbg=1). -->
+  <!-- Section head: "What we do" in the sans (Funnel Sans), semibold, ink like the H1, sentence case; was Departure Mono lowercase until 2026-10-23
+       (lowercase.club-style), then the pitch in Funnel Sans. Optional faded ASCII photo behind (html[data-headbg], ?headbg=1). -->
   <div class="wwd-head relative overflow-hidden px-6 md:px-10 pt-16 pb-12 md:pt-24 md:pb-16 flex flex-col items-start text-left">
     <div class="wwd-bg absolute inset-0 pointer-events-none" aria-hidden="true">
       <AsciiArt src="/hero/bpl.jpg" fallback="/hero/bpl-ascii.png" width={1074} height={806} cell={3} levels="0.35,0.98,0.9" alt="" />
     </div>
-    <h2 class="wwd-h relative m-0 font-mono text-[33px] md:text-[44px] font-normal leading-[1.25] [word-spacing:-0.3em] text-primary">what we do</h2>
+    <h2 class="wwd-h relative m-0 font-display text-[36px] md:text-[48px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink text-balance">What we do</h2>
     <p class="relative m-0 mt-5 max-w-[52ch] font-sans text-[17px] leading-[26px] text-ink-muted text-pretty">Take one, or all three. Design that looks like you, a site or app that works, and someone who answers when you message. On a project or a monthly retainer.</p>
   </div>
 
-  <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 border-t border-line">
+  <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto_1fr] border-t border-line">
     <!-- 1 · Product design: a Figma comment thread -->
-    <li class="flex flex-col border-b border-line md:border-b-0 md:border-r">
-      <div class="flex items-stretch">
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none bg-ink text-background px-2.5 py-2">Product design</span>
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none text-ink-muted border-r border-b border-line px-2.5 py-2">You're in the room</span>
+    <li class="flex flex-col md:grid md:grid-rows-subgrid md:row-span-3 border-b border-line md:border-b-0 md:border-r">
+      <div class="flex flex-wrap items-stretch border-b border-line">
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">Product design</span>
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">You're in the room</span>
       </div>
       <div class="mock bg-stage/60 px-5 pt-6 pb-0 md:px-6" aria-hidden="true">
         <div class="mock-frame relative mx-auto w-full max-w-[300px] h-[190px] bg-surface border border-line rounded-t-lg overflow-hidden">
@@ -56,10 +56,10 @@ import AsciiArt from "./AsciiArt.astro";
     </li>
 
     <!-- 2 · Design systems: a Tailwind theme block -->
-    <li class="flex flex-col border-b border-line md:border-b-0 md:border-r">
-      <div class="flex items-stretch">
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none bg-ink text-background px-2.5 py-2">Brand &amp; identity</span>
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none text-ink-muted border-r border-b border-line px-2.5 py-2">Looks like one company</span>
+    <li class="flex flex-col md:grid md:grid-rows-subgrid md:row-span-3 border-b border-line md:border-b-0 md:border-r">
+      <div class="flex flex-wrap items-stretch border-b border-line">
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">Brand &amp; identity</span>
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">Looks like one company</span>
       </div>
       <div class="mock bg-stage/60 px-5 pt-6 pb-0 md:px-6" aria-hidden="true">
         <div class="mock-frame mx-auto w-full max-w-[300px] h-[190px] bg-surface border border-line rounded-t-lg overflow-hidden">
@@ -87,10 +87,10 @@ import AsciiArt from "./AsciiArt.astro";
     </li>
 
     <!-- 3 · Websites & apps: a deploy log -->
-    <li class="flex flex-col">
-      <div class="flex items-stretch">
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none bg-ink text-background px-2.5 py-2">Websites &amp; apps</span>
-        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none text-ink-muted border-r border-b border-line px-2.5 py-2">Live &amp; fast</span>
+    <li class="flex flex-col md:grid md:grid-rows-subgrid md:row-span-3">
+      <div class="flex flex-wrap items-stretch border-b border-line">
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap bg-ink text-background border-b border-ink -mb-px px-2.5 py-2">Websites &amp; apps</span>
+        <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-ink-muted border-r border-line px-2.5 py-2">Live &amp; fast</span>
       </div>
       <div class="mock bg-stage/60 px-5 pt-6 pb-0 md:px-6" aria-hidden="true">
         <div class="mock-frame mx-auto w-full max-w-[300px] h-[190px] bg-surface border border-line rounded-t-lg overflow-hidden">
@@ -112,7 +112,7 @@ import AsciiArt from "./AsciiArt.astro";
 
   <!-- CTAs under the cards, like quick14 -->
   <div class="border-t border-line px-6 md:px-10 py-8 flex flex-wrap items-center justify-center gap-3">
-    <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push">Book a free intro call</a>
+    <a href="/contact" class="cta-push">Book a free intro call</a>
     <a href="/#pricing" class="cta-push cta-push--grey cta-push--lg">See pricing</a>
   </div>
 </section>

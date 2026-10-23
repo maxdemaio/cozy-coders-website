@@ -24,7 +24,6 @@
       lazy: true,
     });
     document.documentElement.classList.remove("ar-pending");
-    (window as any).__pageReveal = reveal; // RevealSwitcher.astro replays with other options
     await reveal.reveal();
   }
 

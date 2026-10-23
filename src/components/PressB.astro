@@ -1,7 +1,7 @@
 ---
 // "Press B to book a call": a plain B keypress (no modifiers, not in a text field)
-// opens the booking link in a new tab. Same mechanism as quick14studio.com;
-// the link is whichever element carries data-book-url.
+// goes to the contact page (an external booking link would open in a new tab). Same
+// mechanism as quick14studio.com; the link is whichever element carries data-book-url.
 ---
 
 <script>
@@ -11,6 +11,8 @@
     const t = e.target as HTMLElement | null;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
     const url = document.querySelector<HTMLAnchorElement>("[data-book-url]")?.href;
-    if (url) window.open(url, "_blank", "noopener");
+    if (!url) return;
+    if (new URL(url).origin === location.origin) location.assign(url);
+    else window.open(url, "_blank", "noopener");
   });
 </script>

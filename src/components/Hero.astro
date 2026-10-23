@@ -5,7 +5,7 @@ import Wordmark from "./Wordmark.astro";
 import WorkList from "./WorkList.astro";
 ---
 
-<section class="hero relative bg-background border-b border-line grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+<section class="hero relative bg-background border-b border-ink-soft grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
   <div class="relative flex flex-col lg:border-r lg:border-line overflow-hidden">
     <div class="relative z-10 flex flex-col gap-6 max-w-[720px] px-6 pt-12 pb-8 md:px-10 lg:pt-16">
       <div class="flex flex-col md:flex-row md:items-center gap-5 md:gap-4">
@@ -21,7 +21,7 @@ import WorkList from "./WorkList.astro";
         apps that feel like someone made them.
       </p>
       <div class="flex flex-wrap items-center gap-2.5">
-        <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push" data-book-url>
+        <a href="/contact" class="cta-push" data-book-url>
           Book a call
         </a>
         <a href="#what-we-do" class="cta-push cta-push--grey cta-push--lg">
@@ -36,7 +36,7 @@ import WorkList from "./WorkList.astro";
         fallback="/hero/bpl-ascii.png"
         width={1074}
         height={806}
-        alt="Bates Hall reading room at the Boston Public Library, its barrel-vaulted ceiling and rows of green lamps rendered as sage-green text characters"
+        alt="Bates Hall reading room at the Boston Public Library, its barrel-vaulted ceiling and rows of green lamps rendered as olive text characters"
       />
     </div>
   </div>
@@ -54,9 +54,10 @@ import WorkList from "./WorkList.astro";
     flex: 1 1 auto;
     /* fills the rest of the left column, so it runs down beside the work list */
     min-height: clamp(300px, 30vw, 420px);
-    /* fade in from the top so the glyphs grow out of the copy, like the reference; fade out over the
-       last 28px so the section's 1px zinc-200 border-b reads against paper instead of vanishing under dark cells */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 calc(100% - 28px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 calc(100% - 28px), transparent 100%);
+    /* fade in from the top only, so the glyphs grow out of the copy, like the reference. No bottom fade
+       and no gap (both tried and cut 2026-10-23): the art runs flush into the section's border-b, which is
+       zinc-400 (ink-soft) rather than the usual zinc-200 hairline because zinc-200 vanishes over olive cells. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
   }
 </style>

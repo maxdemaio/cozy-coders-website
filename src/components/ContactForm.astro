@@ -1,0 +1,94 @@
+---
+// Contact form, after synadia's landing-page form (labelled fields, one solid
+// submit, a quiet helper line) in our kit: hairline inputs on paper, mono
+// lowercase labels, the olive push button. Three fields only: full name and
+// email are required, project details are optional.
+//
+// Submission: posts JSON to PUBLIC_CONTACT_ENDPOINT (any Formspree-style
+// endpoint). Without it the form stays visible but says it is not wired yet,
+// so a missing env var is never a silent drop.
+interface Props {
+  endpoint?: string;
+  class?: string;
+}
+const { endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "", class: className } = Astro.props;
+---
+
+<form class:list={["contact-form flex flex-col gap-5", className]} action={endpoint || undefined} method="post" data-endpoint={endpoint} novalidate>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <label class="contact-form__field">
+      <span class="contact-form__label">full name <abbr title="required" class="no-underline text-primary-deep">*</abbr></span>
+      <input class="contact-form__input" type="text" name="name" autocomplete="name" required placeholder="Jane Doe" />
+    </label>
+    <label class="contact-form__field">
+      <span class="contact-form__label">email <abbr title="required" class="no-underline text-primary-deep">*</abbr></span>
+      <input class="contact-form__input" type="email" name="email" autocomplete="email" required placeholder="jane@example.com" />
+    </label>
+  </div>
+  <label class="contact-form__field">
+    <span class="contact-form__label">project details</span>
+    <textarea class="contact-form__input min-h-[132px] resize-y" name="details" rows="5" placeholder="e.g. a marketing site for our bakery, launching in spring"></textarea>
+    <span class="text-[13px] leading-snug text-ink-muted">Optional. A sentence or two is plenty, we'll ask the rest on the call.</span>
+  </label>
+  <div class="flex flex-wrap items-center gap-4 pt-1">
+    <button type="submit" class="cta-push">Send message</button>
+    <p class="m-0 text-[13px] text-ink-muted">We reply within one working day.</p>
+  </div>
+  <p class="contact-form__status m-0 font-mono text-[13px] text-ink" role="status" aria-live="polite" hidden></p>
+</form>
+
+<style>
+  .contact-form__field { display: flex; flex-direction: column; gap: 6px; }
+  .contact-form__label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-ink);
+  }
+  .contact-form__input {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--color-ink);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    transition: border-color 150ms ease-in-out;
+  }
+  .contact-form__input::placeholder { color: var(--color-ink-soft); }
+  .contact-form__input:hover { border-color: var(--color-ink-soft); }
+  .contact-form__input:focus { outline: none; border-color: var(--color-ink); }
+  .contact-form__input:focus-visible { box-shadow: 0 0 0 3px var(--color-stage); }
+  /* only flag a field once the user has left it; :user-invalid keeps the page quiet on load */
+  .contact-form__input:user-invalid { border-color: #b4513e; }
+  .contact-form.is-sent .contact-form__input,
+  .contact-form.is-sent .cta-push { opacity: 0.5; pointer-events: none; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
+    const status = form.querySelector<HTMLElement>(".contact-form__status")!;
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const say = (msg: string) => { status.textContent = msg; status.hidden = false; };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) { say("form isn't wired up yet: set PUBLIC_CONTACT_ENDPOINT"); return; }
+      const data = Object.fromEntries(new FormData(form).entries());
+      button.disabled = true;
+      say("sending…");
+      try {
+        const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) });
+        if (!res.ok) throw new Error(String(res.status));
+        form.classList.add("is-sent");
+        say("sent. thanks, we'll be in touch soon.");
+      } catch {
+        button.disabled = false;
+        say("that didn't go through. try again, or email us directly.");
+      }
+    });
+  });
+</script>

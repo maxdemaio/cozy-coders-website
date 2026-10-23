@@ -14,9 +14,11 @@ interface Props {
   cell?: number;         // css px per glyph cell
   levels?: string;       // "black,white,gamma" tone curve, e.g. "0.3,0.95,0.9"
   chars?: string;        // ramp name ("letters" | "shades") or a literal light->dark string
+  focus?: string;        // "x,y" in 0..1: which point of the source stays in view when cover-cropped (default "0.5,0.5")
 }
 
-const { src, scene, fallback, width, height, alt, cell, levels, chars, class: className = "" } = Astro.props;
+const { src, scene, fallback, width, height, alt, cell, levels, chars, focus = "0.5,0.5", class: className = "" } = Astro.props;
+const [fx, fy] = focus.split(",").map(Number);
 ---
 
 <div
@@ -27,6 +29,8 @@ const { src, scene, fallback, width, height, alt, cell, levels, chars, class: cl
   data-cell={cell}
   data-levels={levels}
   data-chars={chars}
+  data-focus={focus}
+  style={`--focus-x:${fx * 100}%;--focus-y:${fy * 100}%`}
   role="img"
   aria-label={alt}
 >
@@ -47,7 +51,7 @@ const { src, scene, fallback, width, height, alt, cell, levels, chars, class: cl
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: right bottom;
+    object-position: var(--focus-x, 50%) var(--focus-y, 50%);
   }
   .ascii-art.is-live .ascii-art__fallback {
     visibility: hidden;
@@ -85,13 +89,15 @@ const { src, scene, fallback, width, height, alt, cell, levels, chars, class: cl
     uniform vec3 uColorDeep;
     uniform vec3 uLevels; // black point, white point, gamma
     uniform float uIdle;
+    uniform vec2 uFocus;
 
     float gray(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
     float rand(vec2 st) { return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123); }
 
+    // cover-fit; the cropped axis slides so uFocus (0..1, y up) stays in view
     vec2 aspect(vec2 uv, float tr, float cr) {
-      if (tr > cr) { float d = cr / tr; uv.x = uv.x * d + (1.0 - d) * 0.5; }
-      else         { float d = tr / cr; uv.y = uv.y * d + (1.0 - d) * 0.5; }
+      if (tr > cr) { float d = cr / tr; uv.x = uv.x * d + (1.0 - d) * uFocus.x; }
+      else         { float d = tr / cr; uv.y = uv.y * d + (1.0 - d) * uFocus.y; }
       return uv;
     }
 
@@ -318,8 +324,11 @@ const { src, scene, fallback, width, height, alt, cell, levels, chars, class: cl
     } else {
       const photo = new Image();
       photo.decoding = "async";
-      photo.src = root.dataset.src!;
+      // ?photo=/hero/try/x.jpg swaps the source for trials (PhotoSwitcher.astro); the ratio is read from the image itself
+      const override = (qs.get("photo") || "").startsWith("/") ? qs.get("photo") : null; // ?photo / ?photo=off only drive the panel
+      photo.src = override || root.dataset.src!;
       try { await photo.decode(); } catch { return; }
+      if (override) ratio = photo.naturalWidth / photo.naturalHeight;
       source = photo;
     }
     try { await (document as any).fonts?.load("400 88px 'Departure Mono'"); } catch {}
@@ -357,10 +366,27 @@ const { src, scene, fallback, width, height, alt, cell, levels, chars, class: cl
     setInk(q.get("ink") || root.dataset.ink, q.get("deep") || root.dataset.deep);
     // dev hook for the ink switcher (InkSwitcher.astro): each instance pushes a setter
     ((window as any).__asciiArts ||= []).push((ink: string, deep: string) => { setInk(ink, deep); draw(performance.now()); });
+    // dev hook for the photo switcher (PhotoSwitcher.astro): swap the source texture live, keep everything else
+    const uRatioLoc = u("uTextureRatio");
+    ((window as any).__asciiPhotos ||= []).push(async (url: string) => {
+      if (sceneCtx) return;
+      const next = new Image();
+      next.decoding = "async";
+      next.src = url;
+      try { await next.decode(); } catch { return; }
+      source = next;
+      gl!.activeTexture(gl!.TEXTURE0);
+      gl!.bindTexture(gl!.TEXTURE_2D, srcTex);
+      gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, next);
+      gl!.uniform1f(uRatioLoc, next.naturalWidth / next.naturalHeight);
+      draw(performance.now());
+    });
     const levels = (root.dataset.levels || "0.15,0.92,0.8").split(",").map(Number);
     gl.uniform3f(u("uLevels"), levels[0], levels[1], levels[2]);
     const cellPx = Number(root.dataset.cell) || CELL;
     gl.uniform1f(u("uIdle"), reduced ? 0 : 0.012);
+    const focus = (qs.get("focus") || root.dataset.focus || "0.5,0.5").split(",").map(Number);
+    gl.uniform2f(u("uFocus"), focus[0], 1 - focus[1]); // css-style y (down) -> gl y (up)
     const uRes = u("uResolution"), uCell = u("uCell"), uTime = u("uTime"), uMouse = u("uMouse");
 
     const dpr = Math.min(devicePixelRatio || 1, 2);

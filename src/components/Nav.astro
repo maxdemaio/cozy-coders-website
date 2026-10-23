@@ -9,6 +9,7 @@ const navItems = [
   { label: "work", href: "/#work" },
   { label: "resources", href: "/resources" },
   { label: "pricing", href: "/#pricing" },
+  { label: "contact", href: "/contact" },
 ] as const;
 
 const currentPath = Astro.url.pathname;
@@ -48,7 +49,7 @@ const isActive = (href: string) =>
           }
         </ul>
         <div class="flex items-center pr-4 md:pr-6">
-          <a href="https://tally.so/r/mJ6yor" target="_blank" rel="noopener noreferrer" class="cta-push cta-push--grey whitespace-nowrap">
+          <a href="/contact" class="cta-push cta-push--grey whitespace-nowrap">
             Press<span class="keycap">B</span>to Book a Call
           </a>
         </div>

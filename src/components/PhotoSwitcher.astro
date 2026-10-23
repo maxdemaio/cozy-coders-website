@@ -1,0 +1,93 @@
+---
+// Dev-only photo panel for the ASCII hero. Shows on localhost automatically; elsewhere
+// only with ?photo in the URL (e.g. /?photo or /?photo=/hero/try/img_5488.jpg); ?photo=off hides it. Picks apply live via the hook
+// AsciiArt registers; the URL updates so a pick can be shared. Candidates live in
+// public/hero/try/ — drop a web-sized jpg there and add it to the list.
+const photos = [
+  { name: "bates hall (current)", src: "/hero/bpl.jpg" },
+  { name: "market square (contact page)", src: "/hero/market.jpg" },
+  { name: "street + dome", src: "/hero/try/img_4228.jpg" },
+  { name: "wet meadow", src: "/hero/try/img_5016.jpg" },
+  { name: "goldenrod field", src: "/hero/try/img_5488.jpg" },
+  { name: "trail", src: "/hero/try/img_5575.jpg" },
+  { name: "bluebells", src: "/hero/try/1000002227.jpg" },
+  { name: "lantern mall", src: "/hero/try/1000002328.jpg" },
+  { name: "lantern canopy (wide)", src: "/hero/try/1000002335.jpg" },
+  { name: "canal town", src: "/hero/try/1944.jpg" },
+  { name: "plant shop", src: "/hero/try/img_5057.jpg" },
+  { name: "hanok cafe", src: "/hero/try/img_5062.jpg" },
+  { name: "hanok roof + sky", src: "/hero/try/img_5084.jpg" },
+  { name: "covered market", src: "/hero/try/img_5160.jpg" },
+  { name: "lanterns + tree", src: "/hero/try/img_5201.jpg" },
+];
+---
+
+<aside id="photo" class="photo" hidden aria-label="Hero photo">
+  <div class="photo__head"><span class="photo__title">Hero photo</span><button type="button" class="photo__close" id="photo-close" aria-label="Close">×</button></div>
+  <div class="photo__grid">
+    {photos.map((p) => (
+      <button type="button" class="photo__pick" data-src={p.src} title={p.name}>
+        <img src={p.src} alt="" loading="lazy" decoding="async" />
+        <span>{p.name}</span>
+      </button>
+    ))}
+  </div>
+  <label class="photo__focus">focus x <input type="range" id="photo-fx" min="0" max="1" step="0.01" value="0.5" /></label>
+  <label class="photo__focus">focus y <input type="range" id="photo-fy" min="0" max="1" step="0.01" value="0.5" /></label>
+  <p class="photo__hint" id="photo-url"></p>
+</aside>
+
+<style>
+  .photo { position: fixed; right: 16px; bottom: 16px; z-index: 60; width: 300px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--color-surface); color: var(--color-ink); border: 1px solid var(--color-line); border-radius: 12px; box-shadow: 0 8px 24px rgb(24 24 27 / 0.1); font-family: var(--font-mono); font-size: 11px; }
+  .photo__head { display: flex; align-items: center; justify-content: space-between; }
+  .photo__title { font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .photo__close { font: inherit; font-size: 16px; background: none; border: 0; cursor: pointer; color: var(--color-ink-muted); padding: 2px 6px; }
+  .photo__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-height: min(52vh, 480px); overflow-y: auto; padding-right: 2px; }
+  .photo__pick { font: inherit; display: flex; flex-direction: column; gap: 4px; padding: 0; border: 1px solid var(--color-line); border-radius: 8px; overflow: hidden; background: var(--color-background); color: var(--color-ink-muted); cursor: pointer; text-align: left; }
+  .photo__pick img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .photo__pick span { padding: 0 6px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .photo__pick[aria-pressed="true"] { border-color: var(--color-ink); color: var(--color-ink); }
+  .photo__focus { display: flex; align-items: center; gap: 8px; color: var(--color-ink-muted); }
+  .photo__focus input { flex: 1; accent-color: var(--color-primary); }
+  .photo__hint { margin: 0; color: var(--color-ink-soft); word-break: break-all; }
+</style>
+
+<script>
+  const panel = document.getElementById("photo") as HTMLElement;
+  const params = new URLSearchParams(location.search);
+  // auto-shows on localhost (like the font explorer); ?photo elsewhere, ?photo=off to hide it locally
+  const local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  if ((params.has("photo") || local) && params.get("photo") !== "off") panel.hidden = false;
+
+  const picks = panel.querySelectorAll<HTMLButtonElement>(".photo__pick");
+  const fx = document.getElementById("photo-fx") as HTMLInputElement;
+  const fy = document.getElementById("photo-fy") as HTMLInputElement;
+  const url = document.getElementById("photo-url")!;
+
+  function sync() {
+    history.replaceState(null, "", location.pathname + "?" + params.toString());
+    url.textContent = "?" + params.toString();
+  }
+  function pick(src: string) {
+    ((window as any).__asciiPhotos || []).forEach((fn: Function) => fn(src));
+    params.set("photo", src);
+    picks.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.src === src)));
+    sync();
+  }
+  function focus() {
+    // the shader reads data-focus at mount only, so a focus change reloads with the value in the URL
+    params.set("focus", `${fx.value},${fy.value}`);
+    sync();
+    location.reload();
+  }
+  picks.forEach((b) => b.addEventListener("click", () => pick(b.dataset.src!)));
+  fx.addEventListener("change", focus);
+  fy.addEventListener("change", focus);
+  document.getElementById("photo-close")!.addEventListener("click", () => { panel.hidden = true; });
+
+  const current = params.get("photo");
+  if (current) picks.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.src === current)));
+  const f = (params.get("focus") || "0.5,0.5").split(",");
+  fx.value = f[0]; fy.value = f[1] ?? "0.5";
+  if (params.toString()) url.textContent = "?" + params.toString();
+</script>

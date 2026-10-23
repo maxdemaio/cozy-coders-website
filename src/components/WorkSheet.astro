@@ -1,6 +1,6 @@
 ---
 // Project sheet: a side panel (native <dialog>) that opens from a work row,
-// after lowercase.club. Header = name + tags + Close; body = the shot, large,
+// after lowercase.club. Header = name + tags + CLOSE (mono is all-caps or all-lowercase, never mixed); body = the shot, large,
 // plus an optional blurb and link. All projects are rendered once and the
 // chosen one is shown, so the images are build-optimised like the list.
 import { Image } from "astro:assets";
@@ -23,7 +23,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
                 <h2 class="m-0 font-mono text-[15px] font-semibold leading-none">{item.name}</h2>
                 <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-background/70">{item.tags.join(", ")}</p>
               </div>
-              <button type="button" class="shrink-0 font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close>Close</button>
+              <button type="button" class="shrink-0 font-mono text-[13px] px-5 bg-background text-ink border-l border-line hover:bg-stage transition-colors duration-150" data-work-close>CLOSE</button>
             </header>
             <div class="flex flex-col gap-5 p-5 md:p-6">
               {img && (
@@ -40,7 +40,7 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
               {item.blurb && <p class="m-0 max-w-[60ch] text-[15px] leading-relaxed text-ink-muted">{item.blurb}</p>}
               {item.href && (
                 <a href={item.href} target="_blank" rel="noopener noreferrer" class="self-start inline-flex items-center gap-2 font-mono text-[13px] text-ink bg-surface border border-line px-4 min-h-11 hover:border-ink-soft transition-colors duration-150">
-                  Visit site <span aria-hidden="true">→</span>
+                  VISIT SITE <span aria-hidden="true">→</span>
                 </a>
               )}
             </div>
@@ -80,7 +80,8 @@ const imageFor = (file: string) => images[`../assets/work/${file}`]?.default;
     width: min(760px, 92vw);
     overflow-y: auto;
     background: var(--color-background);
-    border-left: 1px solid var(--color-line);
+    /* no border-left: a zinc hairline next to the ink header read as a white sliver (Max, 2026-10-23);
+       the shadow alone separates the panel from the backdrop */
     box-shadow: -24px 0 48px rgb(24 24 27 / 0.12);
     transform: translateX(100%);
     transition: transform 250ms cubic-bezier(0.215, 0.61, 0.355, 1); /* ease-out-cubic */

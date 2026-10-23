@@ -1,0 +1,63 @@
+---
+// /contact: replaces the tally.so link. Same two-column frame as the home hero
+// (copy left, art right) so the page reads as part of the same site; the form
+// sits under the heading instead of the work list, and the market square photo
+// lives here, rendered through the same ASCII shader as Bates Hall on the home.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footsies from "../components/Footsies.astro";
+import AsciiArt from "../components/AsciiArt.astro";
+import ContactForm from "../components/ContactForm.astro";
+import CursorFollow from "../components/CursorFollow.astro";
+---
+
+<Layout title="Contact — Cozy Coders" description="Tell us about your project. A free 15-minute call, no pitch, just whether we're the right fit.">
+  <div class="min-h-screen flex flex-col">
+    <Nav />
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] border-b border-ink-soft">
+      <section class="flex flex-col lg:border-r lg:border-line">
+        <div class="flex flex-col gap-8 max-w-[640px] px-6 pt-12 pb-14 md:px-10 lg:pt-16 lg:pb-20">
+          <div class="flex flex-col gap-5">
+            <p class="m-0 font-mono text-[13px] text-ink-muted">contact</p>
+            <h1 class="m-0 font-display text-[clamp(40px,5.4vw,64px)] font-semibold leading-[1.02] tracking-[-0.045em] text-ink text-balance">
+              Tell us about your project.
+            </h1>
+            <p class="m-0 text-base md:text-[17px] leading-relaxed text-ink-muted max-w-[48ch]">
+              A free 15-minute call. No pitch, just whether we're the right fit. Leave your details
+              and we'll come back with a few times.
+            </p>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
+      <aside class="contact-art relative min-h-[320px] lg:min-h-0" aria-hidden="true">
+        <AsciiArt
+          src="/hero/market.jpg"
+          fallback="/hero/market-ascii.png"
+          width={1200}
+          height={1600}
+          focus="0.7,0.8"
+          alt="A market square lined with tall stone townhouses, stalls under white awnings and baskets in the foreground, rendered as olive text characters"
+        />
+      </aside>
+    </main>
+    <Footsies />
+  </div>
+  <CursorFollow />
+</Layout>
+
+<style>
+  .contact-art {
+    /* on desktop the art fills the right column top to bottom, glyphs growing in from the seam with the
+       copy, like the home hero's top fade. On mobile it sits under the form and fades in from the top. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+  }
+  @media (min-width: 1024px) {
+    .contact-art {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 18%);
+    }
+  }
+</style>
