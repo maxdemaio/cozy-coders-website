@@ -27,8 +27,14 @@
     await reveal.reveal();
   }
 
-  // plays on every load (a once-per-session gate was tried 2026-10-23 and dropped: a refresh should decode too)
-  if (reduced) {
+  // plays once per browser session (sessionStorage): the first visit gets the decode, a refresh or the
+  // next page doesn't, so a returning reader never waits on it. Decided 2026-10-23 after trying every load:
+  // "we don't want the user to think we're slow". ?reveal replays it for checking.
+  let seen = false;
+  try { seen = sessionStorage.getItem("cozy:reveal-seen") === "1"; sessionStorage.setItem("cozy:reveal-seen", "1"); } catch {}
+  const forced = new URLSearchParams(location.search).has("reveal");
+
+  if (reduced || (seen && !forced)) {
     document.documentElement.classList.remove("ar-pending");
   } else {
     run();
