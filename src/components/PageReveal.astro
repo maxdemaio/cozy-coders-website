@@ -27,12 +27,8 @@
     await reveal.reveal();
   }
 
-  // play the intro once per session (sessionStorage, so a new session sees it again)
-  let seen = false;
-  try { seen = sessionStorage.getItem("cozy:reveal-seen") === "1"; sessionStorage.setItem("cozy:reveal-seen", "1"); } catch {}
-  const forced = new URLSearchParams(location.search).has("reveal");
-
-  if (reduced || (seen && !forced)) {
+  // plays on every load (a once-per-session gate was tried 2026-10-23 and dropped: a refresh should decode too)
+  if (reduced) {
     document.documentElement.classList.remove("ar-pending");
   } else {
     run();

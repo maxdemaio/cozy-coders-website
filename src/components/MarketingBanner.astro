@@ -1,12 +1,17 @@
 ---
-// Top announcement bar. The whole bar is one link, so the hover state covers all of it.
+// Top announcement bar. The whole bar is one link, so the hover state covers all of it,
+// with a dismiss button beside it (after synadia's bar). Dismissal is remembered in
+// localStorage under the banner's `key`: give each new announcement a new key and it
+// shows again for everyone who closed the last one.
 interface Props {
+  key?: string;
   message?: string;
   linkText?: string;
   linkHref?: string;
 }
 
 const {
+  key = "2026-q4-retainers",
   message = "New: we're taking on a limited number of retainer slots for Q4.",
   linkText = "Press B →",
   linkHref = "/contact",
@@ -14,18 +19,43 @@ const {
 const external = linkHref.startsWith("http");
 ---
 
-<a
-  href={linkHref}
-  target={external ? "_blank" : undefined}
-  rel={external ? "noopener noreferrer" : undefined}
-  class="group w-full bg-ink text-background text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-3 px-4 py-2 min-h-11 sm:min-h-0"
->
-  <span class="truncate">{message}</span>
-  {
-    linkText && (
-      <span class="underline underline-offset-2 decoration-background/40 group-hover:decoration-background whitespace-nowrap transition-colors">
-        {linkText}
-      </span>
-    )
-  }
-</a>
+<div class="banner relative w-full bg-ink text-background" data-banner={key}>
+  <a
+    href={linkHref}
+    target={external ? "_blank" : undefined}
+    rel={external ? "noopener noreferrer" : undefined}
+    class="group text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-3 pl-4 pr-12 py-2 min-h-11 sm:min-h-0"
+  >
+    <span class="truncate">{message}</span>
+    {
+      linkText && (
+        <span class="underline underline-offset-2 decoration-background/40 group-hover:decoration-background whitespace-nowrap transition-colors">
+          {linkText}
+        </span>
+      )
+    }
+  </a>
+  <button
+    type="button"
+    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center font-mono text-[15px] leading-none text-background/70 hover:text-background transition-colors duration-150"
+    aria-label="Dismiss announcement"
+    data-banner-close
+  >×</button>
+</div>
+
+<script is:inline>
+  // runs right after the bar, before first paint, so a dismissed banner never flashes
+  (function () {
+    var bar = document.currentScript.previousElementSibling;
+    try { if (localStorage.getItem("cozy:banner-dismissed") === bar.dataset.banner) bar.remove(); } catch (e) {}
+  })();
+</script>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-banner]").forEach((bar) => {
+    bar.querySelector("[data-banner-close]")?.addEventListener("click", () => {
+      try { localStorage.setItem("cozy:banner-dismissed", bar.dataset.banner!); } catch {}
+      bar.remove();
+    });
+  });
+</script>

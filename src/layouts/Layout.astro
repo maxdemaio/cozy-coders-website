@@ -46,7 +46,7 @@ import PressB from "../components/PressB.astro";
     <script is:inline>
       // ?headbg=1 shows the ASCII art behind the "What we do" head (opt-in while we decide)
       try { var q = new URLSearchParams(location.search); if (q.get("headbg")) document.documentElement.dataset.headbg = q.get("headbg"); } catch (e) {}
-      try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (sessionStorage.getItem("cozy:reveal-seen") !== "1" || /[?&]reveal/.test(location.search))) document.documentElement.classList.add("ar-pending"); } catch (e) {}
+      try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("ar-pending"); } catch (e) {}
       setTimeout(function () { document.documentElement.classList.remove("ar-pending"); }, 2500); // safety net if the script never runs
     </script>
   </head>
