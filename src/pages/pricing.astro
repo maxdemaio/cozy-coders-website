@@ -50,7 +50,7 @@ import { packages, retainer, faqs } from "../data/pricing";
       <section id="packages" class="scroll-mt-16">
         <div class="px-6 md:px-10 pt-16 pb-10 md:pt-20 md:pb-12">
           <h2 class="m-0 font-display text-[36px] md:text-[48px] font-semibold leading-[1.05] tracking-[-0.03em] text-ink text-balance">Packages</h2>
-          <p class="m-0 mt-5 max-w-[52ch] text-[17px] leading-[26px] text-ink-muted text-pretty"><span class="font-mono uppercase text-ink">Projects, not hours.</span> One number, one timeline, one team of two. Half to start, half at launch.</p>
+          <p class="m-0 mt-5 max-w-[52ch] text-[17px] leading-[26px] text-ink-muted text-pretty"><span class="font-semibold text-ink">Projects, not hours.</span> One number, one timeline, one team of two. Half to start, half at launch.</p>
         </div>
         <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto_auto_1fr_auto] border-t border-b border-line">
           {packages.map((p) => (
@@ -61,8 +61,8 @@ import { packages, retainer, faqs } from "../data/pricing";
                 {p.featured && <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-primary-deep border-r border-line px-2.5 py-2">Most picked</span>}
               </div>
               <div class="px-5 md:px-6 pt-6 pb-2 flex items-baseline gap-2">
-                <span class="font-mono text-[13px] text-ink-muted">{p.unit}</span>
-                <span class="font-mono text-[44px] leading-none text-ink">${p.price}</span>
+                <span class="text-[15px] text-ink-muted">{p.unit}</span>
+                <span class="font-display text-[44px] font-semibold leading-none tracking-[-0.03em] text-ink tabular-nums">${p.price}</span>
               </div>
               <p class="m-0 px-5 md:px-6 pb-5 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted border-b border-line">{p.blurb}</p>
               <ul class="m-0 px-5 md:px-6 py-5 list-none flex flex-col gap-2.5">
@@ -88,8 +88,8 @@ import { packages, retainer, faqs } from "../data/pricing";
               <span class="font-mono text-[11px] font-medium uppercase tracking-[0.08em] leading-none whitespace-nowrap text-background/70 border border-background/25 px-2.5 py-2">{retainer.tag}</span>
             </div>
             <div class="flex items-baseline gap-2">
-              <span class="font-mono text-[44px] leading-none">${retainer.price}</span>
-              <span class="font-mono text-[13px] text-background/70">{retainer.unit}</span>
+              <span class="font-display text-[44px] font-semibold leading-none tracking-[-0.03em] tabular-nums">${retainer.price}</span>
+              <span class="text-[15px] text-background/70">{retainer.unit}</span>
             </div>
             <p class="m-0 max-w-[40ch] text-[15px] md:text-base leading-relaxed text-background/80">{retainer.blurb}</p>
             <p class="m-0 font-mono text-[11px] uppercase tracking-[0.08em] text-background/70">{retainer.slots}</p>
