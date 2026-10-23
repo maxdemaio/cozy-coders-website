@@ -6,7 +6,6 @@
 // not been decided. Replace them before this goes live, then delete this note.
 
 export const intro = {
-  eyebrow: "pricing",
   title: "Plans for every size.",
   lede: "One week free on every plan. Pause or cancel any time, no contract, no notice period.",
 };
