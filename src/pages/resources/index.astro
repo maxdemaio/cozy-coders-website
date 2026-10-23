@@ -31,7 +31,7 @@ const filterTypes = (Object.keys(RESOURCE_TYPES) as ResourceType[]).filter(
 );
 
 const description =
-  "Guides, checklists, and notes from the Cozy Coders collective on building fast, editable marketing sites.";
+  "Guides, checklists, and notes from Cozy Coders on building fast, editable marketing sites.";
 ---
 
 <Layout title="Resources — Cozy Coders" description={description}>
@@ -49,10 +49,10 @@ const description =
             class="h-4 w-4 text-primary-deep"
             aria-hidden="true"
           />
-          <span>Notes from the collective</span>
+          <span>Notes from the studio</span>
         </div>
         <h1
-          class="font-medula text-7xl uppercase leading-none text-primary-deep md:text-8xl"
+          class="font-mono text-7xl uppercase leading-none text-primary-deep md:text-8xl"
         >
           Resources
         </h1>
@@ -79,7 +79,7 @@ const description =
           <section aria-labelledby="latest-heading" class="flex flex-col gap-6">
             <h2
               id="latest-heading"
-              class="font-medula text-4xl uppercase text-ink md:text-5xl"
+              class="font-mono text-4xl uppercase text-ink md:text-5xl"
             >
               Latest
             </h2>
@@ -103,7 +103,7 @@ const description =
         <div class="flex flex-wrap items-end justify-between gap-4">
           <h2
             id="all-heading"
-            class="font-medula text-4xl uppercase text-ink md:text-5xl"
+            class="font-mono text-4xl uppercase text-ink md:text-5xl"
           >
             All resources{" "}
             <span class="text-ink-soft" data-count>({all.length})</span>

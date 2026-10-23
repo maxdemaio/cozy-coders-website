@@ -13,9 +13,10 @@ interface Props {
   class?: string;
   cell?: number;         // css px per glyph cell
   levels?: string;       // "black,white,gamma" tone curve, e.g. "0.3,0.95,0.9"
+  chars?: string;        // ramp name ("letters" | "shades") or a literal light->dark string
 }
 
-const { src, scene, fallback, width, height, alt, cell, levels, class: className = "" } = Astro.props;
+const { src, scene, fallback, width, height, alt, cell, levels, chars, class: className = "" } = Astro.props;
 ---
 
 <div
@@ -25,6 +26,7 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
   data-ratio={width / height}
   data-cell={cell}
   data-levels={levels}
+  data-chars={chars}
   role="img"
   aria-label={alt}
 >
@@ -53,7 +55,12 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
 </style>
 
 <script>
-  const CHARS = "  .,:;+*cozyCOZY%#@"; // light -> dark; two blanks so highlights drop out
+  // light -> dark ramps; leading blanks so highlights drop out. Override per element (data-chars) or with ?chars= for comparing.
+  const RAMPS: Record<string, string> = {
+    letters: "  .,:;+*cozyCOZY%#@",
+    // Departure Mono's own graphics: its dither shades and solid block, so the photo is drawn in the font's pixels
+    shades: "   .:░▒", // light shade + medium shade only: the full block and dark shade went solid at 3px cells
+  };
   const CELL = 3;               // css px per glyph cell (override per element with data-cell); 3 reads as a halftone photo, 6 as letters
   const COLOR = [0x7a / 255, 0x7f / 255, 0x4f / 255]; // --color-primary (olive)
   const COLOR_DEEP = [0x55 / 255, 0x5a / 255, 0x32 / 255]; // --color-primary-deep, for the darkest cells
@@ -121,17 +128,25 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
       gl_FragColor = vec4(ink * a, a);
     }`;
 
-  function makeAtlas() {
+  const STROKE = 6; // px of synthetic weight around each atlas glyph (override: data-stroke / ?stroke=). Departure has one thin regular; the old atlas was Geist Mono *bold*, and at 3px cells ink coverage is everything
+  function makeAtlas(chars: string, stroke = STROKE) {
     const c = document.createElement("canvas");
     c.width = c.height = 1024;
     const ctx = c.getContext("2d")!;
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, 1024, 1024);
     ctx.fillStyle = "#fff";
-    ctx.font = "700 84px 'Geist Mono', ui-monospace, Menlo, Consolas, monospace"; // oversized on purpose: more ink per cell at small cell sizes
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = stroke;
+    ctx.lineJoin = "round";
+    ctx.font = "400 88px 'Departure Mono', ui-monospace, Menlo, Consolas, monospace"; // oversized on purpose: ink coverage per cell is what sets density at 3px cells. 88 = 8x its 11px grid
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    CHARS.split("").forEach((ch, i) => ctx.fillText(ch, (i % 16) * 64 + 32, Math.floor(i / 16) * 64 + 34));
+    Array.from(chars).forEach((ch, i) => {
+      const x = (i % 16) * 64 + 32, y = Math.floor(i / 16) * 64 + 34;
+      if (stroke > 0) ctx.strokeText(ch, x, y);
+      ctx.fillText(ch, x, y);
+    });
     return c;
   }
 
@@ -279,6 +294,11 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
   }
 
   async function mount(root: HTMLElement) {
+    const qs = new URLSearchParams(location.search);
+    const rampName = qs.get("chars") || root.dataset.chars || "letters"; // the shade-block ramp was tried 2026-10-23 and reverted (Max: "switch to the style we had before"); ?chars=shades to compare
+    const chars = RAMPS[rampName] || rampName;
+    if (qs.get("cell")) root.dataset.cell = qs.get("cell")!;
+    const stroke = qs.get("stroke") != null ? Number(qs.get("stroke")) : root.dataset.stroke != null ? Number(root.dataset.stroke) : STROKE;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const canvas = document.createElement("canvas");
     const gl = canvas.getContext("webgl", { premultipliedAlpha: true, antialias: false });
@@ -302,7 +322,7 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
       try { await photo.decode(); } catch { return; }
       source = photo;
     }
-    try { await (document as any).fonts?.load("700 84px 'Geist Mono'"); } catch {}
+    try { await (document as any).fonts?.load("400 88px 'Departure Mono'"); } catch {}
 
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
@@ -320,12 +340,12 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
     gl.activeTexture(gl.TEXTURE0);
     const srcTex = texture(gl, source, false);
     gl.activeTexture(gl.TEXTURE1);
-    texture(gl, makeAtlas(), true);
+    texture(gl, makeAtlas(chars, stroke), true);
 
     const u = (n: string) => gl.getUniformLocation(prog, n);
     gl.uniform1i(u("uTexture"), 0);
     gl.uniform1i(u("uChars"), 1);
-    gl.uniform1f(u("uLimit"), CHARS.length);
+    gl.uniform1f(u("uLimit"), Array.from(chars).length);
     gl.uniform1f(u("uTextureRatio"), ratio);
     const hex = (h: string) => { const n = parseInt(h.replace("#", ""), 16); return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255]; };
     const q = new URLSearchParams(location.search);
@@ -385,5 +405,6 @@ const { src, scene, fallback, width, height, alt, cell, levels, class: className
     }).observe(root);
   }
 
-  document.querySelectorAll<HTMLElement>(".ascii-art").forEach((el) => { mount(el); });
+  // skip instances that are display:none at load (e.g. the opt-in art behind a section head): no point holding a WebGL context for them
+  document.querySelectorAll<HTMLElement>(".ascii-art").forEach((el) => { if (el.getClientRects().length) mount(el); });
 </script>

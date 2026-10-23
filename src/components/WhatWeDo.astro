@@ -7,17 +7,15 @@ import { Icon } from "astro-icon/components";
 import AsciiArt from "./AsciiArt.astro";
 ---
 
-<section id="what-we-do" class="scroll-mt-16 border-t border-line">
-  <!-- Section head, after lowercase.club/careers: eyebrow → one sentence at weight 400 in the brand
-       colour, centred in a 768px column, with a faded ASCII photo behind. The heading face is picked
-       by html[data-heading] (?heading= switcher) while we decide; the art by html[data-headbg]. -->
+<section id="what-we-do" class="scroll-mt-16"><!-- the divider above is the hero's border-b, so the ASCII art can never paint over it -->
+  <!-- Section head: "What we do" large in the pixel mono, olive, weight 400 (after lowercase.club's
+       headings), then the pitch in Funnel Sans. Optional faded ASCII photo behind (html[data-headbg], ?headbg=1). -->
   <div class="wwd-head relative overflow-hidden px-6 md:px-10 pt-16 pb-12 md:pt-24 md:pb-16 flex flex-col items-start text-left">
     <div class="wwd-bg absolute inset-0 pointer-events-none" aria-hidden="true">
       <AsciiArt src="/hero/bpl.jpg" fallback="/hero/bpl-ascii.png" width={1074} height={806} cell={3} levels="0.35,0.98,0.9" alt="" />
     </div>
-    <p class="relative m-0 font-mono text-[12px] md:text-[13px] font-medium uppercase tracking-[0.12em] text-primary-deep">What we do</p>
-    <h2 class="wwd-h relative m-0 mt-5 md:mt-6 max-w-[768px] text-[clamp(30px,3.1vw,45px)] font-normal leading-[1.2] text-primary text-balance">design that looks like you, a site or app that works, and someone who answers when you message.</h2>
-    <p class="relative m-0 mt-5 max-w-[44ch] text-base md:text-[17px] leading-relaxed text-ink-muted">Take one, or all three on a retainer.</p>
+    <h2 class="wwd-h relative m-0 font-mono text-[33px] md:text-[44px] font-normal leading-[1.25] [word-spacing:-0.3em] text-primary">what we do</h2>
+    <p class="relative m-0 mt-5 max-w-[52ch] font-sans text-[17px] leading-[26px] text-ink-muted text-pretty"><span class="font-mono uppercase text-primary-deep">Take one, or all three.</span> Design that looks like you, a site or app that works, and someone who answers when you message. On a project or a monthly retainer.</p>
   </div>
 
   <ul class="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-3 border-t border-line">
@@ -120,21 +118,20 @@ import AsciiArt from "./AsciiArt.astro";
 </section>
 
 <style>
-  /* heading face candidates — html[data-heading] is set from ?heading= before paint (Layout) */
-  .wwd-h { font-family: var(--font-serif); letter-spacing: 0; }
-  :global(html[data-heading="sans"]) .wwd-h { font-family: var(--font-sans); letter-spacing: -0.02em; }
-  :global(html[data-heading="mono"]) .wwd-h { font-family: var(--font-mono); letter-spacing: -0.02em; font-size: clamp(26px, 2.6vw, 38px); }
-  :global(html[data-heading="neuton"]) .wwd-h { font-family: var(--font-neuton); }
-  :global(html[data-heading="pixel"]) .wwd-h { font-family: var(--font-pixel); }
+  /* after lowercase.club's "hills we'll die on": heading at weight 400 in the brand colour, 20px gap, then body at
+     16-17px whose first phrase is an uppercase mono lead-in at the SAME size as the sans that follows (measured: their
+     label is 16px mono, their body 16px sans, both on a 24px line). Departure Mono sizes stay on its 11px grid (33 / 44). */
   /* art behind the head: lighter levels, faded at every edge, so it reads as texture under the copy */
   .wwd-bg {
     opacity: 0.55;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent), linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent), linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    /* weighted to the right half so the copy sits on clear paper, like the hero */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent), linear-gradient(to right, transparent 35%, #000 60%, #000 90%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent), linear-gradient(to right, transparent 35%, #000 60%, #000 90%, transparent);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
   }
-  :global(html[data-headbg="0"]) .wwd-bg { display: none; }
+  :global(html:not([data-headbg="1"])) .wwd-bg { display: none; } /* opt-in via ?headbg=1 while we decide */
+  @media (max-width: 769px) { .wwd-bg { display: none; } } /* the copy spans the full width on phones; nothing to sit the art beside */
   .mock-frame { box-shadow: 0 1px 2px rgb(24 24 27 / 0.06), 0 8px 24px -12px rgb(24 24 27 / 0.25); }
   .mock-comment { animation: mock-pop 600ms cubic-bezier(0.215, 0.61, 0.355, 1) both; animation-delay: 400ms; }
   .mock-pin { animation: mock-pop 400ms cubic-bezier(0.215, 0.61, 0.355, 1) both; animation-delay: 200ms; }

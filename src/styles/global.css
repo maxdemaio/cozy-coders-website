@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* Departure Mono (Helena Zhang, SIL OFL 1.1, licence in public/fonts). Self-hosted: not on Fontsource.
+   A pixel font drawn on an 11px grid, so it is crispest at multiples of 11px (11, 22, 33, 44). One weight only. */
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* one weight of mono: never let the browser fake a bold or italic of the pixel face */
+html { font-synthesis: none; }
+
 @theme {
   --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;
@@ -8,12 +21,8 @@
   --breakpoint-xl: 1280px;
 
   --font-sans: "Funnel Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-mono: "Departure Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace; /* pixel mono, decided 2026-10-23; two families only: Funnel Sans + this */
   --font-display: var(--font-sans);
-  --font-medula: "Medula One";
-  --font-neuton: "Neuton";
-  --font-serif: "Instrument Serif", "Neuton", Georgia, serif; /* candidate section-heading face (lowercase.club uses PP Mondwest for the same job) */
-  --font-pixel: "Pixelify Sans", var(--font-mono); /* candidate, evaluation only */
 
   --color-primary: #7a7f4f; /* olive — decided 2026-10-22, replaces sage */
   --color-primary-deep: #555a32; /* text-safe olive (~7:1 on paper) */

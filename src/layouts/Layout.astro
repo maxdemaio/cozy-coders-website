@@ -12,13 +12,6 @@ import "@fontsource/funnel-sans/400.css";
 import "@fontsource/funnel-sans/500.css";
 import "@fontsource/funnel-sans/600.css";
 import "@fontsource/funnel-sans/700.css";
-import "@fontsource/geist-mono/400.css";
-import "@fontsource/geist-mono/500.css";
-import "@fontsource/geist-mono/600.css";
-import "@fontsource/instrument-serif"; // section-heading candidate (see HeadingSwitcher)
-import "@fontsource/pixelify-sans"; // evaluation only
-import "@fontsource/medula-one";
-import "@fontsource/neuton";
 import "../styles/global.css";
 import PageReveal from "../components/PageReveal.astro";
 import PressB from "../components/PressB.astro";
@@ -45,13 +38,14 @@ import PressB from "../components/PressB.astro";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       /* hold the page until the ascii reveal takes over (PageReveal.astro); reduced-motion users skip it */
       html.ar-pending [data-reveal] { visibility: hidden; }
     </style>
     <script is:inline>
-      // heading face / art for the "What we do" head, picked by ?heading=&headbg= before first paint
-      try { var q = new URLSearchParams(location.search); if (q.get("heading")) document.documentElement.dataset.heading = q.get("heading"); if (q.get("headbg")) document.documentElement.dataset.headbg = q.get("headbg"); } catch (e) {}
+      // ?headbg=1 shows the ASCII art behind the "What we do" head (opt-in while we decide)
+      try { var q = new URLSearchParams(location.search); if (q.get("headbg")) document.documentElement.dataset.headbg = q.get("headbg"); } catch (e) {}
       try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (sessionStorage.getItem("cozy:reveal-seen") !== "1" || /[?&]reveal/.test(location.search))) document.documentElement.classList.add("ar-pending"); } catch (e) {}
       setTimeout(function () { document.documentElement.classList.remove("ar-pending"); }, 2500); // safety net if the script never runs
     </script>
